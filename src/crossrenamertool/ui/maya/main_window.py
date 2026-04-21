@@ -1,6 +1,10 @@
 from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 from PySide6 import QtCore, QtGui, QtWidgets
 
+import logging
+
+log = logging.getLogger(__name__)
+
 
 class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
     """Main Window for the tool."""
@@ -12,12 +16,17 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         super().__init__(parent)
         self.controller = controller
 
+        self.rename_txt = None
+        self.padding = None
+        self.start = None
+        self.step = None
+
         self._configure()
         self._create_gui()
 
     def _configure(self):
         """Configure the window."""
-        self.setWindowTitle(self.TITLE)
+        self.setWindowTitle(self.TITLE + "v1.0.0")
         self.setObjectName(self.OBJECT_NAME)
         self.resize(300, 500)
 
@@ -29,9 +38,71 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
         main_layout = QtWidgets.QVBoxLayout(main_widget)
 
+        name_group = QtWidgets.QGroupBox("Name")
+        main_layout.addWidget(name_group)
+
+        name_layout = QtWidgets.QVBoxLayout()
+        name_group.setLayout(name_layout)
+
+        rename_layout = QtWidgets.QFormLayout()
+        name_layout.addLayout(rename_layout)
+
+        self.rename_txt = QtWidgets.QLineEdit()
+        self.rename_txt.setPlaceholderText("New Name...")
+        rename_layout.addRow("Rename", self.rename_txt)
+
+        name_configuration_layout = QtWidgets.QHBoxLayout()
+        name_layout.addLayout(name_configuration_layout)
+
+        self.padding = QtWidgets.QSpinBox()
+        self.padding.setRange(1, 10)
+        self.padding.setValue(3)
+        padding_layout = self._create_horizontal_form_layout("Padding", self.padding)
+        name_configuration_layout.addLayout(padding_layout)
+
+        self.start = QtWidgets.QSpinBox()
+        self.start.setRange(1, 10)
+        self.start.setValue(1)
+        start_layout = self._create_horizontal_form_layout("Start", self.start)
+        name_configuration_layout.addLayout(start_layout)
+
+        self.step = QtWidgets.QSpinBox()
+        self.step.setRange(1, 100)
+        self.step.setValue(1)
+        step_layout = self._create_horizontal_form_layout("Step", self.step)
+        name_configuration_layout.addLayout(step_layout)
+
+        rename_btn = QtWidgets.QPushButton("Rename")
+        name_layout.addWidget(rename_btn)
+
+        rename_btn.clicked.connect(self._on_rename_btn_clicked)
+
+    def _create_horizontal_form_layout(self, label, widget):
+        """Create horizontal form layout.
+
+        Args:
+            label (str): text for the label
+            widget (QtWidget): widget to add
+
+        Returns:
+            QtWidget.QHBoxLayout: horizontal layout
+
+        """
+        row = QtWidgets.QHBoxLayout()
+        row.addWidget(QtWidgets.QLabel(label))
+        row.addWidget(widget)
+        return row
+
+    def _on_rename_btn_clicked(self):
+        """Rename the selected nodes."""
+        name = self.rename_txt.text()
+        padding = self.padding.value()
+        start = self.start.value()
+        step = self.step.value()
+        self.controller.rename_nodes(name, padding, start, step)
+
     def launch_app(self):
         """Launch the application."""
-
         self.show(dockable=True)
 
 
@@ -47,9 +118,9 @@ def create_view(controller):
 
     try:
         view = MainWindow(controller=controller)
-        print("MainWindow created successfully")
+        log.info("MainWindow created successfully")
         return view
     except Exception as e:
-        print(f"Failed to create MainWindow: {e}")
+        log.error(f"Failed to create MainWindow: {e}")
         controller.delete_workspace_control(workspace_name)
         raise

@@ -1,5 +1,9 @@
+import logging
+
 from crossrenamertool.maya import maya_api
 from crossrenamertool.ui.maya import main_window as app_view
+
+log = logging.getLogger(__name__)
 
 _WINDOW = None
 
@@ -15,6 +19,20 @@ class CrossRenamerToolController:
 
     def __init__(self):
         self._view = None
+
+    def rename_nodes(self, base_name="", padding=3, start=1, step=1):
+        """Rename selected nodes.
+
+        Args:
+            base_name (str, optional): base name. Defaults to "".
+            padding (int, optional): number of 0. Defaults to 3.
+            start (int, optional): start number. Defaults to 1.
+            step (int, optional): increment between each number. Defaults to 1.
+
+        """
+        maya_api.rename_nodes(
+            base_name=base_name, padding=padding, start=start, step=step
+        )
 
     def set_view(self, view):
         """Attach a view instance to the controller.
@@ -39,11 +57,11 @@ class CrossRenamerToolController:
     def launch(self) -> None:
         """Launch the application by displaying the view."""
         if self._view is None:
-            print("No view attached to controller")
+            log.error("No view attached to controller")
             raise RuntimeError("Cannot launch: no view attached")
 
         self._view.launch_app()
-        print("Cross Renamer Tool launched successfully")
+        log.info("Cross Renamer Tool launched successfully")
 
 
 def create_controller():
