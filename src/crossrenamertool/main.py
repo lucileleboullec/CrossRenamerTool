@@ -2,6 +2,7 @@ import logging
 
 from crossrenamertool.maya import maya_api
 from crossrenamertool.ui.maya import main_window as app_view
+from crossrenamertool.core import constants
 
 log = logging.getLogger(__name__)
 
@@ -12,6 +13,7 @@ import importlib
 
 importlib.reload(maya_api)
 importlib.reload(app_view)
+importlib.reload(constants)
 
 
 class CrossRenamerToolController:
@@ -20,7 +22,13 @@ class CrossRenamerToolController:
     def __init__(self):
         self._view = None
 
-    def rename_nodes(self, base_name="", padding=3, start=1, step=1):
+    def rename_nodes(
+        self,
+        base_name="",
+        padding=constants.DEFAULT_PADDING,
+        start=constants.DEFAULT_START,
+        step=constants.DEFAULT_STEP,
+    ):
         """Rename selected nodes.
 
         Args:
@@ -29,10 +37,25 @@ class CrossRenamerToolController:
             start (int, optional): start number. Defaults to 1.
             step (int, optional): increment between each number. Defaults to 1.
 
+        Returns:
+            dict[str]: renamed node
+
         """
-        maya_api.rename_nodes(
+        return maya_api.rename_nodes(
             base_name=base_name, padding=padding, start=start, step=step
         )
+
+    def add_prefix(self, prefix=""):
+        """Add prefix to nodes.
+
+        Args:
+            prefix (str, optional): prefix. Defaults to "".
+
+        Returns:
+            dict[str]: renamed node
+
+        """
+        return maya_api.add_prefix(prefix=prefix)
 
     def set_view(self, view):
         """Attach a view instance to the controller.

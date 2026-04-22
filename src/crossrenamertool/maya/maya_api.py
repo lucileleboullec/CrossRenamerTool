@@ -16,13 +16,39 @@ importlib.reload(renamer)
 
 
 def get_selection():
-    """Get the selection.
+    """Get the current selection.
 
     Returns:
-        list: list of the selection
+        list: list of selected node names
 
     """
-    return cmds.ls(sl=True)
+    return cmds.ls(sl=True) or []
+
+
+def _apply_rename(node, new_name, old_name=""):
+    """Apply rename.
+
+    Args:
+        node (str): current node name
+        new_name (str): desired new name
+        old_name (str): original name
+
+    Returns:
+        str: actual name applied by Maya
+
+    """
+    actual_name = cmds.rename(node, new_name)
+    if not old_name:
+        old_name = node
+
+    if actual_name != new_name:
+        log.warning(
+            f"{old_name} renamed to {actual_name} instead of {new_name} (name conflict)."
+        )
+    else:
+        log.info(f"{old_name} -> {actual_name}")
+
+    return actual_name
 
 
 def rename_nodes(base_name, padding, start, step):
@@ -43,6 +69,7 @@ def rename_nodes(base_name, padding, start, step):
     renamed = {}
     if not nodes:
         log.warning("Select at least 1 node.")
+        return None
 
     # Range of index with step
     numbers = range(start, start + len(nodes) * step, step)
@@ -57,17 +84,37 @@ def rename_nodes(base_name, padding, start, step):
     for node, index, old_node in zip(temp_names, numbers, nodes):
         if not cmds.objExists(node):
             log.error(f"The node {node} doesn't exist.")
+            continue
         new_name = renamer.renaming(base_name, index, padding)
-        actual_name = cmds.rename(node, new_name)
+        renamed[old_node] = _apply_rename(node, new_name, old_node)
 
-        if actual_name != new_name:
-            log.warning(
-                f"{old_node} renamed to {actual_name} instead of {new_name} (name conflict)."
-            )
-        else:
-            log.info(f"{old_node} -> {actual_name}")
+    return renamed
 
-        renamed[old_node] = actual_name
+
+def add_prefix(prefix):
+    """Add prefix to nodes.
+
+    Args:
+        prefix (str): prefix
+
+    Returns:
+        dict[str]: renamed nodes
+
+    """
+    nodes = get_selection()
+
+    if not nodes:
+        log.warning("Select at least 1 node.")
+        return None
+
+    renamed = {}
+    for node in nodes:
+        if not cmds.objExists(node):
+            log.error(f"The node {node} doesn't exist.")
+            continue
+
+        new_name = renamer.add_prefix(base_name=node, prefix=prefix)
+        renamed[node] = _apply_rename(node, new_name)
 
     return renamed
 

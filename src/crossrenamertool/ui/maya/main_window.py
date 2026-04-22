@@ -1,9 +1,16 @@
+import logging
+
 from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 from PySide6 import QtCore, QtGui, QtWidgets
 
-import logging
+from crossrenamertool.core import constants
 
 log = logging.getLogger(__name__)
+
+# ! Delete before publish
+import importlib
+
+importlib.reload(constants)
 
 
 class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
@@ -20,6 +27,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.padding = None
         self.start = None
         self.step = None
+        self.prefix = None
 
         self._configure()
         self._create_gui()
@@ -56,26 +64,53 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
         self.padding = QtWidgets.QSpinBox()
         self.padding.setRange(1, 10)
-        self.padding.setValue(3)
+        self.padding.setValue(constants.DEFAULT_PADDING)
         padding_layout = self._create_horizontal_form_layout("Padding", self.padding)
         name_configuration_layout.addLayout(padding_layout)
 
         self.start = QtWidgets.QSpinBox()
         self.start.setRange(1, 10)
-        self.start.setValue(1)
+        self.start.setValue(constants.DEFAULT_START)
         start_layout = self._create_horizontal_form_layout("Start", self.start)
         name_configuration_layout.addLayout(start_layout)
 
         self.step = QtWidgets.QSpinBox()
         self.step.setRange(1, 100)
-        self.step.setValue(1)
+        self.step.setValue(constants.DEFAULT_STEP)
         step_layout = self._create_horizontal_form_layout("Step", self.step)
         name_configuration_layout.addLayout(step_layout)
 
         rename_btn = QtWidgets.QPushButton("Rename")
         name_layout.addWidget(rename_btn)
 
+        prefix_suffix_group = QtWidgets.QGroupBox()
+        main_layout.addWidget(prefix_suffix_group)
+
+        prefix_suffix_layout = QtWidgets.QVBoxLayout()
+        prefix_suffix_group.setLayout(prefix_suffix_layout)
+
+        prefix_layout = QtWidgets.QHBoxLayout()
+        prefix_suffix_layout.addLayout(prefix_layout)
+
+        self.prefix = QtWidgets.QComboBox()
+        self.prefix.setMinimumWidth(200)
+        self.prefix.addItems(constants.PREFIXES)
+        self.prefix.setEditable(True)
+        self.prefix.setInsertPolicy(QtWidgets.QComboBox.NoInsert)
+        self.prefix.setCurrentIndex(-1)
+        self.prefix.lineEdit().setPlaceholderText("Left")
+
+        prefix_widget_layout = self._create_horizontal_form_layout(
+            "Prefix", self.prefix
+        )
+        prefix_layout.addLayout(prefix_widget_layout)
+
+        prefix_btn = QtWidgets.QPushButton("Add")
+        prefix_btn.setMaximumWidth(50)
+        prefix_layout.addWidget(prefix_btn)
+
         rename_btn.clicked.connect(self._on_rename_btn_clicked)
+        prefix_btn.clicked.connect(self._on_prefix_btn_clicked)
 
     def _create_horizontal_form_layout(self, label, widget):
         """Create horizontal form layout.
@@ -100,6 +135,11 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         start = self.start.value()
         step = self.step.value()
         self.controller.rename_nodes(name, padding, start, step)
+
+    def _on_prefix_btn_clicked(self):
+        """Add prefix to nodes."""
+        prefix = self.prefix.currentText()
+        self.controller.add_prefix(prefix)
 
     def launch_app(self):
         """Launch the application."""
