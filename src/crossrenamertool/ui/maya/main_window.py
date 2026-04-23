@@ -4,6 +4,7 @@ from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 from PySide6 import QtCore, QtGui, QtWidgets
 
 from crossrenamertool.core import constants
+from crossrenamertool.ui.maya import container
 
 log = logging.getLogger(__name__)
 
@@ -11,6 +12,7 @@ log = logging.getLogger(__name__)
 import importlib
 
 importlib.reload(constants)
+importlib.reload(container)
 
 
 class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
@@ -46,8 +48,13 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
         main_layout = QtWidgets.QVBoxLayout(main_widget)
 
-        name_group = QtWidgets.QGroupBox("Name")
-        main_layout.addWidget(name_group)
+        name_container = container.Container("Name", color_background=False)
+        main_layout.addWidget(name_container)
+
+        name_content_layout = QtWidgets.QVBoxLayout(name_container.contentWidget)
+
+        name_group = QtWidgets.QGroupBox()
+        name_content_layout.addWidget(name_group)
 
         name_layout = QtWidgets.QVBoxLayout()
         name_group.setLayout(name_layout)
@@ -84,7 +91,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         name_layout.addWidget(rename_btn)
 
         prefix_suffix_group = QtWidgets.QGroupBox()
-        main_layout.addWidget(prefix_suffix_group)
+        name_content_layout.addWidget(prefix_suffix_group)
 
         prefix_suffix_layout = QtWidgets.QVBoxLayout()
         prefix_suffix_group.setLayout(prefix_suffix_layout)
@@ -109,8 +116,29 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         prefix_btn.setMaximumWidth(50)
         prefix_layout.addWidget(prefix_btn)
 
+        suffix_layout = QtWidgets.QHBoxLayout()
+        prefix_suffix_layout.addLayout(suffix_layout)
+
+        self.suffix = QtWidgets.QComboBox()
+        self.suffix.setMinimumWidth(200)
+        self.suffix.addItems(constants.SUFFIXES)
+        self.suffix.setEditable(True)
+        self.suffix.setInsertPolicy(QtWidgets.QComboBox.NoInsert)
+        self.suffix.setCurrentIndex(-1)
+        self.suffix.lineEdit().setPlaceholderText("ctrl")
+
+        suffix_widget_layout = self._create_horizontal_form_layout(
+            "Suffix", self.suffix
+        )
+        suffix_layout.addLayout(suffix_widget_layout)
+
+        suffix_btn = QtWidgets.QPushButton("Add")
+        suffix_btn.setMaximumWidth(50)
+        suffix_layout.addWidget(suffix_btn)
+
         rename_btn.clicked.connect(self._on_rename_btn_clicked)
         prefix_btn.clicked.connect(self._on_prefix_btn_clicked)
+        suffix_btn.clicked.connect(self._on_suffix_btn_clicked)
 
     def _create_horizontal_form_layout(self, label, widget):
         """Create horizontal form layout.
@@ -140,6 +168,11 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         """Add prefix to nodes."""
         prefix = self.prefix.currentText()
         self.controller.add_prefix(prefix)
+
+    def _on_suffix_btn_clicked(self):
+        """Add suffix to nodes."""
+        suffix: str = self.suffix.currentText()
+        self.controller.add_suffix(suffix)
 
     def launch_app(self):
         """Launch the application."""
