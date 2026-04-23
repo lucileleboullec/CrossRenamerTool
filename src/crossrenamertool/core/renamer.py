@@ -17,8 +17,9 @@ def renaming(base_name, num, padding) -> str:
     """
     if not base_name or not num or not padding:
         log.warning("You have to write the new name with configuration")
+        return None
 
-    return f"{base_name}_{num:0{padding}d}"
+    return f"{base_name.capitalize()}_{num:0{padding}d}"
 
 
 def add_prefix(base_name, prefix) -> str:
@@ -34,7 +35,31 @@ def add_prefix(base_name, prefix) -> str:
     """
     if not base_name:
         log.warning("You don't have any base name on the node.")
+        return None
     if not prefix:
         log.warning("Can't add prefix to your name.")
+        return None
 
     return f"{prefix}_{base_name}"
+
+
+def add_suffix(base_name, suffix):
+    """Add suffix to the node.
+
+    Args:
+        base_name (str): base name
+        suffix (str): suffix to add
+
+    Returns:
+        str: renamed name
+
+    """
+    if not base_name:
+        log.warning("You don't have any base name on the node.")
+        return None
+
+    if not suffix:
+        log.warning("Can't add suffix to your name.")
+        return None
+
+    return f"{base_name}_{suffix}"

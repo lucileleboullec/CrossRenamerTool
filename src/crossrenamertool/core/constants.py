@@ -2,16 +2,24 @@ PREFIXES = [
     "L",
     "R",
     "C",
-    "l",
-    "r",
-    "c",
-    "left",
-    "right",
-    "center",
-    "Left",
-    "Right",
-    "Center",
 ]
+
+SUFFIXES = [
+    "ctrl",
+    "IK",
+    "FK",
+    "jnt",
+    "aim",
+    "grp",
+    "null",
+    "geo",
+    "hi",
+    "low",
+    "pxy",
+    "loc",
+    "crv",
+]
+
 
 DEFAULT_PADDING = 3
 DEFAULT_START = 1

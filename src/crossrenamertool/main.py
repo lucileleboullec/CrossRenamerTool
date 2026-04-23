@@ -38,7 +38,7 @@ class CrossRenamerToolController:
             step (int, optional): increment between each number. Defaults to 1.
 
         Returns:
-            dict[str]: renamed node
+            dict[str, str]: renamed nodes
 
         """
         return maya_api.rename_nodes(
@@ -52,10 +52,22 @@ class CrossRenamerToolController:
             prefix (str, optional): prefix. Defaults to "".
 
         Returns:
-            dict[str]: renamed node
+            dict[str, str]: renamed nodeq
 
         """
         return maya_api.add_prefix(prefix=prefix)
+
+    def add_suffix(self, suffix=""):
+        """Add suffix to nodes.
+
+        Args:
+            suffix (str, optional): suffix to add. Defaults to "".
+
+        Returns:
+            dict[str, str]: renamed nodes
+
+        """
+        return maya_api.add_suffix(suffix)
 
     def set_view(self, view):
         """Attach a view instance to the controller.

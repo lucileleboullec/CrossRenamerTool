@@ -98,7 +98,7 @@ def add_prefix(prefix):
         prefix (str): prefix
 
     Returns:
-        dict[str]: renamed nodes
+        dict[str, str]: renamed nodes
 
     """
     nodes = get_selection()
@@ -114,6 +114,34 @@ def add_prefix(prefix):
             continue
 
         new_name = renamer.add_prefix(base_name=node, prefix=prefix)
+        renamed[node] = _apply_rename(node, new_name)
+
+    return renamed
+
+
+def add_suffix(suffix):
+    """Add suffix to nodes.
+
+    Args:
+        suffix (str): suffix to add
+
+    Returns:
+        dict[str, str]: renamed nodes
+
+    """
+    nodes = get_selection()
+
+    if not nodes:
+        log.warning("Select at least 1 node.")
+        return None
+
+    renamed = {}
+    for node in nodes:
+        if not cmds.objExists(node):
+            log.error(f"The node {node} doesn't exist.")
+            continue
+
+        new_name = renamer.add_suffix(base_name=node, suffix=suffix)
         renamed[node] = _apply_rename(node, new_name)
 
     return renamed
