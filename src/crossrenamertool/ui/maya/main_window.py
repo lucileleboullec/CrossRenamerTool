@@ -136,9 +136,22 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         suffix_btn.setMaximumWidth(50)
         suffix_layout.addWidget(suffix_btn)
 
+        search_replace_container = container.Container(
+            "Search/Replace", color_background=False
+        )
+        main_layout.addWidget(search_replace_container)
+
+        search_replace_content_layout = QtWidgets.QVBoxLayout(
+            search_replace_container.contentWidget
+        )
+
+        search_replace_btn = QtWidgets.QPushButton("Add")
+        search_replace_content_layout.addWidget(search_replace_btn)
+
         rename_btn.clicked.connect(self._on_rename_btn_clicked)
         prefix_btn.clicked.connect(self._on_prefix_btn_clicked)
         suffix_btn.clicked.connect(self._on_suffix_btn_clicked)
+        search_replace_btn.clicked.connect(self._on_search_replace_btn_clicked)
 
     def _create_horizontal_form_layout(self, label, widget):
         """Create horizontal form layout.
@@ -173,6 +186,9 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         """Add suffix to nodes."""
         suffix: str = self.suffix.currentText()
         self.controller.add_suffix(suffix)
+
+    def _on_search_replace_btn_clicked(self):
+        self.controller.search_replace("hierarchy", "Cube", "base")
 
     def launch_app(self):
         """Launch the application."""

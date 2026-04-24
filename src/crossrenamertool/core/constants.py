@@ -20,6 +20,8 @@ SUFFIXES = [
     "crv",
 ]
 
+DEFAULT_CAMS = ["front", "persp", "side", "top"]
+
 
 DEFAULT_PADDING = 3
 DEFAULT_START = 1

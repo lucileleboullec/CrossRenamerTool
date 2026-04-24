@@ -69,6 +69,9 @@ class CrossRenamerToolController:
         """
         return maya_api.add_suffix(suffix)
 
+    def search_replace(self, mode, search_name, replace_name):
+        return maya_api.search_replace(mode, search_name, replace_name)
+
     def set_view(self, view):
         """Attach a view instance to the controller.
 

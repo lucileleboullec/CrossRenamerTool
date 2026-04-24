@@ -2,7 +2,7 @@
 
 import uuid
 
-from crossrenamertool.core import renamer
+from crossrenamertool.core import renamer, constants
 import maya.cmds as cmds
 
 import logging
@@ -13,6 +13,7 @@ log = logging.getLogger(__name__)
 import importlib
 
 importlib.reload(renamer)
+importlib.reload(constants)
 
 
 def get_selection():
@@ -23,6 +24,28 @@ def get_selection():
 
     """
     return cmds.ls(sl=True) or []
+
+
+def get_hierarchy():
+    selected = get_selection()
+    if not selected:
+        log.warning("Select at least 1 node.")
+        return []
+    nodes = (
+        cmds.listRelatives(
+            selected, allDescendents=True, fullPath=False, type="transform"
+        )
+        or []
+    )
+    nodes = selected + nodes
+
+    return nodes
+
+
+def get_all():
+    nodes = cmds.ls(transforms=True) or []
+
+    return [node for node in nodes if node not in constants.DEFAULT_CAMS]
 
 
 def _apply_rename(node, new_name, old_name=""):
@@ -143,6 +166,35 @@ def add_suffix(suffix):
 
         new_name = renamer.add_suffix(base_name=node, suffix=suffix)
         renamed[node] = _apply_rename(node, new_name)
+
+    return renamed
+
+
+def search_replace(mode, search_name, replace_name):
+    if mode == "selection":
+        nodes = get_selection()
+
+    elif mode == "hierarchy":
+        nodes = get_hierarchy()
+
+    elif mode == "all":
+        nodes = get_all()
+
+    else:
+        log.error(f"Unknown mode: {mode}")
+        return []
+
+    renamed = {}
+    for node in nodes:
+        if not cmds.objExists(node):
+            log.error(f"The node {node} doesn't exist.")
+            continue
+
+        new_name = renamer.search_replace(node, search_name, replace_name)
+        if node != new_name:
+            renamed[node] = _apply_rename(node, new_name)
+        else:
+            renamed[node] = node
 
     return renamed
 

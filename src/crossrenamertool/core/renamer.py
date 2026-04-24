@@ -63,3 +63,20 @@ def add_suffix(base_name, suffix):
         return None
 
     return f"{base_name}_{suffix}"
+
+
+def search_replace(node, search_name, replace_name):
+    """Search and replace name in node.
+
+    Args:
+        node (str): node selected
+        search_name (str): name to find
+        replace_name (str): new name to replace
+
+    Returns:
+        str: new name renamed
+
+    """
+    if not node.find(search_name):
+        return node.replace(search_name, replace_name)
+    return node
