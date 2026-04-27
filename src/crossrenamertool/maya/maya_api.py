@@ -42,7 +42,7 @@ def get_hierarchy():
     return nodes
 
 
-def get_all():
+def get_scene_objects():
     nodes = cmds.ls(transforms=True) or []
 
     return [node for node in nodes if node not in constants.DEFAULT_CAMS]
@@ -170,15 +170,26 @@ def add_suffix(suffix):
     return renamed
 
 
-def search_replace(mode, search_name, replace_name):
-    if mode == "selection":
+def search_replace(mode, search_name, replace_name) -> dict[str, str]:
+    """Search and replace name in node.
+
+    Args:
+        node (str): node selected
+        search_name (str): name to find
+        replace_name (str): new name to replace
+
+    Returns:
+        dict[str, str]: renamed nodes
+
+    """
+    if mode == "Selected":
         nodes = get_selection()
 
-    elif mode == "hierarchy":
+    elif mode == "Hierarchy":
         nodes = get_hierarchy()
 
-    elif mode == "all":
-        nodes = get_all()
+    elif mode == "Scene":
+        nodes = get_scene_objects()
 
     else:
         log.error(f"Unknown mode: {mode}")

@@ -1,4 +1,5 @@
 import logging
+import re
 
 log = logging.getLogger(__name__)
 
@@ -77,6 +78,6 @@ def search_replace(node, search_name, replace_name):
         str: new name renamed
 
     """
-    if not node.find(search_name):
-        return node.replace(search_name, replace_name)
-    return node
+    if not re.search(re.escape(search_name), node, flags=re.IGNORECASE):
+        return node
+    return re.sub(re.escape(search_name), replace_name, node, flags=re.IGNORECASE)

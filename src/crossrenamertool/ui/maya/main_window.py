@@ -141,12 +141,41 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         )
         main_layout.addWidget(search_replace_container)
 
-        search_replace_content_layout = QtWidgets.QVBoxLayout(
+        search_replace_content_layout = QtWidgets.QGridLayout(
             search_replace_container.contentWidget
         )
 
+        search_label = QtWidgets.QLabel("Search")
+        search_replace_content_layout.addWidget(search_label, 0, 0)
+
+        self.search = QtWidgets.QLineEdit()
+        self.search.setPlaceholderText("Text to search for...")
+        search_replace_content_layout.addWidget(self.search, 0, 1, 1, 2)
+
+        replace_label = QtWidgets.QLabel("Replace")
+        search_replace_content_layout.addWidget(replace_label, 1, 0)
+
+        self.replace = QtWidgets.QLineEdit()
+        self.replace.setPlaceholderText("Text to be replaced...")
+        search_replace_content_layout.addWidget(self.replace, 1, 1, 1, 2)
+
+        selected_mode = QtWidgets.QRadioButton("Selected")
+        selected_mode.setChecked(True)
+        search_replace_content_layout.addWidget(selected_mode, 2, 0)
+
+        hierarchy_mode = QtWidgets.QRadioButton("Hierarchy")
+        search_replace_content_layout.addWidget(hierarchy_mode, 2, 1)
+
+        scene_mode = QtWidgets.QRadioButton("Scene")
+        search_replace_content_layout.addWidget(scene_mode, 2, 2)
+
+        self.mode_group = QtWidgets.QButtonGroup()
+        self.mode_group.addButton(selected_mode, 0)
+        self.mode_group.addButton(hierarchy_mode, 1)
+        self.mode_group.addButton(scene_mode, 2)
+
         search_replace_btn = QtWidgets.QPushButton("Add")
-        search_replace_content_layout.addWidget(search_replace_btn)
+        search_replace_content_layout.addWidget(search_replace_btn, 3, 0, 1, 3)
 
         rename_btn.clicked.connect(self._on_rename_btn_clicked)
         prefix_btn.clicked.connect(self._on_prefix_btn_clicked)
@@ -187,8 +216,16 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         suffix: str = self.suffix.currentText()
         self.controller.add_suffix(suffix)
 
+    def get_current_mode(self):
+        ids = {0: "Selected", 1: "Hierarchy", 2: "Scene"}
+        return ids[self.mode_group.checkedId()]
+
     def _on_search_replace_btn_clicked(self):
-        self.controller.search_replace("hierarchy", "Cube", "base")
+        search_text = self.search.text()
+        replace_text = self.replace.text()
+        mode = self.get_current_mode()
+
+        self.controller.search_replace(mode, search_text, replace_text)
 
     def launch_app(self):
         """Launch the application."""
