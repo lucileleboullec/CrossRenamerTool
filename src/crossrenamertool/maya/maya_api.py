@@ -23,14 +23,15 @@ def get_selection():
         list: list of selected node names
 
     """
-    return cmds.ls(sl=True) or []
+    selected = cmds.ls(sl=True)
+    if not selected:
+        log.error("Select at least 1 node.")
+        raise ("[ERROR]")
+    return selected
 
 
 def get_hierarchy():
     selected = get_selection()
-    if not selected:
-        log.warning("Select at least 1 node.")
-        return []
     nodes = (
         cmds.listRelatives(
             selected, allDescendents=True, fullPath=False, type="transform"
@@ -46,6 +47,32 @@ def get_scene_objects():
     nodes = cmds.ls(transforms=True) or []
 
     return [node for node in nodes if node not in constants.DEFAULT_CAMS]
+
+
+def get_nodes(mode):
+    """Get the list of nodes by the selected mode.
+
+    Args:
+        mode (str): mode selected
+
+    Returns:
+        list[str]: list of nodes to renamed
+
+    """
+    if mode == "Selected":
+        nodes = get_selection()
+
+    elif mode == "Hierarchy":
+        nodes = get_hierarchy()
+
+    elif mode == "Scene":
+        nodes = get_scene_objects()
+
+    else:
+        log.error(f"Unknown mode: {mode}")
+        return []
+
+    return nodes
 
 
 def _apply_rename(node, new_name, old_name=""):
@@ -74,10 +101,11 @@ def _apply_rename(node, new_name, old_name=""):
     return actual_name
 
 
-def rename_nodes(base_name, padding, start, step):
+def rename_nodes(mode, base_name, padding, start, step):
     """Rename nodes with padding, step and start.
 
     Args:
+        mode (str): mode of selection
         base_name (str): base name
         padding (int): number of 0
         start (int): start number
@@ -87,13 +115,9 @@ def rename_nodes(base_name, padding, start, step):
         dict[str, str]: renamed nodes
 
     """
-    nodes = get_selection()
+    nodes = get_nodes(mode)
 
     renamed = {}
-    if not nodes:
-        log.warning("Select at least 1 node.")
-        return None
-
     # Range of index with step
     numbers = range(start, start + len(nodes) * step, step)
 
@@ -114,21 +138,18 @@ def rename_nodes(base_name, padding, start, step):
     return renamed
 
 
-def add_prefix(prefix):
+def add_prefix(mode, prefix):
     """Add prefix to nodes.
 
     Args:
+        mode (str): mode of selection
         prefix (str): prefix
 
     Returns:
         dict[str, str]: renamed nodes
 
     """
-    nodes = get_selection()
-
-    if not nodes:
-        log.warning("Select at least 1 node.")
-        return None
+    nodes = get_nodes(mode)
 
     renamed = {}
     for node in nodes:
@@ -142,21 +163,18 @@ def add_prefix(prefix):
     return renamed
 
 
-def add_suffix(suffix):
+def add_suffix(mode, suffix):
     """Add suffix to nodes.
 
     Args:
+        mode (str): mode of selection
         suffix (str): suffix to add
 
     Returns:
         dict[str, str]: renamed nodes
 
     """
-    nodes = get_selection()
-
-    if not nodes:
-        log.warning("Select at least 1 node.")
-        return None
+    nodes = get_nodes(mode)
 
     renamed = {}
     for node in nodes:
@@ -174,6 +192,7 @@ def search_replace(mode, search_name, replace_name) -> dict[str, str]:
     """Search and replace name in node.
 
     Args:
+        mode (str): mode of selection
         node (str): node selected
         search_name (str): name to find
         replace_name (str): new name to replace
@@ -182,18 +201,7 @@ def search_replace(mode, search_name, replace_name) -> dict[str, str]:
         dict[str, str]: renamed nodes
 
     """
-    if mode == "Selected":
-        nodes = get_selection()
-
-    elif mode == "Hierarchy":
-        nodes = get_hierarchy()
-
-    elif mode == "Scene":
-        nodes = get_scene_objects()
-
-    else:
-        log.error(f"Unknown mode: {mode}")
-        return []
+    nodes = get_nodes(mode)
 
     renamed = {}
     for node in nodes:
@@ -206,6 +214,21 @@ def search_replace(mode, search_name, replace_name) -> dict[str, str]:
             renamed[node] = _apply_rename(node, new_name)
         else:
             renamed[node] = node
+
+    return renamed
+
+
+def add_characters(mode, text, position, from_start):
+    nodes = get_nodes(mode)
+
+    renamed = {}
+    for node in nodes:
+        if not cmds.objExists(node):
+            log.error(f"The node {node} doesn't exist.")
+            continue
+
+        new_name = renamer.add_characters(node, text, position, from_start)
+        renamed[node] = _apply_rename(node, new_name)
 
     return renamed
 

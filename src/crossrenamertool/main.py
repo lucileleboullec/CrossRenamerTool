@@ -24,6 +24,7 @@ class CrossRenamerToolController:
 
     def rename_nodes(
         self,
+        mode,
         base_name="",
         padding=constants.DEFAULT_PADDING,
         start=constants.DEFAULT_START,
@@ -42,10 +43,10 @@ class CrossRenamerToolController:
 
         """
         return maya_api.rename_nodes(
-            base_name=base_name, padding=padding, start=start, step=step
+            mode, base_name=base_name, padding=padding, start=start, step=step
         )
 
-    def add_prefix(self, prefix=""):
+    def add_prefix(self, mode, prefix=""):
         """Add prefix to nodes.
 
         Args:
@@ -55,9 +56,9 @@ class CrossRenamerToolController:
             dict[str, str]: renamed nodeq
 
         """
-        return maya_api.add_prefix(prefix=prefix)
+        return maya_api.add_prefix(mode=mode, prefix=prefix)
 
-    def add_suffix(self, suffix=""):
+    def add_suffix(self, mode, suffix=""):
         """Add suffix to nodes.
 
         Args:
@@ -67,7 +68,7 @@ class CrossRenamerToolController:
             dict[str, str]: renamed nodes
 
         """
-        return maya_api.add_suffix(suffix)
+        return maya_api.add_suffix(mode, suffix)
 
     def search_replace(self, mode, search_name, replace_name):
         """Search and replace name in node.
@@ -82,6 +83,9 @@ class CrossRenamerToolController:
 
         """
         return maya_api.search_replace(mode, search_name, replace_name)
+
+    def add_characters(self, mode, text, position, from_start):
+        return maya_api.add_characters(mode, text, position, from_start)
 
     def set_view(self, view):
         """Attach a view instance to the controller.

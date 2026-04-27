@@ -48,6 +48,24 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
         main_layout = QtWidgets.QVBoxLayout(main_widget)
 
+        mode_layout = QtWidgets.QGridLayout()
+        main_layout.addLayout(mode_layout)
+
+        selected_mode = QtWidgets.QRadioButton("Selected")
+        selected_mode.setChecked(True)
+        mode_layout.addWidget(selected_mode, 2, 0)
+
+        hierarchy_mode = QtWidgets.QRadioButton("Hierarchy")
+        mode_layout.addWidget(hierarchy_mode, 2, 1)
+
+        scene_mode = QtWidgets.QRadioButton("Scene")
+        mode_layout.addWidget(scene_mode, 2, 2)
+
+        self.mode_group = QtWidgets.QButtonGroup()
+        self.mode_group.addButton(selected_mode, 0)
+        self.mode_group.addButton(hierarchy_mode, 1)
+        self.mode_group.addButton(scene_mode, 2)
+
         name_container = container.Container("Name", color_background=False)
         main_layout.addWidget(name_container)
 
@@ -159,28 +177,44 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.replace.setPlaceholderText("Text to be replaced...")
         search_replace_content_layout.addWidget(self.replace, 1, 1, 1, 2)
 
-        selected_mode = QtWidgets.QRadioButton("Selected")
-        selected_mode.setChecked(True)
-        search_replace_content_layout.addWidget(selected_mode, 2, 0)
-
-        hierarchy_mode = QtWidgets.QRadioButton("Hierarchy")
-        search_replace_content_layout.addWidget(hierarchy_mode, 2, 1)
-
-        scene_mode = QtWidgets.QRadioButton("Scene")
-        search_replace_content_layout.addWidget(scene_mode, 2, 2)
-
-        self.mode_group = QtWidgets.QButtonGroup()
-        self.mode_group.addButton(selected_mode, 0)
-        self.mode_group.addButton(hierarchy_mode, 1)
-        self.mode_group.addButton(scene_mode, 2)
-
         search_replace_btn = QtWidgets.QPushButton("Add")
         search_replace_content_layout.addWidget(search_replace_btn, 3, 0, 1, 3)
+
+        add_character_container = container.Container(
+            "Add characters", color_background=False
+        )
+        main_layout.addWidget(add_character_container)
+
+        add_character_content_layout = QtWidgets.QGridLayout(
+            add_character_container.contentWidget
+        )
+
+        self.add_start_character = QtWidgets.QSpinBox()
+        self.add_start_character.setSingleStep(1)
+        self.add_start_character.setRange(0, 99)
+        add_character_content_layout.addWidget(self.add_start_character, 0, 0)
+
+        add_start_btn = QtWidgets.QPushButton("+")
+        add_character_content_layout.addWidget(add_start_btn, 0, 1)
+
+        self.text_to_add = QtWidgets.QLineEdit()
+        self.text_to_add.setPlaceholderText("Text to add...")
+        add_character_content_layout.addWidget(self.text_to_add, 0, 2)
+
+        self.add_end_character = QtWidgets.QSpinBox()
+        self.add_end_character.setSingleStep(1)
+        self.add_end_character.setRange(0, 99)
+        add_character_content_layout.addWidget(self.add_end_character, 0, 3)
+
+        add_end_btn = QtWidgets.QPushButton("+")
+        add_character_content_layout.addWidget(add_end_btn, 0, 4)
 
         rename_btn.clicked.connect(self._on_rename_btn_clicked)
         prefix_btn.clicked.connect(self._on_prefix_btn_clicked)
         suffix_btn.clicked.connect(self._on_suffix_btn_clicked)
         search_replace_btn.clicked.connect(self._on_search_replace_btn_clicked)
+        add_start_btn.clicked.connect(self._on_add_start_btn_clicked)
+        add_end_btn.clicked.connect(self._on_add_end_btn_clicked)
 
     def _create_horizontal_form_layout(self, label, widget):
         """Create horizontal form layout.
@@ -198,27 +232,30 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         row.addWidget(widget)
         return row
 
+    def get_current_mode(self):
+        ids = {0: "Selected", 1: "Hierarchy", 2: "Scene"}
+        return ids[self.mode_group.checkedId()]
+
     def _on_rename_btn_clicked(self):
         """Rename the selected nodes."""
         name = self.rename_txt.text()
         padding = self.padding.value()
         start = self.start.value()
         step = self.step.value()
-        self.controller.rename_nodes(name, padding, start, step)
+        mode = self.get_current_mode()
+        self.controller.rename_nodes(mode, name, padding, start, step)
 
     def _on_prefix_btn_clicked(self):
         """Add prefix to nodes."""
         prefix = self.prefix.currentText()
-        self.controller.add_prefix(prefix)
+        mode = self.get_current_mode()
+        self.controller.add_prefix(mode, prefix)
 
     def _on_suffix_btn_clicked(self):
         """Add suffix to nodes."""
         suffix: str = self.suffix.currentText()
-        self.controller.add_suffix(suffix)
-
-    def get_current_mode(self):
-        ids = {0: "Selected", 1: "Hierarchy", 2: "Scene"}
-        return ids[self.mode_group.checkedId()]
+        mode = self.get_current_mode()
+        self.controller.add_suffix(mode, suffix)
 
     def _on_search_replace_btn_clicked(self):
         search_text = self.search.text()
@@ -226,6 +263,24 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         mode = self.get_current_mode()
 
         self.controller.search_replace(mode, search_text, replace_text)
+
+    def _on_add_start_btn_clicked(self):
+        text = self.text_to_add.text()
+        position = self.add_start_character.value()
+        mode = self.get_current_mode()
+
+        self.controller.add_characters(
+            mode=mode, text=text, position=position, from_start=True
+        )
+
+    def _on_add_end_btn_clicked(self):
+        text = self.text_to_add.text()
+        position = self.add_end_character.value()
+        mode = self.get_current_mode()
+
+        self.controller.add_characters(
+            mode=mode, text=text, position=position, from_start=False
+        )
 
     def launch_app(self):
         """Launch the application."""

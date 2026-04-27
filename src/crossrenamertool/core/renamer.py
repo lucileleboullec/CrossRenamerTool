@@ -81,3 +81,13 @@ def search_replace(node, search_name, replace_name):
     if not re.search(re.escape(search_name), node, flags=re.IGNORECASE):
         return node
     return re.sub(re.escape(search_name), replace_name, node, flags=re.IGNORECASE)
+
+
+def add_characters(node, text, position, from_start):
+    index = position
+    if not from_start:
+        index = -position
+        if position == 0:
+            index = len(node)
+
+    return node[:index] + text + node[index:]
