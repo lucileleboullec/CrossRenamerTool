@@ -219,6 +219,18 @@ def search_replace(mode, search_name, replace_name) -> dict[str, str]:
 
 
 def add_characters(mode, text, position, from_start):
+    """Add characters to a text at a specific position.
+
+    Args:
+        mode (str): mode of selection
+        text (str): characters to add
+        position (int): position to insert
+        from_start (bool): True if insert from start else False.
+
+    Returns:
+        dict[str, str]: dictionary of nodes
+
+    """
     nodes = get_nodes(mode)
 
     renamed = {}
@@ -228,6 +240,75 @@ def add_characters(mode, text, position, from_start):
             continue
 
         new_name = renamer.add_characters(node, text, position, from_start)
+        renamed[node] = _apply_rename(node, new_name)
+
+    return renamed
+
+
+def text_to_lowercase(mode):
+    """Convert text to lowercase.
+
+    Args:
+        mode (str): mode of selection
+
+    Returns:
+        dict[str, str]: dictionary of nodes
+
+    """
+    nodes = get_nodes(mode)
+
+    renamed = {}
+    for node in nodes:
+        if not cmds.objExists(node):
+            log.error(f"The node {node} doesn't exist.")
+            continue
+        new_name = renamer.text_to_lowercase(node)
+        renamed[node] = _apply_rename(node, new_name)
+
+    return renamed
+
+
+def text_to_uppercase(mode):
+    """Convert text to uppercase.
+
+    Args:
+        mode (str): mode of selection
+
+    Returns:
+        dict[str, str]: dictionary of nodes
+
+    """
+    nodes = get_nodes(mode)
+
+    renamed = {}
+    for node in nodes:
+        if not cmds.objExists(node):
+            log.error(f"The node {node} doesn't exist.")
+            continue
+        new_name = renamer.text_to_uppercase(node)
+        renamed[node] = _apply_rename(node, new_name)
+
+    return renamed
+
+
+def text_to_capitalize(mode):
+    """Convert text to capitalize.
+
+    Args:
+        mode (str): mode of selection
+
+    Returns:
+        dict[str, str]: dictionary of nodes
+
+    """
+    nodes = get_nodes(mode)
+
+    renamed = {}
+    for node in nodes:
+        if not cmds.objExists(node):
+            log.error(f"The node {node} doesn't exist.")
+            continue
+        new_name = renamer.text_to_capitalize(node)
         renamed[node] = _apply_rename(node, new_name)
 
     return renamed

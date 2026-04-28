@@ -85,7 +85,55 @@ class CrossRenamerToolController:
         return maya_api.search_replace(mode, search_name, replace_name)
 
     def add_characters(self, mode, text, position, from_start):
+        """Add characters to a text at a specific position.
+
+        Args:
+            mode (str): mode of selection
+            text (str): characters to add
+            position (int): position to insert
+            from_start (bool): True if insert from start else False.
+
+        Returns:
+            dict[str, str]: dictionary of nodes
+
+        """
         return maya_api.add_characters(mode, text, position, from_start)
+
+    def text_to_lowercase(self, mode):
+        """Convert text to lowercase.
+
+        Args:
+            mode (str): mode of selection
+
+        Returns:
+            dict[str, str]: dictionary of nodes
+
+        """
+        return maya_api.text_to_lowercase(mode)
+
+    def text_to_uppercase(self, mode):
+        """Convert text to uppercase.
+
+        Args:
+            mode (str): mode of selection
+
+        Returns:
+            dict[str, str]: dictionary of nodes
+
+        """
+        return maya_api.text_to_uppercase(mode)
+
+    def text_to_capitalize(self, mode):
+        """Convert text to capitalize.
+
+        Args:
+            mode (str): mode of selection
+
+        Returns:
+            dict[str, str]: dictionary of nodes
+
+        """
+        return maya_api.text_to_capitalize(mode)
 
     def set_view(self, view):
         """Attach a view instance to the controller.

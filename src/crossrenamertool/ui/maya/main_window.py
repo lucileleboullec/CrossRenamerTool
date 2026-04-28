@@ -36,7 +36,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
     def _configure(self):
         """Configure the window."""
-        self.setWindowTitle(self.TITLE + "v1.0.0")
+        self.setWindowTitle(f"{self.TITLE} v1.0.0")
         self.setObjectName(self.OBJECT_NAME)
         self.resize(300, 500)
 
@@ -209,12 +209,33 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         add_end_btn = QtWidgets.QPushButton("+")
         add_character_content_layout.addWidget(add_end_btn, 0, 4)
 
+        convert_case_container = container.Container(
+            "Convert case", color_background=False
+        )
+        main_layout.addWidget(convert_case_container)
+
+        convert_case_content_layout = QtWidgets.QGridLayout(
+            convert_case_container.contentWidget
+        )
+
+        lowercase_btn = QtWidgets.QPushButton("Lowercase")
+        convert_case_content_layout.addWidget(lowercase_btn, 0, 0)
+
+        uppercase_btn = QtWidgets.QPushButton("Uppercase")
+        convert_case_content_layout.addWidget(uppercase_btn, 0, 1)
+
+        capitalize_btn = QtWidgets.QPushButton("Capitalize")
+        convert_case_content_layout.addWidget(capitalize_btn, 0, 2)
+
         rename_btn.clicked.connect(self._on_rename_btn_clicked)
         prefix_btn.clicked.connect(self._on_prefix_btn_clicked)
         suffix_btn.clicked.connect(self._on_suffix_btn_clicked)
         search_replace_btn.clicked.connect(self._on_search_replace_btn_clicked)
         add_start_btn.clicked.connect(self._on_add_start_btn_clicked)
         add_end_btn.clicked.connect(self._on_add_end_btn_clicked)
+        lowercase_btn.clicked.connect(self._on_lowercase_btn_clicked)
+        uppercase_btn.clicked.connect(self._on_uppercase_btn_clicked)
+        capitalize_btn.clicked.connect(self._on_capitalize_btn_clicked)
 
     def _create_horizontal_form_layout(self, label, widget):
         """Create horizontal form layout.
@@ -281,6 +302,18 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.controller.add_characters(
             mode=mode, text=text, position=position, from_start=False
         )
+
+    def _on_lowercase_btn_clicked(self):
+        mode = self.get_current_mode()
+        self.controller.text_to_lowercase(mode)
+
+    def _on_uppercase_btn_clicked(self):
+        mode = self.get_current_mode()
+        self.controller.text_to_uppercase(mode)
+
+    def _on_capitalize_btn_clicked(self):
+        mode = self.get_current_mode()
+        self.controller.text_to_capitalize(mode)
 
     def launch_app(self):
         """Launch the application."""

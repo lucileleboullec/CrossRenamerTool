@@ -91,3 +91,42 @@ def add_characters(node, text, position, from_start):
             index = len(node)
 
     return node[:index] + text + node[index:]
+
+
+def text_to_lowercase(node):
+    """Change node name to lowercase.
+
+    Args:
+        node (str): node
+
+    Returns:
+        str: renamed node
+
+    """
+    return node.lower()
+
+
+def text_to_uppercase(node):
+    """Change node name to uppercase.
+
+    Args:
+        node (str): node
+
+    Returns:
+        str: renamed node
+
+    """
+    return node.upper()
+
+
+def text_to_capitalize(node):
+    """Change node name to capitalize.
+
+    Args:
+        node (str): node
+
+    Returns:
+        str: renamed node
+
+    """
+    return node.capitalize()
