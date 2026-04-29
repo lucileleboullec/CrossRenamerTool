@@ -1,11 +1,11 @@
 """Maya adapter."""
 
+import logging
 import uuid
 
-from crossrenamertool.core import renamer, constants
-import maya.cmds as cmds
+from maya import cmds
 
-import logging
+from crossrenamertool.core import constants, renamer
 
 log = logging.getLogger(__name__)
 
@@ -14,6 +14,60 @@ import importlib
 
 importlib.reload(renamer)
 importlib.reload(constants)
+
+
+def _apply_rename(node, new_name, old_name=""):
+    """Apply rename.
+
+    Args:
+        node (str): current node name
+        new_name (str): desired new name
+        old_name (str): original name
+
+    Returns:
+        str: actual name applied by Maya
+
+    """
+    actual_name = cmds.rename(node, new_name)
+    if not old_name:
+        old_name = node
+
+    if actual_name != new_name:
+        log.warning(
+            f"{old_name} renamed to {actual_name} instead of {new_name} (name conflict)."
+        )
+    else:
+        log.info(f"{old_name} -> {actual_name}")
+
+    return actual_name
+
+
+def _process_nodes(mode, transform_function):
+    """Rename nodes depending on the function.
+
+    Args:
+        mode (str): selected mode
+        transform_function (callable): function(node)
+
+    Returns:
+        dict[str, str]: renamed nodes
+
+    """
+    nodes = get_nodes(mode)
+
+    renamed = {}
+    for node in nodes:
+        if not cmds.objExists(node):
+            log.error(f"The node {node} doesn't exist.")
+            continue
+
+        new_name = transform_function(node)
+        if new_name and new_name != node:
+            renamed[node] = _apply_rename(node, new_name)
+        else:
+            renamed[node] = node
+
+    return renamed
 
 
 def get_selection():
@@ -26,24 +80,40 @@ def get_selection():
     selected = cmds.ls(sl=True)
     if not selected:
         log.error("Select at least 1 node.")
-        raise ("[ERROR]")
+        raise ValueError("No nodes selected.")
     return selected
 
 
 def get_hierarchy():
+    """Get selection hierarchy.
+
+    Returns:
+        list[str]: list of selected node names with hierarchy
+
+    """
     selected = get_selection()
-    nodes = (
+    transforms = (
         cmds.listRelatives(
-            selected, allDescendents=True, fullPath=False, type="transform"
+            selected, allDescendents=True, fullPath=True, type="transform"
         )
         or []
     )
-    nodes = selected + nodes
+    joints = (
+        cmds.listRelatives(selected, allDescendents=True, fullPath=True, type="joint")
+        or []
+    )
+    children = list(dict.fromkeys(transforms + joints))
 
-    return nodes
+    return selected + children
 
 
 def get_scene_objects():
+    """Get all objects in the scene.
+
+    Returns:
+        list[str]: list of all node names
+
+    """
     nodes = cmds.ls(transforms=True) or []
 
     return [node for node in nodes if node not in constants.DEFAULT_CAMS]
@@ -73,32 +143,6 @@ def get_nodes(mode):
         return []
 
     return nodes
-
-
-def _apply_rename(node, new_name, old_name=""):
-    """Apply rename.
-
-    Args:
-        node (str): current node name
-        new_name (str): desired new name
-        old_name (str): original name
-
-    Returns:
-        str: actual name applied by Maya
-
-    """
-    actual_name = cmds.rename(node, new_name)
-    if not old_name:
-        old_name = node
-
-    if actual_name != new_name:
-        log.warning(
-            f"{old_name} renamed to {actual_name} instead of {new_name} (name conflict)."
-        )
-    else:
-        log.info(f"{old_name} -> {actual_name}")
-
-    return actual_name
 
 
 def rename_nodes(mode, base_name, padding, start, step):
@@ -149,18 +193,7 @@ def add_prefix(mode, prefix):
         dict[str, str]: renamed nodes
 
     """
-    nodes = get_nodes(mode)
-
-    renamed = {}
-    for node in nodes:
-        if not cmds.objExists(node):
-            log.error(f"The node {node} doesn't exist.")
-            continue
-
-        new_name = renamer.add_prefix(base_name=node, prefix=prefix)
-        renamed[node] = _apply_rename(node, new_name)
-
-    return renamed
+    return _process_nodes(mode, lambda node: renamer.add_prefix(node, prefix))
 
 
 def add_suffix(mode, suffix):
@@ -174,21 +207,10 @@ def add_suffix(mode, suffix):
         dict[str, str]: renamed nodes
 
     """
-    nodes = get_nodes(mode)
-
-    renamed = {}
-    for node in nodes:
-        if not cmds.objExists(node):
-            log.error(f"The node {node} doesn't exist.")
-            continue
-
-        new_name = renamer.add_suffix(base_name=node, suffix=suffix)
-        renamed[node] = _apply_rename(node, new_name)
-
-    return renamed
+    return _process_nodes(mode, lambda node: renamer.add_suffix(node, suffix))
 
 
-def search_replace(mode, search_name, replace_name) -> dict[str, str]:
+def search_replace(mode, search_name, replace_name, case) -> dict[str, str]:
     """Search and replace name in node.
 
     Args:
@@ -196,26 +218,15 @@ def search_replace(mode, search_name, replace_name) -> dict[str, str]:
         node (str): node selected
         search_name (str): name to find
         replace_name (str): new name to replace
+        case (bool): case sensitive
 
     Returns:
         dict[str, str]: renamed nodes
 
     """
-    nodes = get_nodes(mode)
-
-    renamed = {}
-    for node in nodes:
-        if not cmds.objExists(node):
-            log.error(f"The node {node} doesn't exist.")
-            continue
-
-        new_name = renamer.search_replace(node, search_name, replace_name)
-        if node != new_name:
-            renamed[node] = _apply_rename(node, new_name)
-        else:
-            renamed[node] = node
-
-    return renamed
+    return _process_nodes(
+        mode, lambda node: renamer.search_replace(node, search_name, replace_name, case)
+    )
 
 
 def add_characters(mode, text, position, from_start):
@@ -231,18 +242,9 @@ def add_characters(mode, text, position, from_start):
         dict[str, str]: dictionary of nodes
 
     """
-    nodes = get_nodes(mode)
-
-    renamed = {}
-    for node in nodes:
-        if not cmds.objExists(node):
-            log.error(f"The node {node} doesn't exist.")
-            continue
-
-        new_name = renamer.add_characters(node, text, position, from_start)
-        renamed[node] = _apply_rename(node, new_name)
-
-    return renamed
+    return _process_nodes(
+        mode, lambda node: renamer.add_characters(node, text, position, from_start)
+    )
 
 
 def text_to_lowercase(mode):
@@ -255,17 +257,7 @@ def text_to_lowercase(mode):
         dict[str, str]: dictionary of nodes
 
     """
-    nodes = get_nodes(mode)
-
-    renamed = {}
-    for node in nodes:
-        if not cmds.objExists(node):
-            log.error(f"The node {node} doesn't exist.")
-            continue
-        new_name = renamer.text_to_lowercase(node)
-        renamed[node] = _apply_rename(node, new_name)
-
-    return renamed
+    return _process_nodes(mode, lambda node: renamer.text_to_lowercase(node))
 
 
 def text_to_uppercase(mode):
@@ -278,17 +270,7 @@ def text_to_uppercase(mode):
         dict[str, str]: dictionary of nodes
 
     """
-    nodes = get_nodes(mode)
-
-    renamed = {}
-    for node in nodes:
-        if not cmds.objExists(node):
-            log.error(f"The node {node} doesn't exist.")
-            continue
-        new_name = renamer.text_to_uppercase(node)
-        renamed[node] = _apply_rename(node, new_name)
-
-    return renamed
+    return _process_nodes(mode, lambda node: renamer.text_to_uppercase(node))
 
 
 def text_to_capitalize(mode):
@@ -301,17 +283,7 @@ def text_to_capitalize(mode):
         dict[str, str]: dictionary of nodes
 
     """
-    nodes = get_nodes(mode)
-
-    renamed = {}
-    for node in nodes:
-        if not cmds.objExists(node):
-            log.error(f"The node {node} doesn't exist.")
-            continue
-        new_name = renamer.text_to_capitalize(node)
-        renamed[node] = _apply_rename(node, new_name)
-
-    return renamed
+    return _process_nodes(mode, lambda node: renamer.text_to_capitalize(node))
 
 
 def delete_workspace_control(workspace_name: str) -> None:

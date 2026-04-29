@@ -1,8 +1,8 @@
 import logging
 
+from crossrenamertool.core import constants
 from crossrenamertool.maya import maya_api
 from crossrenamertool.ui.maya import main_window as app_view
-from crossrenamertool.core import constants
 
 log = logging.getLogger(__name__)
 
@@ -33,6 +33,7 @@ class CrossRenamerToolController:
         """Rename selected nodes.
 
         Args:
+            mode (str): mode of selection
             base_name (str, optional): base name. Defaults to "".
             padding (int, optional): number of 0. Defaults to 3.
             start (int, optional): start number. Defaults to 1.
@@ -50,10 +51,11 @@ class CrossRenamerToolController:
         """Add prefix to nodes.
 
         Args:
+            mode (str): mode of selection
             prefix (str, optional): prefix. Defaults to "".
 
         Returns:
-            dict[str, str]: renamed nodeq
+            dict[str, str]: renamed nodes
 
         """
         return maya_api.add_prefix(mode=mode, prefix=prefix)
@@ -62,6 +64,7 @@ class CrossRenamerToolController:
         """Add suffix to nodes.
 
         Args:
+            mode (str): mode of selection
             suffix (str, optional): suffix to add. Defaults to "".
 
         Returns:
@@ -70,19 +73,20 @@ class CrossRenamerToolController:
         """
         return maya_api.add_suffix(mode, suffix)
 
-    def search_replace(self, mode, search_name, replace_name):
+    def search_replace(self, mode, search_name, replace_name, case):
         """Search and replace name in node.
 
         Args:
-            node (str): node selected
+            mode (str): mode of selection
             search_name (str): name to find
             replace_name (str): new name to replace
+            case (bool): case sensitive
 
         Returns:
             dict[str, str]: renamed nodes
 
         """
-        return maya_api.search_replace(mode, search_name, replace_name)
+        return maya_api.search_replace(mode, search_name, replace_name, case)
 
     def add_characters(self, mode, text, position, from_start):
         """Add characters to a text at a specific position.

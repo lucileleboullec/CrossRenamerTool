@@ -1,5 +1,6 @@
 import logging
 import re
+from typing import Literal
 
 log = logging.getLogger(__name__)
 
@@ -16,11 +17,14 @@ def renaming(base_name, num, padding) -> str:
         str: new name for the node.
 
     """
-    if not base_name or not num or not padding:
-        log.warning("You have to write the new name with configuration")
+    if not base_name:
+        log.warning("base_name is empty.")
+        return None
+    if num is None or padding is None:
+        log.warning("Num or Padding is None.")
         return None
 
-    return f"{base_name.capitalize()}_{num:0{padding}d}"
+    return f"{base_name}_{num:0{padding}d}"
 
 
 def add_prefix(base_name, prefix) -> str:
@@ -66,24 +70,39 @@ def add_suffix(base_name, suffix):
     return f"{base_name}_{suffix}"
 
 
-def search_replace(node, search_name, replace_name):
+def search_replace(node, search_name, replace_name, case):
     """Search and replace name in node.
 
     Args:
         node (str): node selected
         search_name (str): name to find
         replace_name (str): new name to replace
+        case (bool): case sensitive
 
     Returns:
         str: new name renamed
 
     """
+    flags = 0 if case else re.IGNORECASE
+
     if not re.search(re.escape(search_name), node, flags=re.IGNORECASE):
         return node
-    return re.sub(re.escape(search_name), replace_name, node, flags=re.IGNORECASE)
+    return re.sub(re.escape(search_name), replace_name, node, flags=flags)
 
 
 def add_characters(node, text, position, from_start):
+    """Insert text at a given position in the node name.
+
+    Args:
+        node (str): node name
+        text (str): text to insert
+        position (int): index position
+        from_start (bool): True, count from start. False, from end
+
+    Returns:
+        str: new node name
+
+    """
     index = position
     if not from_start:
         index = -position
