@@ -103,6 +103,21 @@ class CrossRenamerToolController:
         """
         return maya_api.add_characters(mode, text, position, from_start)
 
+    def remove_characters(mode, position, count, from_start):
+        """Delete characters at given position in the node name.
+
+        Args:
+            mode (str): mode of selection
+            position (int): start index of deletion
+            count (int): number of characters to delete
+            from_start (bool): True count from start else from end.
+
+        Returns:
+            dict[str, str]: dictionary of nodes
+
+        """
+        return maya_api.remove_characters(mode, position, count, from_start)
+
     def text_to_lowercase(self, mode):
         """Convert text to lowercase.
 

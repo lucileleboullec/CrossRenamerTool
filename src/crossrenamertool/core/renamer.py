@@ -103,13 +103,28 @@ def add_characters(node, text, position, from_start):
         str: new node name
 
     """
-    index = position
-    if not from_start:
-        index = -position
-        if position == 0:
-            index = len(node)
-
+    index = position if from_start else -position or len(node)
     return node[:index] + text + node[index:]
+
+
+def remove_characters(node, position, count, from_start):
+    """Delete characters at given position in the node name.
+
+    Args:
+        node (str): node name
+        position (int): start index of deletion
+        count (int): number of characters to delete
+        from_start (bool): True count from start else from end.
+
+    Returns:
+        str: new node name
+
+    """
+    index = position if from_start else len(node) - position - count
+    index = max(0, min(index, len(node)))
+    count = max(0, min(count, len(node) - index))
+
+    return node[:index] + node[index + count :]
 
 
 def text_to_lowercase(node):
