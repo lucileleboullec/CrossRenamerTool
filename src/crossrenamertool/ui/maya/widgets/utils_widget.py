@@ -8,7 +8,7 @@ class UtilsPage(QtWidgets.QWidget):
 
     TITLE = "Name"
 
-    request_rename = QtCore.Signal(str, int, int, int)
+    request_rename_children_from_parent = QtCore.Signal(int)
 
     def __init__(self, parent=None):
         """Initialize the widget."""
@@ -28,10 +28,7 @@ class UtilsPage(QtWidgets.QWidget):
         main_layout.setContentsMargins(0, 8, 0, 8)
 
         name_row = QtWidgets.QHBoxLayout()
-        name_row.addWidget(QtWidgets.QLabel("Name :"))
-        self.name_field = QtWidgets.QLineEdit()
-        self.name_field.setPlaceholderText("New Name...")
-        name_row.addWidget(self.name_field)
+        name_row.addWidget(QtWidgets.QLabel("Rename Children from Parent :"))
         main_layout.addLayout(name_row)
 
         name_options_row = QtWidgets.QHBoxLayout()
@@ -43,25 +40,12 @@ class UtilsPage(QtWidgets.QWidget):
         self.padding.setValue(constants.DEFAULT_PADDING)
         name_options_row.addWidget(self.padding)
 
-        name_options_row.addWidget(QtWidgets.QLabel("Start :"))
-        self.start = QtWidgets.QSpinBox()
-        self.start.setValue(constants.DEFAULT_START)
-        name_options_row.addWidget(self.start)
-
-        name_options_row.addWidget(QtWidgets.QLabel("Step :"))
-        self.step = QtWidgets.QSpinBox()
-        self.step.setValue(constants.DEFAULT_STEP)
-        name_options_row.addWidget(self.step)
-
-        rename_btn = QtWidgets.QPushButton("Rename")
-        rename_btn.clicked.connect(self._on_rename)
+        rename_btn = QtWidgets.QPushButton("Rename children from parent")
+        rename_btn.clicked.connect(self._on_rename_children_from_parent)
         main_layout.addWidget(rename_btn)
         main_layout.addStretch()
 
-    def _on_rename(self):
+    def _on_rename_children_from_parent(self):
         """Rename the selected nodes."""
-        name = self.name_field.text()
         padding = self.padding.value()
-        start = self.start.value()
-        step = self.step.value()
-        self.request_rename.emit(name, padding, start, step)
+        self.request_rename_children_from_parent.emit(padding)

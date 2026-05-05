@@ -4,7 +4,6 @@ from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 from PySide6 import QtCore, QtGui, QtWidgets
 
 from crossrenamertool.core import constants
-from crossrenamertool.ui.maya import container
 from crossrenamertool.ui.maya.widgets import (
     case_widget,
     insert_remove_widget,
@@ -20,7 +19,6 @@ log = logging.getLogger(__name__)
 import importlib
 
 importlib.reload(constants)
-importlib.reload(container)
 importlib.reload(rename_widget)
 importlib.reload(prefix_suffix_widget)
 importlib.reload(search_replace_widget)
@@ -126,6 +124,9 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.case_page.request_lowercase.connect(self.text_to_lowercase)
         self.case_page.request_uppercase.connect(self.text_to_uppercase)
         self.case_page.request_capitalize.connect(self.text_to_capitalize)
+        self.utils_page.request_rename_children_from_parent.connect(
+            self.rename_children_from_parent
+        )
 
     def _on_navigation_clicked(self, index):
         self.stack.setCurrentIndex(index)
@@ -221,6 +222,10 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         """Convert text to capitalize."""
         mode = self.get_current_mode()
         self.controller.text_to_capitalize(mode)
+
+    def rename_children_from_parent(self, padding):
+        mode = self.get_current_mode()
+        print(self.controller.rename_children_from_parent(mode, padding))
 
     def launch_app(self):
         """Launch the application."""
