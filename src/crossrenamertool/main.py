@@ -154,6 +154,10 @@ class CrossRenamerToolController:
         """
         return maya_api.text_to_capitalize(mode)
 
+    def rename_children_from_parent(self, mode, padding=constants.DEFAULT_PADDING):
+
+        return maya_api.rename_children_from_parent(mode, padding=padding)
+
     def set_view(self, view):
         """Attach a view instance to the controller.
 

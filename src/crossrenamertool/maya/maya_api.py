@@ -57,15 +57,16 @@ def _process_nodes(mode, transform_function):
 
     renamed = {}
     for node in nodes:
+
         if not cmds.objExists(node):
             log.error(f"The node {node} doesn't exist.")
             continue
-
-        new_name = transform_function(node)
-        if new_name and new_name != node:
-            renamed[node] = _apply_rename(node, new_name)
+        short_name = node.split("|")[-1]
+        new_name = transform_function(short_name)
+        if new_name and new_name != short_name:
+            renamed[short_name] = _apply_rename(short_name, new_name)
         else:
-            renamed[node] = node
+            renamed[short_name] = short_name
 
     return renamed
 
@@ -302,6 +303,40 @@ def text_to_capitalize(mode):
 
     """
     return _process_nodes(mode, lambda node: renamer.text_to_capitalize(node))
+
+
+def rename_children_from_parent(mode, padding):
+    parents = get_nodes(mode)
+
+    if not parents:
+        return {}
+
+    renamed = {}
+
+    for parent in parents:
+        if not cmds.objExists(parent):
+            log.error(f"The node {parent} doesn't exist.")
+            continue
+        children = (
+            cmds.listRelatives(parent, children=True, fullPath=True, type="transform")
+        ) or []
+
+        if not children:
+            log.warning(f"{parent} has no children")
+
+        temp_names = []
+        for child in children:
+            temp = f"__tmp_{uuid.uuid4().hex[:8]}__"
+            temp_name = cmds.rename(child, temp)
+            temp_names.append(temp_name)
+
+        for temp_child, index, old_child in zip(
+            temp_names, range(1, len(children) + 1), children
+        ):
+            new_name = renamer.renaming(parent, index, padding)
+            renamed[old_child] = _apply_rename(temp_child, new_name, old_child)
+
+    return renamed
 
 
 def delete_workspace_control(workspace_name: str) -> None:
