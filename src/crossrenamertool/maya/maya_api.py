@@ -178,7 +178,11 @@ def rename_nodes(mode, base_name, padding, start, step):
             log.error(f"The node {node} doesn't exist.")
             continue
         new_name = renamer.renaming(base_name, index, padding)
-        renamed[old_node] = _apply_rename(node, new_name, old_node)
+
+        if new_name and new_name != node:
+            renamed[old_node] = _apply_rename(node, new_name, old_node)
+        else:
+            renamed[old_node] = old_node
 
     return renamed
 
@@ -216,7 +220,6 @@ def search_replace(mode, search_name, replace_name, case) -> dict[str, str]:
 
     Args:
         mode (str): mode of selection
-        node (str): node selected
         search_name (str): name to find
         replace_name (str): new name to replace
         case (bool): case sensitive
@@ -306,6 +309,16 @@ def text_to_capitalize(mode):
 
 
 def rename_children_from_parent(mode, padding):
+    """Rename children from selected parents.
+
+    Args:
+        mode (str): mode of selection
+        padding (int): number of 0
+
+    Returns:
+        dict[str, str]: renamed nodes
+
+    """
     parents = get_nodes(mode)
 
     if not parents:
@@ -335,6 +348,57 @@ def rename_children_from_parent(mode, padding):
         ):
             new_name = renamer.renaming(parent, index, padding)
             renamed[old_child] = _apply_rename(temp_child, new_name, old_child)
+
+    return renamed
+
+
+def auto_fix_duplicates(mode, padding):
+    """Auto rename duplicates nodes.
+
+    Args:
+        mode (str): mode of selection
+        padding (int): number of 0
+
+    Returns:
+        dict[str, str]: renamed nodes
+
+    """
+    nodes = get_nodes(mode)
+
+    renamed = {}
+
+    # Rename to temp name to avoid name conflict
+    node_uuids = {}
+    for node in nodes:
+        uuid = cmds.ls(node, uuid=True)
+        if uuid:
+            node_uuids[node] = uuid[0]
+
+    for index, (node, uuid) in enumerate(node_uuids.items()):
+        current_name = cmds.ls(uuid, long=True)
+        if not current_name:
+            log.error(f"Cannot find node with UUID {uuid}")
+            continue
+
+        current_name = current_name[0]
+        parent = cmds.listRelatives(current_name, parent=True, fullPath=True)
+
+        if parent:
+            base_name = (
+                current_name.replace("|", "_")
+                if not current_name.startswith("|")
+                else current_name.replace("|", "_")[1:]
+            )
+
+        else:
+            base_name = current_name.split("|")[-1]
+
+        new_name = renamer.renaming(base_name, index, padding)
+
+        if new_name and new_name != current_name:
+            renamed[node] = _apply_rename(current_name, new_name, node)
+        else:
+            renamed[node] = current_name
 
     return renamed
 
