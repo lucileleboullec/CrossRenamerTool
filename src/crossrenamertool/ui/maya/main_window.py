@@ -121,6 +121,10 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             self.insert_start_characters
         )
         self.insert_remove_page.request_end_insert.connect(self.insert_end_characters)
+        self.insert_remove_page.request_start_remove.connect(
+            self.remove_start_characters
+        )
+        self.insert_remove_page.request_end_remove.connect(self.remove_end_characters)
         self.case_page.request_lowercase.connect(self.text_to_lowercase)
         self.case_page.request_uppercase.connect(self.text_to_uppercase)
         self.case_page.request_capitalize.connect(self.text_to_capitalize)
@@ -206,6 +210,34 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
         self.controller.add_characters(
             mode=mode, text=text, position=position, from_start=False
+        )
+
+    def remove_start_characters(self, count, position):
+        """Remove characters to a text at a specific position by the start.
+
+        Args:
+            count (int): number of characters to remove
+            position (int): position to remove
+
+        """
+        mode = self.get_current_mode()
+
+        self.controller.remove_characters(
+            mode=mode, position=position, count=count, from_start=True
+        )
+
+    def remove_end_characters(self, count, position):
+        """Remove characters to a text at a specific position by the end.
+
+        Args:
+            count (int): number of characters to remove
+            position (int): position to remove
+
+        """
+        mode = self.get_current_mode()
+
+        self.controller.remove_characters(
+            mode=mode, position=position, count=count, from_start=False
         )
 
     def text_to_lowercase(self):

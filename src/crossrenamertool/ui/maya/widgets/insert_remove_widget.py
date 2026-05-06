@@ -10,6 +10,8 @@ class InsertRemovePage(QtWidgets.QWidget):
 
     request_start_insert = QtCore.Signal(str, int)
     request_end_insert = QtCore.Signal(str, int)
+    request_start_remove = QtCore.Signal(int, int)
+    request_end_remove = QtCore.Signal(int, int)
 
     def __init__(self, parent=None):
         """Initialize the widget."""
@@ -54,6 +56,32 @@ class InsertRemovePage(QtWidgets.QWidget):
 
         main_layout.addStretch()
 
+        remove_character_row = QtWidgets.QHBoxLayout()
+        remove_character_row.addWidget(QtWidgets.QLabel("Remove:"))
+        self.start_remove_character = QtWidgets.QSpinBox()
+        self.start_remove_character.setSingleStep(1)
+        remove_character_row.addWidget(self.start_remove_character)
+
+        remove_start_btn = QtWidgets.QPushButton("-")
+        remove_start_btn.clicked.connect(self._on_remove_start_character)
+        remove_character_row.addWidget(remove_start_btn)
+
+        self.count_characters = QtWidgets.QSpinBox()
+        self.count_characters.setSingleStep(1)
+        remove_character_row.addWidget(self.count_characters)
+
+        remove_end_btn = QtWidgets.QPushButton("-")
+        remove_end_btn.clicked.connect(self._on_remove_end_character)
+        remove_character_row.addWidget(remove_end_btn)
+
+        self.end_remove_character = QtWidgets.QSpinBox()
+        self.end_remove_character.setSingleStep(1)
+        remove_character_row.addWidget(self.end_remove_character)
+
+        main_layout.addLayout(remove_character_row)
+
+        main_layout.addStretch()
+
     def _on_insert_start_character(self):
         """Add characters to a text at a specific position by the start."""
         text = self.text_to_add.text()
@@ -67,3 +95,17 @@ class InsertRemovePage(QtWidgets.QWidget):
         position = self.end_insert_character.value()
 
         self.request_end_insert.emit(text, position)
+
+    def _on_remove_start_character(self):
+        """Remove characters to a text at a specific position by the start."""
+        count = self.count_characters.value()
+        position = self.start_remove_character.value()
+
+        self.request_start_remove.emit(count, position)
+
+    def _on_remove_end_character(self):
+        """Add Remove to a text at a specific position by the end."""
+        count = self.count_characters.value()
+        position = self.end_remove_character.value()
+
+        self.request_end_remove.emit(count, position)

@@ -103,7 +103,7 @@ class CrossRenamerToolController:
         """
         return maya_api.add_characters(mode, text, position, from_start)
 
-    def remove_characters(mode, position, count, from_start):
+    def remove_characters(self, mode, position, count, from_start):
         """Delete characters at given position in the node name.
 
         Args:

@@ -120,6 +120,9 @@ def remove_characters(node, position, count, from_start):
         str: new node name
 
     """
+    if count >= len(node):
+        log.warning("Can't delete all characters.")
+        return node
     index = position if from_start else len(node) - position - count
     index = max(0, min(index, len(node)))
     count = max(0, min(count, len(node) - index))
