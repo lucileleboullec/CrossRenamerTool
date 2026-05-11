@@ -1,4 +1,5 @@
 import logging
+import re
 
 from crossrenamertool.core import constants
 from crossrenamertool.maya import maya_api
@@ -157,6 +158,27 @@ class CrossRenamerToolController:
     def rename_children_from_parent(self, mode, padding=constants.DEFAULT_PADDING):
 
         return maya_api.rename_children_from_parent(mode, padding=padding)
+
+    def get_duplicates(self):
+        """Get duplicates nodes in the scene.
+
+        Returns:
+            list[str]: list of duplicates nodes
+
+        """
+        return maya_api.get_duplicates().values()
+
+    def fix_duplicates(self, items):
+        return maya_api.fix_duplicates(items=items)
+
+    def auto_fix_duplicates(self):
+        """Auto rename duplicates nodes.
+
+        Returns:
+            dict[str, str]: renamed nodes
+
+        """
+        return maya_api.auto_fix_duplicates()
 
     def set_view(self, view):
         """Attach a view instance to the controller.

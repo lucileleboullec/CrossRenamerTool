@@ -9,6 +9,8 @@ class UtilsPage(QtWidgets.QWidget):
     TITLE = "Name"
 
     request_rename_children_from_parent = QtCore.Signal(int)
+    request_fix = QtCore.Signal(list)
+    request_auto_fix = QtCore.Signal()
 
     def __init__(self, parent=None):
         """Initialize the widget."""
@@ -45,7 +47,56 @@ class UtilsPage(QtWidgets.QWidget):
         main_layout.addWidget(rename_btn)
         main_layout.addStretch()
 
+        duplicates_row = QtWidgets.QVBoxLayout()
+        duplicates_row.addWidget(QtWidgets.QLabel("Fix Duplicates :"))
+        main_layout.addLayout(duplicates_row)
+
+        self.list_duplicates = self._set_list()
+        duplicates_row.addWidget(self.list_duplicates)
+
+        auto_fix_button = QtWidgets.QPushButton("Auto Fix Duplicates")
+        auto_fix_button.clicked.connect(self._on_auto_fix_button)
+        duplicates_row.addWidget(auto_fix_button)
+
+        fix_button = QtWidgets.QPushButton("Fix Duplicates")
+        fix_button.clicked.connect(self._on_fix_button)
+        duplicates_row.addWidget(fix_button)
+
     def _on_rename_children_from_parent(self):
         """Rename the selected nodes."""
         padding = self.padding.value()
         self.request_rename_children_from_parent.emit(padding)
+
+    def _on_auto_fix_button(self):
+        self.request_auto_fix.emit()
+
+    def _on_fix_button(self):
+        items = [
+            self.list_duplicates.item(index).text()
+            for index in range(self.list_duplicates.count())
+        ]
+
+        self.request_fix.emit(items)
+
+    def _set_list(self):
+        """Set the list.
+
+        Returns:
+            QtWidgets.QListWidget(): ListWidget
+
+        """
+        return QtWidgets.QListWidget()
+
+    def ingest_list(self, datas, filters: dict = None) -> None:
+        """Ingest playblast in the list.
+
+        Args:
+            filters (dict, optional): text for filter the list. Defaults to None.
+
+        """
+        self.list_duplicates.clear()
+
+        for data in datas:
+            item = QtWidgets.QListWidgetItem(data)
+            item.setFlags(item.flags() | QtCore.Qt.ItemIsEditable)
+            self.list_duplicates.addItem(item)

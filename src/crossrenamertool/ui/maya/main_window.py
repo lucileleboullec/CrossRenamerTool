@@ -132,8 +132,16 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             self.rename_children_from_parent
         )
 
+        self.utils_page.request_fix.connect(self.fix_duplicates)
+        self.utils_page.request_auto_fix.connect(self.auto_fix_duplicates)
+
     def _on_navigation_clicked(self, index):
         self.stack.setCurrentIndex(index)
+
+        if index == 5:
+            datas = self.controller.get_duplicates()
+            print(datas)
+            self.utils_page.ingest_list(datas)
 
     def get_current_mode(self):
         ids = {0: "Selected", 1: "Hierarchy", 2: "Scene"}
@@ -257,7 +265,13 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
     def rename_children_from_parent(self, padding):
         mode = self.get_current_mode()
-        print(self.controller.rename_children_from_parent(mode, padding))
+        self.controller.rename_children_from_parent(mode, padding)
+
+    def auto_fix_duplicates(self):
+        self.controller.auto_fix_duplicates()
+
+    def fix_duplicates(self, items):
+        self.controller.fix_duplicates(items)
 
     def launch_app(self):
         """Launch the application."""

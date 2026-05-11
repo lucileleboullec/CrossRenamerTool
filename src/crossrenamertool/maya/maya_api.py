@@ -1,6 +1,7 @@
 """Maya adapter."""
 
 import logging
+import re
 import uuid
 
 from maya import cmds
@@ -352,18 +353,49 @@ def rename_children_from_parent(mode, padding):
     return renamed
 
 
-def auto_fix_duplicates(mode, padding):
-    """Auto rename duplicates nodes.
+def get_duplicates():
+    """Get duplicates nodes in the scene.
 
-    Args:
-        mode (str): mode of selection
-        padding (int): number of 0
+    Returns:
+        list[str]: list of duplicates nodes
+
+    """
+    nice_names = {}
+    # If pipe character in selection it's a duplicate name
+    duplicates = [f for f in cmds.ls(type="transform") if "|" in f]
+    duplicates.sort(key=lambda obj: obj.count("|"), reverse=True)
+
+    cmds.select(clear=True)
+
+    if duplicates:
+        for name in duplicates:
+            # extract the base name
+            cmds.select(name, add=True)
+            m = re.compile("[^|]*$").search(name)
+            shortname = m.group(0)
+            nice_names[name] = shortname
+        log.info(f"There are {len(duplicates)} objects with duplicated name.")
+        return nice_names
+
+    log.warning("No duplicates nodes")
+    return {}
+
+
+def fix_duplicates(items):
+    duplicates = list(get_duplicates().keys())
+
+    for index, item in enumerate(items):
+        cmds.rename(duplicates[index], item)
+
+
+def auto_fix_duplicates():
+    """Auto rename duplicates nodes.
 
     Returns:
         dict[str, str]: renamed nodes
 
     """
-    nodes = get_nodes(mode)
+    nodes = get_duplicates().keys()
 
     renamed = {}
 
@@ -393,7 +425,7 @@ def auto_fix_duplicates(mode, padding):
         else:
             base_name = current_name.split("|")[-1]
 
-        new_name = renamer.renaming(base_name, index, padding)
+        new_name = renamer.renaming(base_name, index, constants.DEFAULT_PADDING)
 
         if new_name and new_name != current_name:
             renamed[node] = _apply_rename(current_name, new_name, node)
