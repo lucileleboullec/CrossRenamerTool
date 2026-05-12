@@ -435,6 +435,20 @@ def auto_fix_duplicates():
     return renamed
 
 
+def select_item(index, datas):
+    """Select item from the duplicates list.
+
+    Args:
+        index (int): index from the list
+        datas (dict): dictionary for duplicates nodes
+
+    """
+    if datas:
+        cmds.select(clear=True)
+        items = list(datas.keys())
+        cmds.select(items[index])
+
+
 def delete_workspace_control(workspace_name: str) -> None:
     """Close and delete an existing Maya workspace control.
 

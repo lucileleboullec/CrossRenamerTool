@@ -40,6 +40,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         "Convert Case",
         "Utils",
     ]
+    UTILS_PAGE_INDEX = 5
 
     def __init__(self, controller, parent=None):
         super().__init__(parent)
@@ -51,6 +52,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.insert_remove_page = insert_remove_widget.InsertRemovePage()
         self.case_page = case_widget.CasePage()
         self.utils_page = utils_widget.UtilsPage()
+        self.datas = {}
 
         self._configure()
         self._create_gui()
@@ -134,16 +136,33 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
         self.utils_page.request_fix.connect(self.fix_duplicates)
         self.utils_page.request_auto_fix.connect(self.auto_fix_duplicates)
+        self.utils_page.request_select_item.connect(self.select_item)
+        self.utils_page.request_refresh.connect(self.refresh)
+
+    def refresh(self):
+        self.datas = self.controller.get_duplicates()
+        self.utils_page.ingest_list(self.datas)
 
     def _on_navigation_clicked(self, index):
+        """Change to page display.
+
+        Args:
+            index (int): index of the page
+
+        """
         self.stack.setCurrentIndex(index)
 
-        if index == 5:
-            datas = self.controller.get_duplicates()
-            print(datas)
-            self.utils_page.ingest_list(datas)
+        if index == self.UTILS_PAGE_INDEX:
+            self.datas = self.controller.get_duplicates()
+            self.utils_page.ingest_list(self.datas)
 
     def get_current_mode(self):
+        """Get current mode.
+
+        Returns:
+            dict[int, str]: selected mode
+
+        """
         ids = {0: "Selected", 1: "Hierarchy", 2: "Scene"}
         return ids[self.mode_group.checkedId()]
 
@@ -272,6 +291,9 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
     def fix_duplicates(self, items):
         self.controller.fix_duplicates(items)
+
+    def select_item(self, index):
+        self.controller.select_item(index, self.datas)
 
     def launch_app(self):
         """Launch the application."""

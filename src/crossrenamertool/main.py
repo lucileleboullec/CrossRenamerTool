@@ -166,7 +166,7 @@ class CrossRenamerToolController:
             list[str]: list of duplicates nodes
 
         """
-        return maya_api.get_duplicates().values()
+        return maya_api.get_duplicates()
 
     def fix_duplicates(self, items):
         return maya_api.fix_duplicates(items=items)
@@ -179,6 +179,9 @@ class CrossRenamerToolController:
 
         """
         return maya_api.auto_fix_duplicates()
+
+    def select_item(self, index, datas):
+        return maya_api.select_item(index, datas)
 
     def set_view(self, view):
         """Attach a view instance to the controller.
