@@ -468,6 +468,34 @@ def swap_side(mode, swap_sides=constants.SWAP_SIDES):
     return _process_nodes(mode, lambda node: renamer.swap_side(node, swap_sides))
 
 
+def fix_shapes_name():
+    nodes = get_nodes("Scene")
+
+    renamed = {}
+
+    for node in nodes:
+        shapes = cmds.listRelatives(node, shapes=True) or []
+        for index, shape in enumerate(shapes):
+            expected = f"{node}Shape"
+            if shape != expected:
+                if len(shapes) > 1:
+                    new_shape_name = renamer.renaming(
+                        expected, index, constants.DEFAULT_PADDING
+                    )
+                else:
+                    new_shape_name = renamer.renaming(expected, None, None)
+
+                if new_shape_name and new_shape_name != node:
+                    renamed[node] = _apply_rename(
+                        node,
+                        new_shape_name,
+                    )
+                else:
+                    renamed[node] = node
+            renamed[node] = node
+    return renamed
+
+
 def delete_workspace_control(workspace_name: str) -> None:
     """Close and delete an existing Maya workspace control.
 

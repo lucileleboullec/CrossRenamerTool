@@ -22,7 +22,7 @@ def renaming(base_name, num, padding) -> str:
         return None
     if num is None or padding is None:
         log.warning("Num or Padding is None.")
-        return None
+        return f"{base_name}
 
     return f"{base_name}_{num:0{padding}d}"
 
