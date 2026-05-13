@@ -447,6 +447,25 @@ def select_item(index, datas):
         cmds.select(clear=True)
         items = list(datas.keys())
         cmds.select(items[index])
+        log.info(f"Select {items[index]} node")
+        return items[index]
+
+    log.warning(f"No selection")
+    return None
+
+
+def swap_side(mode, swap_sides=constants.SWAP_SIDES):
+    """Swap side indicator in the node.
+
+    Args:
+        mode (str): selected mode
+        swap_sides (dict[str, str], optional): dictionary of the sides. Defaults to constants.SWAP_SIDES.
+
+    Returns:
+        _process_nodes: function to rename the node
+
+    """
+    return _process_nodes(mode, lambda node: renamer.swap_side(node, swap_sides))
 
 
 def delete_workspace_control(workspace_name: str) -> None:

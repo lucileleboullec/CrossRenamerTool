@@ -181,7 +181,29 @@ class CrossRenamerToolController:
         return maya_api.auto_fix_duplicates()
 
     def select_item(self, index, datas):
+        """Select the node by the duplicates table.
+
+        Args:
+            index (int): index in the table
+            datas (dict[str, str]): duplicates node dictionary
+
+        Returns:
+            str: name of the selected node
+
+        """
         return maya_api.select_item(index, datas)
+
+    def swap_side(self, mode):
+        """Swap side indicator in the node.
+
+        Args:
+            mode (str): selected mode
+
+        Returns:
+            str: new name swap
+
+        """
+        return maya_api.swap_side(mode=mode)
 
     def set_view(self, view):
         """Attach a view instance to the controller.

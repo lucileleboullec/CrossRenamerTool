@@ -1,6 +1,6 @@
 import logging
 import re
-from typing import Literal
+from crossrenamertool.core import constants
 
 log = logging.getLogger(__name__)
 
@@ -167,3 +167,34 @@ def text_to_capitalize(node):
 
     """
     return node.capitalize()
+
+
+def swap_side(node, swap_sides):
+    """Swap side indicator in the node.
+
+    Args:
+        node (str): selected node
+        swap_sides (dict[str, str]): dictionary of the sides
+
+    Returns:
+        str: new name with swap side
+
+    """
+    if not swap_sides:
+        log.error("The swap_sides dictionary wasn't found")
+        return None
+
+    for left, right in swap_sides.items():
+        pattern = rf"(?<![a-zA-Z])({left}|{right})(?![a-zA-Z])"
+
+        match = re.search(pattern, node)
+
+        if not match:
+            continue
+
+        side = match.group(1)
+        opposite = right if side == left else left
+        return re.sub(pattern, opposite, node, count=1)
+
+    log.warning(f"No side indicator found in '{node}'")
+    return None

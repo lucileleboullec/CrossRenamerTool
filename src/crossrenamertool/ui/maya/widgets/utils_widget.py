@@ -13,6 +13,7 @@ class UtilsPage(QtWidgets.QWidget):
     request_auto_fix = QtCore.Signal()
     request_select_item = QtCore.Signal(int)
     request_refresh = QtCore.Signal()
+    request_swap = QtCore.Signal()
 
     def __init__(self, parent=None):
         """Initialize the widget."""
@@ -77,6 +78,14 @@ class UtilsPage(QtWidgets.QWidget):
         fix_button.clicked.connect(self._on_fix_button)
         duplicates_row.addWidget(fix_button, 3, 1)
 
+        quick_fixes_row = QtWidgets.QGridLayout()
+        quick_fixes_row.addWidget(QtWidgets.QLabel("Quick Fixes :"), 0, 0)
+        main_layout.addLayout(quick_fixes_row)
+
+        swap_button = QtWidgets.QPushButton("Swap L <-> R")
+        swap_button.clicked.connect(self._on_swap)
+        quick_fixes_row.addWidget(swap_button, 1, 1)
+
     def _on_rename_children_from_parent(self):
         """Rename the selected nodes."""
         padding = self.padding.value()
@@ -131,5 +140,10 @@ class UtilsPage(QtWidgets.QWidget):
             self.duplicates_table.setItem(row, 1, item_new)
 
     def _on_item_changed(self):
+        """Select node by the duplicates table."""
         index = self.duplicates_table.currentRow()
         self.request_select_item.emit(index)
+
+    def _on_swap(self):
+        """Swap side indicator on nodes."""
+        self.request_swap.emit()

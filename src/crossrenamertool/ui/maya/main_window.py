@@ -138,6 +138,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.utils_page.request_auto_fix.connect(self.auto_fix_duplicates)
         self.utils_page.request_select_item.connect(self.select_item)
         self.utils_page.request_refresh.connect(self.refresh)
+        self.utils_page.request_swap.connect(self.swap)
 
     def refresh(self):
         self.datas = self.controller.get_duplicates()
@@ -294,6 +295,10 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
     def select_item(self, index):
         self.controller.select_item(index, self.datas)
+
+    def swap(self):
+        mode = self.get_current_mode()
+        self.controller.swap_side(mode)
 
     def launch_app(self):
         """Launch the application."""
