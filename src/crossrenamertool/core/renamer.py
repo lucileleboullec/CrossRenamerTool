@@ -21,8 +21,7 @@ def renaming(base_name, num, padding) -> str:
         log.warning("base_name is empty.")
         return None
     if num is None or padding is None:
-        log.warning("Num or Padding is None.")
-        return f"{base_name}
+        return f"{base_name}"
 
     return f"{base_name}_{num:0{padding}d}"
 
@@ -198,3 +197,10 @@ def swap_side(node, swap_sides):
 
     log.warning(f"No side indicator found in '{node}'")
     return None
+
+
+def fix_shape_name(transform_name, shape_index):
+    if shape_index == 0:
+        return f"{transform_name}Shape"
+
+    return f"{transform_name}Shape_{shape_index:03d}"

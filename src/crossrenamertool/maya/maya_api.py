@@ -468,31 +468,32 @@ def swap_side(mode, swap_sides=constants.SWAP_SIDES):
     return _process_nodes(mode, lambda node: renamer.swap_side(node, swap_sides))
 
 
-def fix_shapes_name():
+def fix_shape_name():
     nodes = get_nodes("Scene")
 
     renamed = {}
 
     for node in nodes:
-        shapes = cmds.listRelatives(node, shapes=True) or []
-        for index, shape in enumerate(shapes):
-            expected = f"{node}Shape"
-            if shape != expected:
-                if len(shapes) > 1:
-                    new_shape_name = renamer.renaming(
-                        expected, index, constants.DEFAULT_PADDING
-                    )
-                else:
-                    new_shape_name = renamer.renaming(expected, None, None)
+        shapes = (
+            cmds.listRelatives(node, shapes=True, fullPath=True, noIntermediate=False)
+            or []
+        )
+        if not shapes:
+            continue
 
-                if new_shape_name and new_shape_name != node:
-                    renamed[node] = _apply_rename(
-                        node,
-                        new_shape_name,
-                    )
-                else:
-                    renamed[node] = node
-            renamed[node] = node
+        short_name = node.split("|")[-1]
+
+        for index, shape in enumerate(shapes):
+            expected = renamer.fix_shape_name(short_name, index)
+
+            short_shape = shape.split("|")[-1]
+
+            if shape == expected:
+                log.info(f"{short_name} already has the correct name.")
+                continue
+
+            renamed[short_shape] = _apply_rename(shape, expected, short_shape)
+
     return renamed
 
 
