@@ -205,6 +205,15 @@ class CrossRenamerToolController:
         """
         return maya_api.swap_side(mode=mode)
 
+    def fix_shape_name(self):
+        """Rename shapes to match their transform name.
+
+        Returns:
+            dict[str, str]: {old_name: new_name}
+
+        """
+        return maya_api.fix_shape_name()
+
     def set_view(self, view):
         """Attach a view instance to the controller.
 

@@ -14,6 +14,7 @@ class UtilsPage(QtWidgets.QWidget):
     request_select_item = QtCore.Signal(int)
     request_refresh = QtCore.Signal()
     request_swap = QtCore.Signal()
+    request_fix_shape_name = QtCore.Signal()
 
     def __init__(self, parent=None):
         """Initialize the widget."""
@@ -82,6 +83,10 @@ class UtilsPage(QtWidgets.QWidget):
         quick_fixes_row.addWidget(QtWidgets.QLabel("Quick Fixes :"), 0, 0)
         main_layout.addLayout(quick_fixes_row)
 
+        fix_shape_name_button = QtWidgets.QPushButton("Fix Shape Names")
+        fix_shape_name_button.clicked.connect(self._on_fix_shape_name)
+        quick_fixes_row.addWidget(fix_shape_name_button, 1, 0)
+
         swap_button = QtWidgets.QPushButton("Swap L <-> R")
         swap_button.clicked.connect(self._on_swap)
         quick_fixes_row.addWidget(swap_button, 1, 1)
@@ -147,3 +152,7 @@ class UtilsPage(QtWidgets.QWidget):
     def _on_swap(self):
         """Swap side indicator on nodes."""
         self.request_swap.emit()
+
+    def _on_fix_shape_name(self):
+        """Rename shapes to match their transform name."""
+        self.request_fix_shape_name.emit()

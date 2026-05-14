@@ -200,6 +200,16 @@ def swap_side(node, swap_sides):
 
 
 def fix_shape_name(transform_name, shape_index):
+    """Generate the correct shape name from its transform name.
+
+    Args:
+        transform_name (str) : name of the transform node
+        shape_index (int) : index for multiple shapes (0 = no number)
+
+    Returns:
+        str: correct shape name
+
+    """
     if shape_index == 0:
         return f"{transform_name}Shape"
 

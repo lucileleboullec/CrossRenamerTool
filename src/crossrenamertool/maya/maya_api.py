@@ -469,6 +469,12 @@ def swap_side(mode, swap_sides=constants.SWAP_SIDES):
 
 
 def fix_shape_name():
+    """Rename shapes to match their transform name.
+
+    Returns:
+        dict[str, str]: {old_name: new_name}
+
+    """
     nodes = get_nodes("Scene")
 
     renamed = {}
