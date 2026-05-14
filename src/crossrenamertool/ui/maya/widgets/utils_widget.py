@@ -9,7 +9,7 @@ class UtilsPage(QtWidgets.QWidget):
     TITLE = "Name"
 
     request_rename_children_from_parent = QtCore.Signal(int)
-    request_fix = QtCore.Signal(list)
+    request_fix = QtCore.Signal(dict)
     request_auto_fix = QtCore.Signal()
     request_select_item = QtCore.Signal(int)
     request_refresh = QtCore.Signal()
@@ -68,7 +68,7 @@ class UtilsPage(QtWidgets.QWidget):
         self.duplicates_table.setSelectionBehavior(
             QtWidgets.QAbstractItemView.SelectRows
         )
-        self.duplicates_table.currentItemChanged.connect(self._on_item_changed)
+        self.duplicates_table.clicked.connect(self._on_item_changed)
         duplicates_row.addWidget(self.duplicates_table, 2, 0, 1, 2)
 
         auto_fix_button = QtWidgets.QPushButton("Auto Rename Duplicates")
@@ -103,10 +103,13 @@ class UtilsPage(QtWidgets.QWidget):
         self.request_auto_fix.emit()
 
     def _on_fix_button(self):
-        items = [
-            self.duplicates_table.item(index, 1).text()
-            for index in range(self.duplicates_table.rowCount())
-        ]
+        items = {}
+        for row in range(self.duplicates_table.rowCount()):
+            old_name = self.duplicates_table.item(row, 0).text()
+            new_name = self.duplicates_table.item(row, 1).text().strip()
+
+            if new_name:
+                items[old_name] = new_name
 
         self.request_fix.emit(items)
 
@@ -144,10 +147,10 @@ class UtilsPage(QtWidgets.QWidget):
             )
             self.duplicates_table.setItem(row, 1, item_new)
 
-    def _on_item_changed(self):
+    def _on_item_changed(self, index):
         """Select node by the duplicates table."""
-        index = self.duplicates_table.currentRow()
-        self.request_select_item.emit(index)
+        if index.column() == 0:
+            self.request_select_item.emit(index.row())
 
     def _on_swap(self):
         """Swap side indicator on nodes."""

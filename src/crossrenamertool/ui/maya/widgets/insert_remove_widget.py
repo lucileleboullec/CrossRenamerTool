@@ -92,7 +92,7 @@ class InsertRemovePage(QtWidgets.QWidget):
     def _on_insert_end_character(self):
         """Add characters to a text at a specific position by the end."""
         text = self.text_to_add.text()
-        position = self.end_insert_character.value()
+        position = self.add_end_character.value()
 
         self.request_end_insert.emit(text, position)
 

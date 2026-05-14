@@ -210,8 +210,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             case (bool): case sensitive
 
         """
-        mode = self.get_current_mode()
-        self.controller.search_replace(mode, search_text, replace_text, case)
+        self.controller.search_replace(search_text, replace_text, case)
 
     def insert_start_characters(self, text, position):
         """Add characters to a text at a specific position by the start.

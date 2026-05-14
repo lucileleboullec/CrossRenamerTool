@@ -65,7 +65,7 @@ def _process_nodes(mode, transform_function):
         short_name = node.split("|")[-1]
         new_name = transform_function(short_name)
         if new_name and new_name != short_name:
-            renamed[short_name] = _apply_rename(short_name, new_name)
+            renamed[short_name] = _apply_rename(node, new_name, short_name)
         else:
             renamed[short_name] = short_name
 
@@ -79,7 +79,7 @@ def get_selection():
         list: list of selected node names
 
     """
-    selected = cmds.ls(sl=True)
+    selected = cmds.ls(sl=True, long=True) or []
     if not selected:
         log.error("Select at least 1 node.")
         raise ValueError("No nodes selected.")
@@ -216,7 +216,7 @@ def add_suffix(mode, suffix):
     return _process_nodes(mode, lambda node: renamer.add_suffix(node, suffix))
 
 
-def search_replace(mode, search_name, replace_name, case) -> dict[str, str]:
+def search_replace(search_name, replace_name, case) -> dict[str, str]:
     """Search and replace name in node.
 
     Args:
@@ -230,7 +230,8 @@ def search_replace(mode, search_name, replace_name, case) -> dict[str, str]:
 
     """
     return _process_nodes(
-        mode, lambda node: renamer.search_replace(node, search_name, replace_name, case)
+        "Scene",
+        lambda node: renamer.search_replace(node, search_name, replace_name, case),
     )
 
 
@@ -334,7 +335,6 @@ def rename_children_from_parent(mode, padding):
         children = (
             cmds.listRelatives(parent, children=True, fullPath=True, type="transform")
         ) or []
-
         if not children:
             log.warning(f"{parent} has no children")
 
@@ -347,7 +347,8 @@ def rename_children_from_parent(mode, padding):
         for temp_child, index, old_child in zip(
             temp_names, range(1, len(children) + 1), children
         ):
-            new_name = renamer.renaming(parent, index, padding)
+            short_parent = parent.split("|")[-1]
+            new_name = renamer.renaming(short_parent, index, padding)
             renamed[old_child] = _apply_rename(temp_child, new_name, old_child)
 
     return renamed
@@ -382,10 +383,11 @@ def get_duplicates():
 
 
 def fix_duplicates(items):
-    duplicates = list(get_duplicates().keys())
-
-    for index, item in enumerate(items):
-        cmds.rename(duplicates[index], item)
+    for old_name, new_name in items.items():
+        if cmds.objExists(old_name):
+            _apply_rename(old_name, new_name)
+        else:
+            log.warning(f"{old_name} no longer exists in the scene.")
 
 
 def auto_fix_duplicates():

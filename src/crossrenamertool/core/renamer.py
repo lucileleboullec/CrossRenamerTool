@@ -84,7 +84,7 @@ def search_replace(node, search_name, replace_name, case):
     """
     flags = 0 if case else re.IGNORECASE
 
-    if not re.search(re.escape(search_name), node, flags=re.IGNORECASE):
+    if not re.search(re.escape(search_name), node, flags=flags):
         return node
     return re.sub(re.escape(search_name), replace_name, node, flags=flags)
 
@@ -183,20 +183,21 @@ def swap_side(node, swap_sides):
         log.error("The swap_sides dictionary wasn't found")
         return None
 
-    for left, right in swap_sides.items():
-        pattern = rf"(?<![a-zA-Z])({left}|{right})(?![a-zA-Z])"
+    all_sides = "|".join(re.escape(side) for side in swap_sides)
+    pattern = rf"(?<![a-zA-Z])({all_sides})(?![a-zA-Z])"
+    match = re.search(pattern, node)
 
-        match = re.search(pattern, node)
+    if not match:
+        log.warning(f"No side indicator found in '{node}'")
+        return node
 
-        if not match:
-            continue
+    side = match.group(1)
+    opposite = swap_sides.get(side)
+    if not opposite:
+        log.warning(f"No opposite found for '{side}'")
+        return node
 
-        side = match.group(1)
-        opposite = right if side == left else left
-        return re.sub(pattern, opposite, node, count=1)
-
-    log.warning(f"No side indicator found in '{node}'")
-    return None
+    return re.sub(pattern, opposite, node, count=1)
 
 
 def fix_shape_name(transform_name, shape_index):

@@ -74,11 +74,10 @@ class CrossRenamerToolController:
         """
         return maya_api.add_suffix(mode, suffix)
 
-    def search_replace(self, mode, search_name, replace_name, case):
+    def search_replace(self, search_name, replace_name, case):
         """Search and replace name in node.
 
         Args:
-            mode (str): mode of selection
             search_name (str): name to find
             replace_name (str): new name to replace
             case (bool): case sensitive
@@ -87,7 +86,7 @@ class CrossRenamerToolController:
             dict[str, str]: renamed nodes
 
         """
-        return maya_api.search_replace(mode, search_name, replace_name, case)
+        return maya_api.search_replace(search_name, replace_name, case)
 
     def add_characters(self, mode, text, position, from_start):
         """Add characters to a text at a specific position.
