@@ -11,6 +11,7 @@ from crossrenamertool.ui.maya.widgets import (
     rename_widget,
     search_replace_widget,
     utils_widget,
+    selection_mode_widget,
 )
 
 log = logging.getLogger(__name__)
@@ -25,12 +26,13 @@ importlib.reload(search_replace_widget)
 importlib.reload(insert_remove_widget)
 importlib.reload(case_widget)
 importlib.reload(utils_widget)
+importlib.reload(selection_mode_widget)
 
 
 class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
     """Main Window for the tool."""
 
-    TITLE = "Cross Renamer Tool"
+    TITLE = "Cross Renamer"
     OBJECT_NAME = "CrossRenamerToolMainWindow"
     PAGES = [
         "Rename",
@@ -52,6 +54,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.insert_remove_page = insert_remove_widget.InsertRemovePage()
         self.case_page = case_widget.CasePage()
         self.utils_page = utils_widget.UtilsPage()
+        self.mode_bar = selection_mode_widget.SelectionModeBar()
         self.datas = {}
 
         self._configure()
@@ -59,9 +62,9 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
     def _configure(self):
         """Configure the window."""
-        self.setWindowTitle(f"{self.TITLE} v1.0.0")
+        self.setWindowTitle(f"{self.TITLE}")
         self.setObjectName(self.OBJECT_NAME)
-        self.resize(300, 500)
+        self.resize(400, 700)
 
     def _create_gui(self):
         """Create the gui."""
@@ -69,51 +72,76 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.setCentralWidget(main_widget)
 
         main_layout = QtWidgets.QVBoxLayout(main_widget)
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
+
+        # Header
+        header = QtWidgets.QWidget(self)
+        header.setFixedHeight(44)
+        header_layout = QtWidgets.QHBoxLayout(header)
+        header_layout.setContentsMargins(12, 0, 8, 0)
+
+        title = QtWidgets.QLabel(self.TITLE.upper())
+        header_layout.addWidget(title)
+        header_layout.addStretch()
+
+        about_btn = QtWidgets.QPushButton("?")
+        about_btn.setFixedSize(24, 24)
+        about_btn.setToolTip("About")
+        # about_btn.clicked.connect(self._show_about)
+        header_layout.addWidget(about_btn)
+
+        main_layout.addWidget(header)
 
         # Mode layout
-        mode_layout = QtWidgets.QHBoxLayout()
-        main_layout.addLayout(mode_layout)
+        mode_wrapper = QtWidgets.QWidget()
+        mode_layout = QtWidgets.QHBoxLayout(mode_wrapper)
+        mode_layout.setContentsMargins(10, 6, 10, 6)
+
         mode_label = QtWidgets.QLabel("Apply on :")
+        mode_label.setFixedWidth(60)
         mode_layout.addWidget(mode_label)
-        selected_mode = QtWidgets.QRadioButton("Selected")
-        selected_mode.setChecked(True)
-        mode_layout.addWidget(selected_mode)
-        hierarchy_mode = QtWidgets.QRadioButton("Hierarchy")
-        mode_layout.addWidget(hierarchy_mode)
-        scene_mode = QtWidgets.QRadioButton("Scene")
-        mode_layout.addWidget(scene_mode)
-        self.mode_group = QtWidgets.QButtonGroup()
-        self.mode_group.addButton(selected_mode, 0)
-        self.mode_group.addButton(hierarchy_mode, 1)
-        self.mode_group.addButton(scene_mode, 2)
-        mode_layout.addStretch()
-        main_layout.addLayout(mode_layout)
+        mode_layout.addWidget(self.mode_bar)
+
+        main_layout.addWidget(mode_wrapper)
 
         # Navigation bar
-        navigation_row = QtWidgets.QHBoxLayout()
-        navigation_row.setSpacing(2)
-        self.navigation_group = QtWidgets.QButtonGroup()
+        self.tabs = QtWidgets.QTabWidget()
+        self.tabs.setDocumentMode(True)
+        get_mode = lambda: self.mode_bar.mode()
 
-        for index, label in enumerate(self.PAGES):
-            button = QtWidgets.QPushButton(label)
-            button.setCheckable(True)
-            button.setFixedHeight(28)
-            self.navigation_group.addButton(button, index)
-            navigation_row.addWidget(button)
+        self.tabs.addTab(self.rename_page, "Rename")
+        self.tabs.addTab(self.prefix_suffix_page, "Prefix / Suffix")
+        self.tabs.addTab(self.search_replace_page, "Search & Replace")
+        self.tabs.addTab(self.insert_remove_page, "Insert / Remove")
+        self.tabs.addTab(self.case_page, "Case")
+        self.tabs.addTab(self.utils_page, "Utilities")
 
-        self.navigation_group.button(0).setChecked(True)
-        self.navigation_group.idClicked.connect(self._on_navigation_clicked)
-        main_layout.addLayout(navigation_row)
+        main_layout.addWidget(self.tabs)
+        # navigation_row = QtWidgets.QHBoxLayout()
+        # navigation_row.setSpacing(2)
+        # self.navigation_group = QtWidgets.QButtonGroup()
 
-        # Pages
-        self.stack = QtWidgets.QStackedWidget()
-        self.stack.addWidget(self.rename_page)
-        self.stack.addWidget(self.prefix_suffix_page)
-        self.stack.addWidget(self.search_replace_page)
-        self.stack.addWidget(self.insert_remove_page)
-        self.stack.addWidget(self.case_page)
-        self.stack.addWidget(self.utils_page)
-        main_layout.addWidget(self.stack)
+        # for index, label in enumerate(self.PAGES):
+        #     button = QtWidgets.QPushButton(label)
+        #     button.setCheckable(True)
+        #     button.setFixedHeight(28)
+        #     self.navigation_group.addButton(button, index)
+        #     navigation_row.addWidget(button)
+
+        # self.navigation_group.button(0).setChecked(True)
+        # self.navigation_group.idClicked.connect(self._on_navigation_clicked)
+        # main_layout.addLayout(navigation_row)
+
+        # # Pages
+        # self.stack = QtWidgets.QStackedWidget()
+        # self.stack.addWidget(self.rename_page)
+        # self.stack.addWidget(self.prefix_suffix_page)
+        # self.stack.addWidget(self.search_replace_page)
+        # self.stack.addWidget(self.insert_remove_page)
+        # self.stack.addWidget(self.case_page)
+        # self.stack.addWidget(self.utils_page)
+        # main_layout.addWidget(self.stack)
 
         self.rename_page.request_rename.connect(self.rename_nodes)
         self.prefix_suffix_page.request_prefix.connect(self.add_prefix)
