@@ -74,19 +74,49 @@ class CrossRenamerToolController:
         """
         return maya_api.add_suffix(mode, suffix)
 
-    def search_replace(self, search_name, replace_name, case):
+    def remove_prefix(self, mode, prefix=""):
+        """Remove prefix to nodes.
+
+        Args:
+            mode (str): mode of selection
+            prefix (str, optional): prefix. Defaults to "".
+
+        Returns:
+            dict[str, str]: renamed nodes
+
+        """
+        return maya_api.remove_prefix(mode=mode, prefix=prefix)
+
+    def remove_suffix(self, mode, suffix=""):
+        """Remove suffix to nodes.
+
+        Args:
+            mode (str): mode of selection
+            suffix (str, optional): suffix. Defaults to "".
+
+        Returns:
+            dict[str, str]: renamed nodes
+
+        """
+        return maya_api.remove_suffix(mode=mode, suffix=suffix)
+
+    def search_replace(self, search_name, replace_name, case, regex):
         """Search and replace name in node.
 
         Args:
             search_name (str): name to find
             replace_name (str): new name to replace
             case (bool): case sensitive
+            regex (bool): find by regex or not
 
         Returns:
             dict[str, str]: renamed nodes
 
         """
-        return maya_api.search_replace(search_name, replace_name, case)
+        return maya_api.search_replace(search_name, replace_name, case, regex)
+
+    def update_preview_search_preview(self, search, replace, case, regex):
+        return maya_api.update_preview_search_preview(search, replace, case, regex)
 
     def add_characters(self, mode, text, position, from_start):
         """Add characters to a text at a specific position.

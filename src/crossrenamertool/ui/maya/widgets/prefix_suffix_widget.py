@@ -10,6 +10,8 @@ class PrefixSuffixPage(QtWidgets.QWidget):
 
     request_prefix = QtCore.Signal(str)
     request_suffix = QtCore.Signal(str)
+    request_remove_prefix = QtCore.Signal(str)
+    request_remove_suffix = QtCore.Signal(str)
 
     def __init__(self, parent=None):
         """Initialize the widget."""
@@ -26,38 +28,59 @@ class PrefixSuffixPage(QtWidgets.QWidget):
         """Create the GUI."""
         main_layout = QtWidgets.QVBoxLayout()
         self.setLayout(main_layout)
-        main_layout.setContentsMargins(0, 8, 0, 8)
+        main_layout.setContentsMargins(12, 12, 12, 12)
+
+        prefix_group = QtWidgets.QGroupBox("Prefix")
+        prefix_layout = QtWidgets.QVBoxLayout(prefix_group)
+        prefix_layout.setSpacing(6)
+        main_layout.addWidget(prefix_group)
 
         # Prefix
         prefix_row = QtWidgets.QHBoxLayout()
-        prefix_row.addWidget(QtWidgets.QLabel("Prefix :"))
         self.prefix = QtWidgets.QComboBox()
         self.prefix.addItems(constants.PREFIXES)
         self.prefix.setEditable(True)
         self.prefix.setCurrentIndex(-1)
-        self.prefix.lineEdit().setPlaceholderText("ex: CTRL")
+        self.prefix.lineEdit().setPlaceholderText("e.g. geo")
+        self.prefix.setFixedHeight(30)
         prefix_row.addWidget(self.prefix)
-        add_prefix_btn = QtWidgets.QPushButton("Add")
-        add_prefix_btn.setFixedWidth(50)
+        add_prefix_btn = QtWidgets.QPushButton("Add Prefix")
+        add_prefix_btn.setFixedWidth(90)
         add_prefix_btn.clicked.connect(self._on_add_prefix)
         prefix_row.addWidget(add_prefix_btn)
-        main_layout.addLayout(prefix_row)
+        prefix_layout.addLayout(prefix_row)
 
         # Suffix
+        suffix_group = QtWidgets.QGroupBox("Suffix")
+        suffix_layout = QtWidgets.QVBoxLayout(suffix_group)
+        suffix_layout.setSpacing(6)
+        main_layout.addWidget(suffix_group)
+
         suffix_row = QtWidgets.QHBoxLayout()
-        suffix_row.addWidget(QtWidgets.QLabel("Suffix :"))
         self.suffix = QtWidgets.QComboBox()
         self.suffix.addItems(constants.SUFFIXES)
         self.suffix.setEditable(True)
         self.suffix.setCurrentIndex(-1)
-        self.suffix.setInsertPolicy(QtWidgets.QComboBox.NoInsert)
-        self.suffix.lineEdit().setPlaceholderText("ex: geo")
+        self.suffix.lineEdit().setPlaceholderText("e.g. GEO")
+        self.suffix.setFixedHeight(30)
         suffix_row.addWidget(self.suffix)
-        add_suffix_btn = QtWidgets.QPushButton("Add")
-        add_suffix_btn.setFixedWidth(50)
+        add_suffix_btn = QtWidgets.QPushButton("Add Suffix")
+        add_suffix_btn.setFixedWidth(90)
         add_suffix_btn.clicked.connect(self._on_add_suffix)
         suffix_row.addWidget(add_suffix_btn)
-        main_layout.addLayout(suffix_row)
+        suffix_layout.addLayout(suffix_row)
+
+        remove_group = QtWidgets.QGroupBox("Remove")
+        remove_layout = QtWidgets.QHBoxLayout(remove_group)
+        main_layout.addWidget(remove_group)
+
+        remove_prefix_btn = QtWidgets.QPushButton("Remove Prefix")
+        remove_prefix_btn.clicked.connect(self._on_remove_prefix)
+        remove_layout.addWidget(remove_prefix_btn)
+
+        remove_suffix_btn = QtWidgets.QPushButton("Remove Suffix")
+        remove_suffix_btn.clicked.connect(self._on_remove_suffix)
+        remove_layout.addWidget(remove_suffix_btn)
 
         main_layout.addStretch()
 
@@ -70,3 +93,11 @@ class PrefixSuffixPage(QtWidgets.QWidget):
         """Add suffix to the node name."""
         suffix = self.suffix.currentText()
         self.request_suffix.emit(suffix)
+
+    def _on_remove_prefix(self):
+        prefix = self.prefix.currentText()
+        self.request_remove_prefix.emit(prefix)
+
+    def _on_remove_suffix(self):
+        suffix = self.suffix.currentText()
+        self.request_remove_suffix.emit(suffix)

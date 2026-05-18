@@ -41,4 +41,4 @@ class SelectionModeBar(QtWidgets.QWidget):
     @property
     def mode(self):
         modes = ["Selected", "Hierarchy", "Scene"]
-        return modes[self.btn_group.checkedId()]
+        return modes[self.button_grp.checkedId()]

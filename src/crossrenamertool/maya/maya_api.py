@@ -29,7 +29,12 @@ def _apply_rename(node, new_name, old_name=""):
         str: actual name applied by Maya
 
     """
-    actual_name = cmds.rename(node, new_name)
+    try:
+        actual_name = cmds.rename(node, new_name)
+    except Exception as e:
+        cmds.warning(f"Could not rename '{node}' to '{new_name}': {e}")
+        return node
+
     if not old_name:
         old_name = node
 
@@ -216,7 +221,35 @@ def add_suffix(mode, suffix):
     return _process_nodes(mode, lambda node: renamer.add_suffix(node, suffix))
 
 
-def search_replace(search_name, replace_name, case) -> dict[str, str]:
+def remove_prefix(mode, prefix):
+    """Add prefix to nodes.
+
+    Args:
+        mode (str): mode of selection
+        prefix (str): prefix to remove
+
+    Returns:
+        dict[str, str]: renamed nodes
+
+    """
+    return _process_nodes(mode, lambda node: renamer.remove_prefix(node, prefix))
+
+
+def remove_suffix(mode, suffix):
+    """Add suffix to nodes.
+
+    Args:
+        mode (str): mode of selection
+        suffix (str): suffix to remove
+
+    Returns:
+        dict[str, str]: renamed nodes
+
+    """
+    return _process_nodes(mode, lambda node: renamer.remove_suffix(node, suffix))
+
+
+def search_replace(search_name, replace_name, case, regex) -> dict[str, str]:
     """Search and replace name in node.
 
     Args:
@@ -224,6 +257,7 @@ def search_replace(search_name, replace_name, case) -> dict[str, str]:
         search_name (str): name to find
         replace_name (str): new name to replace
         case (bool): case sensitive
+        regex (bool): find by regex or not
 
     Returns:
         dict[str, str]: renamed nodes
@@ -231,8 +265,23 @@ def search_replace(search_name, replace_name, case) -> dict[str, str]:
     """
     return _process_nodes(
         "Scene",
-        lambda node: renamer.search_replace(node, search_name, replace_name, case),
+        lambda node: renamer.search_replace(
+            node, search_name, replace_name, case, regex
+        ),
     )
+
+
+def update_preview_search_preview(search, replace, case, regex):
+    nodes = get_nodes("Scene")
+    if not nodes:
+        return "No nodes in selection."
+
+    lines = []
+    for node in nodes:
+        short_name = node.split("|")[-1]
+        new_name = renamer.search_replace(node, search, replace, case, regex)
+        lines.append(f"{short_name} -> <b>{new_name}</b>")
+    return "<br>".join(lines)
 
 
 def add_characters(mode, text, position, from_start):

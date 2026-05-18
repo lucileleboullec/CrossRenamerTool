@@ -64,7 +64,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         """Configure the window."""
         self.setWindowTitle(f"{self.TITLE}")
         self.setObjectName(self.OBJECT_NAME)
-        self.resize(400, 700)
+        self.resize(500, 600)
 
     def _create_gui(self):
         """Create the gui."""
@@ -108,7 +108,6 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         # Navigation bar
         self.tabs = QtWidgets.QTabWidget()
         self.tabs.setDocumentMode(True)
-        get_mode = lambda: self.mode_bar.mode()
 
         self.tabs.addTab(self.rename_page, "Rename")
         self.tabs.addTab(self.prefix_suffix_page, "Prefix / Suffix")
@@ -118,35 +117,17 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.tabs.addTab(self.utils_page, "Utilities")
 
         main_layout.addWidget(self.tabs)
-        # navigation_row = QtWidgets.QHBoxLayout()
-        # navigation_row.setSpacing(2)
-        # self.navigation_group = QtWidgets.QButtonGroup()
-
-        # for index, label in enumerate(self.PAGES):
-        #     button = QtWidgets.QPushButton(label)
-        #     button.setCheckable(True)
-        #     button.setFixedHeight(28)
-        #     self.navigation_group.addButton(button, index)
-        #     navigation_row.addWidget(button)
-
-        # self.navigation_group.button(0).setChecked(True)
-        # self.navigation_group.idClicked.connect(self._on_navigation_clicked)
-        # main_layout.addLayout(navigation_row)
-
-        # # Pages
-        # self.stack = QtWidgets.QStackedWidget()
-        # self.stack.addWidget(self.rename_page)
-        # self.stack.addWidget(self.prefix_suffix_page)
-        # self.stack.addWidget(self.search_replace_page)
-        # self.stack.addWidget(self.insert_remove_page)
-        # self.stack.addWidget(self.case_page)
-        # self.stack.addWidget(self.utils_page)
-        # main_layout.addWidget(self.stack)
 
         self.rename_page.request_rename.connect(self.rename_nodes)
         self.prefix_suffix_page.request_prefix.connect(self.add_prefix)
         self.prefix_suffix_page.request_suffix.connect(self.add_suffix)
+        self.prefix_suffix_page.request_remove_prefix.connect(self.remove_prefix)
+        self.prefix_suffix_page.request_remove_suffix.connect(self.remove_suffix)
+
         self.search_replace_page.request_search_replace.connect(self.search_replace)
+        self.search_replace_page.request_preview_search_replace.connect(
+            self.update_preview_search_preview
+        )
         self.insert_remove_page.request_start_insert.connect(
             self.insert_start_characters
         )
@@ -186,16 +167,6 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             self.datas = self.controller.get_duplicates()
             self.utils_page.ingest_list(self.datas)
 
-    def get_current_mode(self):
-        """Get current mode.
-
-        Returns:
-            dict[int, str]: selected mode
-
-        """
-        ids = {0: "Selected", 1: "Hierarchy", 2: "Scene"}
-        return ids[self.mode_group.checkedId()]
-
     def rename_nodes(self, name, padding, start, step):
         """Rename selected nodes.
 
@@ -206,8 +177,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             step (int, optional): increment between each number. Defaults to 1.
 
         """
-        mode = self.get_current_mode()
-        self.controller.rename_nodes(mode, name, padding, start, step)
+        self.controller.rename_nodes(self.mode_bar.mode, name, padding, start, step)
 
     def add_prefix(self, prefix):
         """Add prefix to nodes.
@@ -216,8 +186,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             prefix (str, optional): prefix. Defaults to "".
 
         """
-        mode = self.get_current_mode()
-        self.controller.add_prefix(mode, prefix)
+        self.controller.add_prefix(self.mode_bar.mode, prefix)
 
     def add_suffix(self, suffix):
         """Add suffix to nodes.
@@ -226,19 +195,43 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             suffix (str, optional): suffix to add. Defaults to "".
 
         """
-        mode = self.get_current_mode()
-        self.controller.add_suffix(mode, suffix)
+        self.controller.add_suffix(self.mode_bar.mode, suffix)
 
-    def search_replace(self, search_text, replace_text, case):
+    def remove_prefix(self, prefix):
+        """Remove prefix to nodes.
+
+        Args:
+            prefix (str, optional): prefix. Defaults to "".
+
+        """
+        self.controller.remove_prefix(self.mode_bar.mode, prefix)
+
+    def remove_suffix(self, suffix):
+        """Remove suffix to nodes.
+
+        Args:
+            suffix (str, optional): suffix. Defaults to "".
+
+        """
+        self.controller.remove_suffix(self.mode_bar.mode, suffix)
+
+    def search_replace(self, search_text, replace_text, case, regex):
         """Search and replace name in node.
 
         Args:
             search_text (str): name to find
             replace_text (str): new name to replace
             case (bool): case sensitive
+            regex (bool): find by regex or not
 
         """
-        self.controller.search_replace(search_text, replace_text, case)
+        self.controller.search_replace(search_text, replace_text, case, regex)
+
+    def update_preview_search_preview(self, search, replace, case, regex):
+        texts = self.controller.update_preview_search_preview(
+            search, replace, case, regex
+        )
+        self.search_replace_page.preview_label.setText(texts)
 
     def insert_start_characters(self, text, position):
         """Add characters to a text at a specific position by the start.
@@ -248,10 +241,8 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             position (int): position to insert
 
         """
-        mode = self.get_current_mode()
-
         self.controller.add_characters(
-            mode=mode, text=text, position=position, from_start=True
+            mode=self.mode_bar.mode, text=text, position=position, from_start=True
         )
 
     def insert_end_characters(self, text, position):
@@ -262,10 +253,8 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             position (int): position to insert
 
         """
-        mode = self.get_current_mode()
-
         self.controller.add_characters(
-            mode=mode, text=text, position=position, from_start=False
+            mode=self.mode_bar.mode, text=text, position=position, from_start=False
         )
 
     def remove_start_characters(self, count, position):
@@ -276,10 +265,8 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             position (int): position to remove
 
         """
-        mode = self.get_current_mode()
-
         self.controller.remove_characters(
-            mode=mode, position=position, count=count, from_start=True
+            mode=self.mode_bar.mode, position=position, count=count, from_start=True
         )
 
     def remove_end_characters(self, count, position):
@@ -290,30 +277,24 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             position (int): position to remove
 
         """
-        mode = self.get_current_mode()
-
         self.controller.remove_characters(
-            mode=mode, position=position, count=count, from_start=False
+            mode=self.mode_bar.mode, position=position, count=count, from_start=False
         )
 
     def text_to_lowercase(self):
         """Convert text to lowercase."""
-        mode = self.get_current_mode()
-        self.controller.text_to_lowercase(mode)
+        self.controller.text_to_lowercase(self.mode_bar.mode)
 
     def text_to_uppercase(self):
         """Convert text to uppercase."""
-        mode = self.get_current_mode()
-        self.controller.text_to_uppercase(mode)
+        self.controller.text_to_uppercase(self.mode_bar.mode)
 
     def text_to_capitalize(self):
         """Convert text to capitalize."""
-        mode = self.get_current_mode()
-        self.controller.text_to_capitalize(mode)
+        self.controller.text_to_capitalize(self.mode_bar.mode)
 
     def rename_children_from_parent(self, padding):
-        mode = self.get_current_mode()
-        self.controller.rename_children_from_parent(mode, padding)
+        self.controller.rename_children_from_parent(self.mode_bar.mode, padding)
 
     def auto_fix_duplicates(self):
         self.controller.auto_fix_duplicates()
@@ -325,8 +306,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.controller.select_item(index, self.datas)
 
     def swap(self):
-        mode = self.get_current_mode()
-        self.controller.swap_side(mode)
+        self.controller.swap_side(self.mode_bar.mode)
 
     def fix_shape_name(self):
         self.controller.fix_shape_name()
