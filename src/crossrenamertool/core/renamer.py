@@ -206,6 +206,65 @@ def text_to_capitalize(node):
     return node.capitalize()
 
 
+def text_to_title(node):
+    """Change node name to title.
+
+    Args:
+        node (str): node
+
+    Returns:
+        str: renamed node
+
+    """
+    return node.title()
+
+
+def text_to_camel(node):
+    """Change node name to camel.
+
+    Args:
+        node (str): node
+
+    Returns:
+        str: renamed node
+
+    """
+    parts = re.split(r"[_\-\s]+", node)
+
+    return parts[0].lower() + "".join(part.capitalize() for part in parts[1:])
+
+
+def text_to_pascal(node):
+    """Change node name to pascal.
+
+    Args:
+        node (str): node
+
+    Returns:
+        str: renamed node
+
+    """
+    parts = re.split(r"[_\-\s]+", node)
+
+    return "".join(part.capitalize() for part in parts)
+
+
+def text_to_snake(node):
+    """Change node name to snake.
+
+    Args:
+        node (str): node
+
+    Returns:
+        str: renamed node
+
+    """
+    node = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", node)
+    node = re.sub(r"([a-z\d])([A-Z])", r"\1_\2", node)
+
+    return node.lower()
+
+
 def swap_side(node, swap_sides):
     """Swap side indicator in the node.
 

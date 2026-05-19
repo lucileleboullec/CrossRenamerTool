@@ -359,6 +359,58 @@ def text_to_capitalize(mode):
     return _process_nodes(mode, lambda node: renamer.text_to_capitalize(node))
 
 
+def text_to_title(mode):
+    """Convert text to title.
+
+    Args:
+        mode (str): mode of selection
+
+    Returns:
+        dict[str, str]: dictionary of nodes
+
+    """
+    return _process_nodes(mode, lambda node: renamer.text_to_title(node))
+
+
+def text_to_camel(mode):
+    """Convert text to camel.
+
+    Args:
+        mode (str): mode of selection
+
+    Returns:
+        dict[str, str]: dictionary of nodes
+
+    """
+    return _process_nodes(mode, lambda node: renamer.text_to_camel(node))
+
+
+def text_to_pascal(mode):
+    """Convert text to pascal.
+
+    Args:
+        mode (str): mode of selection
+
+    Returns:
+        dict[str, str]: dictionary of nodes
+
+    """
+    return _process_nodes(mode, lambda node: renamer.text_to_pascal(node))
+
+
+def text_to_snake(mode):
+    """Convert text to snake.
+
+    Args:
+        mode (str): mode of selection
+
+    Returns:
+        dict[str, str]: dictionary of nodes
+
+    """
+    return _process_nodes(mode, lambda node: renamer.text_to_snake(node))
+
+
 def rename_children_from_parent(mode, padding):
     """Rename children from selected parents.
 

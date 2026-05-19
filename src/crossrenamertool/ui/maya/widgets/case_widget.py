@@ -11,6 +11,10 @@ class CasePage(QtWidgets.QWidget):
     request_lowercase = QtCore.Signal()
     request_uppercase = QtCore.Signal()
     request_capitalize = QtCore.Signal()
+    request_title = QtCore.Signal()
+    request_camel = QtCore.Signal()
+    request_pascal = QtCore.Signal()
+    request_snake = QtCore.Signal()
 
     def __init__(self, parent=None):
         """Initialize the widget."""
@@ -27,22 +31,41 @@ class CasePage(QtWidgets.QWidget):
         """Create the GUI."""
         main_layout = QtWidgets.QVBoxLayout()
         self.setLayout(main_layout)
-        main_layout.setContentsMargins(0, 8, 0, 8)
+        main_layout.setContentsMargins(12, 12, 12, 12)
+        main_layout.setSpacing(10)
 
-        case_sensitive_row = QtWidgets.QHBoxLayout()
-        lowercase_btn = QtWidgets.QPushButton("Lowercase")
-        lowercase_btn.clicked.connect(self._on_lowercase)
-        case_sensitive_row.addWidget(lowercase_btn)
+        case_group = QtWidgets.QGroupBox("Case Conversion")
+        case_layout = QtWidgets.QVBoxLayout(case_group)
+        case_layout.setSpacing(8)
+        main_layout.addWidget(case_group)
 
-        uppercase_btn = QtWidgets.QPushButton("Uppercase")
-        uppercase_btn.clicked.connect(self._on_uppercase)
-        case_sensitive_row.addWidget(uppercase_btn)
+        cases = [
+            ("lowercase", "all lowercase", self._on_lowercase),
+            ("UPPERCASE", "ALL UPPERCASE", self._on_uppercase),
+            ("Title", "First Letter Of Each Word", self._on_title),
+            ("Capitalize", "First letter only", self._on_capitalize),
+            ("camelCase", "camelCase (split on _ and -)", self._on_camel),
+            ("PascalCase", "PascalCase (split on _ and -)", self._on_pascal),
+            ("snake_case", "snake_case (split on uppercase)", self._on_snake),
+        ]
 
-        capitalize_btn = QtWidgets.QPushButton("Capitalize")
-        capitalize_btn.clicked.connect(self._on_capitalize)
-        case_sensitive_row.addWidget(capitalize_btn)
+        for label, tooltip, function in cases:
+            row = QtWidgets.QHBoxLayout()
+            label = QtWidgets.QLabel(f"<b>{label}</b>")
+            label.setFixedWidth(120)
+            label.setToolTip(tooltip)
+            row.addWidget(label)
 
-        main_layout.addLayout(case_sensitive_row)
+            exemple_label = QtWidgets.QLabel(f"<i>{tooltip}</i>")
+            exemple_label.setStyleSheet("color: #888888; font-size: 11px;")
+            row.addWidget(exemple_label)
+
+            button = QtWidgets.QPushButton("Apply")
+            button.setFixedWidth(60)
+            button.clicked.connect(function)
+            row.addWidget(button)
+            case_layout.addLayout(row)
+
         main_layout.addStretch()
 
     def _on_lowercase(self):
@@ -56,3 +79,19 @@ class CasePage(QtWidgets.QWidget):
     def _on_capitalize(self):
         """Convert text to capitalize."""
         self.request_capitalize.emit()
+
+    def _on_title(self):
+        """Convert text to title."""
+        self.request_title.emit()
+
+    def _on_camel(self):
+        """Convert text to camel."""
+        self.request_camel.emit()
+
+    def _on_pascal(self):
+        """Convert text to pascal."""
+        self.request_pascal.emit()
+
+    def _on_snake(self):
+        """Convert text to snake."""
+        self.request_snake.emit()

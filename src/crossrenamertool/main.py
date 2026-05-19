@@ -184,6 +184,54 @@ class CrossRenamerToolController:
         """
         return maya_api.text_to_capitalize(mode)
 
+    def text_to_title(self, mode):
+        """Convert text to title.
+
+        Args:
+            mode (str): mode of selection
+
+        Returns:
+            dict[str, str]: dictionary of nodes
+
+        """
+        return maya_api.text_to_title(mode)
+
+    def text_to_camel(self, mode):
+        """Convert text to camel.
+
+        Args:
+            mode (str): mode of selection
+
+        Returns:
+            dict[str, str]: dictionary of nodes
+
+        """
+        return maya_api.text_to_camel(mode)
+
+    def text_to_pascal(self, mode):
+        """Convert text to pascal.
+
+        Args:
+            mode (str): mode of selection
+
+        Returns:
+            dict[str, str]: dictionary of nodes
+
+        """
+        return maya_api.text_to_pascal(mode)
+
+    def text_to_snake(self, mode):
+        """Convert text to snake.
+
+        Args:
+            mode (str): mode of selection
+
+        Returns:
+            dict[str, str]: dictionary of nodes
+
+        """
+        return maya_api.text_to_snake(mode)
+
     def rename_children_from_parent(self, mode, padding=constants.DEFAULT_PADDING):
 
         return maya_api.rename_children_from_parent(mode, padding=padding)

@@ -128,17 +128,15 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.search_replace_page.request_preview_search_replace.connect(
             self.update_preview_search_preview
         )
-        self.insert_remove_page.request_start_insert.connect(
-            self.insert_start_characters
-        )
-        self.insert_remove_page.request_end_insert.connect(self.insert_end_characters)
-        self.insert_remove_page.request_start_remove.connect(
-            self.remove_start_characters
-        )
-        self.insert_remove_page.request_end_remove.connect(self.remove_end_characters)
+        self.insert_remove_page.request_insert.connect(self.insert_characters)
+        self.insert_remove_page.request_remove.connect(self.remove_characters)
         self.case_page.request_lowercase.connect(self.text_to_lowercase)
         self.case_page.request_uppercase.connect(self.text_to_uppercase)
         self.case_page.request_capitalize.connect(self.text_to_capitalize)
+        self.case_page.request_title.connect(self.text_to_title)
+        self.case_page.request_camel.connect(self.text_to_camel)
+        self.case_page.request_pascal.connect(self.text_to_pascal)
+        self.case_page.request_snake.connect(self.text_to_snake)
         self.utils_page.request_rename_children_from_parent.connect(
             self.rename_children_from_parent
         )
@@ -233,52 +231,33 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         )
         self.search_replace_page.preview_label.setText(texts)
 
-    def insert_start_characters(self, text, position):
+    def insert_characters(self, text, position, from_start):
         """Add characters to a text at a specific position by the start.
 
         Args:
             text (str): characters to add
             position (int): position to insert
+            from_start (bool): True from start of name otherwise False
 
         """
         self.controller.add_characters(
-            mode=self.mode_bar.mode, text=text, position=position, from_start=True
+            mode=self.mode_bar.mode, text=text, position=position, from_start=from_start
         )
 
-    def insert_end_characters(self, text, position):
-        """Add characters to a text at a specific position by the end.
-
-        Args:
-            text (str): characters to add
-            position (int): position to insert
-
-        """
-        self.controller.add_characters(
-            mode=self.mode_bar.mode, text=text, position=position, from_start=False
-        )
-
-    def remove_start_characters(self, count, position):
+    def remove_characters(self, count, position, from_start):
         """Remove characters to a text at a specific position by the start.
 
         Args:
             count (int): number of characters to remove
             position (int): position to remove
+            from_start (bool): True from start of name otherwise False
 
         """
         self.controller.remove_characters(
-            mode=self.mode_bar.mode, position=position, count=count, from_start=True
-        )
-
-    def remove_end_characters(self, count, position):
-        """Remove characters to a text at a specific position by the end.
-
-        Args:
-            count (int): number of characters to remove
-            position (int): position to remove
-
-        """
-        self.controller.remove_characters(
-            mode=self.mode_bar.mode, position=position, count=count, from_start=False
+            mode=self.mode_bar.mode,
+            position=position,
+            count=count,
+            from_start=from_start,
         )
 
     def text_to_lowercase(self):
@@ -292,6 +271,22 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
     def text_to_capitalize(self):
         """Convert text to capitalize."""
         self.controller.text_to_capitalize(self.mode_bar.mode)
+
+    def text_to_title(self):
+        """Convert text to title."""
+        self.controller.text_to_title(self.mode_bar.mode)
+
+    def text_to_camel(self):
+        """Convert text to camel."""
+        self.controller.text_to_camel(self.mode_bar.mode)
+
+    def text_to_pascal(self):
+        """Convert text to pascal."""
+        self.controller.text_to_pascal(self.mode_bar.mode)
+
+    def text_to_snake(self):
+        """Convert text to snake."""
+        self.controller.text_to_snake(self.mode_bar.mode)
 
     def rename_children_from_parent(self, padding):
         self.controller.rename_children_from_parent(self.mode_bar.mode, padding)
