@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 from PySide6 import QtCore, QtGui, QtWidgets
@@ -12,6 +13,7 @@ from crossrenamertool.ui.maya.widgets import (
     search_replace_widget,
     utils_widget,
     selection_mode_widget,
+    about_dialog,
 )
 
 log = logging.getLogger(__name__)
@@ -27,6 +29,7 @@ importlib.reload(insert_remove_widget)
 importlib.reload(case_widget)
 importlib.reload(utils_widget)
 importlib.reload(selection_mode_widget)
+importlib.reload(about_dialog)
 
 
 class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
@@ -65,6 +68,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.setWindowTitle(f"{self.TITLE}")
         self.setObjectName(self.OBJECT_NAME)
         self.resize(500, 600)
+        self.load_style()
 
     def _create_gui(self):
         """Create the gui."""
@@ -78,17 +82,26 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         # Header
         header = QtWidgets.QWidget(self)
         header.setFixedHeight(44)
+        header.setStyleSheet("background: #1a1a1a; border-bottom: 1px solid #3a3a3a;")
         header_layout = QtWidgets.QHBoxLayout(header)
         header_layout.setContentsMargins(12, 0, 8, 0)
 
         title = QtWidgets.QLabel(self.TITLE.upper())
+        title.setStyleSheet(
+            "color: #e8a44a; font-weight: 700; font-size: 13px; letter-spacing: 2px;"
+        )
         header_layout.addWidget(title)
         header_layout.addStretch()
 
         about_btn = QtWidgets.QPushButton("?")
         about_btn.setFixedSize(24, 24)
         about_btn.setToolTip("About")
-        # about_btn.clicked.connect(self._show_about)
+        about_btn.setStyleSheet(
+            "QPushButton { background: transparent; color: #666666; border: 1px solid #444;"
+            " border-radius: 12px; font-weight: 700; }"
+            "QPushButton:hover { color: #e8a44a; border-color: #e8a44a; }"
+        )
+        about_btn.clicked.connect(self._show_about)
         header_layout.addWidget(about_btn)
 
         main_layout.addWidget(header)
@@ -99,6 +112,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         mode_layout.setContentsMargins(10, 6, 10, 6)
 
         mode_label = QtWidgets.QLabel("Apply on :")
+        mode_label.setStyleSheet("color: #888888; font-size: 11px;")
         mode_label.setFixedWidth(60)
         mode_layout.addWidget(mode_label)
         mode_layout.addWidget(self.mode_bar)
@@ -288,8 +302,8 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         """Convert text to snake."""
         self.controller.text_to_snake(self.mode_bar.mode)
 
-    def rename_children_from_parent(self, padding):
-        self.controller.rename_children_from_parent(self.mode_bar.mode, padding)
+    def rename_children_from_parent(self):
+        self.controller.rename_children_from_parent(self.mode_bar.mode)
 
     def auto_fix_duplicates(self):
         self.controller.auto_fix_duplicates()
@@ -305,6 +319,27 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
     def fix_shape_name(self):
         self.controller.fix_shape_name()
+
+    def load_qss(self):
+        """Load the Qss file who contains the style of the application."""
+        qss_path = Path(__file__).parent.parent / "styles" / "default_style.qss"
+        icons_path = (Path(__file__).parents[1] / "resources" / "icons").as_posix()
+        with open(qss_path, "r", encoding="utf-8") as qss_file:
+            style = qss_file.read()
+
+        style = style.replace("{ICONS_DIR}", icons_path)
+
+        return style
+
+    def load_style(self):
+        """Load the style from the QSS file."""
+        style = self.load_qss()
+        self.setStyleSheet(style)
+
+    def _show_about(self):
+        style = self.load_qss()
+        dlg = about_dialog.AboutDialog(parent=self, stylesheet=style)
+        dlg.exec()
 
     def launch_app(self):
         """Launch the application."""

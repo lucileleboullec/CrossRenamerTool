@@ -45,6 +45,7 @@ class PrefixSuffixPage(QtWidgets.QWidget):
         self.prefix.setFixedHeight(30)
         prefix_row.addWidget(self.prefix)
         add_prefix_btn = QtWidgets.QPushButton("Add Prefix")
+        add_prefix_btn.setObjectName("primary")
         add_prefix_btn.setFixedWidth(90)
         add_prefix_btn.clicked.connect(self._on_add_prefix)
         prefix_row.addWidget(add_prefix_btn)
@@ -65,6 +66,7 @@ class PrefixSuffixPage(QtWidgets.QWidget):
         self.suffix.setFixedHeight(30)
         suffix_row.addWidget(self.suffix)
         add_suffix_btn = QtWidgets.QPushButton("Add Suffix")
+        add_suffix_btn.setObjectName("primary")
         add_suffix_btn.setFixedWidth(90)
         add_suffix_btn.clicked.connect(self._on_add_suffix)
         suffix_row.addWidget(add_suffix_btn)
@@ -75,10 +77,12 @@ class PrefixSuffixPage(QtWidgets.QWidget):
         main_layout.addWidget(remove_group)
 
         remove_prefix_btn = QtWidgets.QPushButton("Remove Prefix")
+        remove_prefix_btn.setObjectName("danger")
         remove_prefix_btn.clicked.connect(self._on_remove_prefix)
         remove_layout.addWidget(remove_prefix_btn)
 
         remove_suffix_btn = QtWidgets.QPushButton("Remove Suffix")
+        remove_suffix_btn.setObjectName("danger")
         remove_suffix_btn.clicked.connect(self._on_remove_suffix)
         remove_layout.addWidget(remove_suffix_btn)
 

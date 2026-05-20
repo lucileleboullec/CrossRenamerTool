@@ -70,6 +70,7 @@ class SearchReplacePage(QtWidgets.QWidget):
         main_layout.addStretch()
 
         apply_btn = QtWidgets.QPushButton("Apply Replace")
+        apply_btn.setObjectName("primary")
         apply_btn.setFixedHeight(32)
         apply_btn.clicked.connect(self._on_search_replace)
         main_layout.addWidget(apply_btn)

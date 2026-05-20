@@ -8,7 +8,7 @@ class UtilsPage(QtWidgets.QWidget):
 
     TITLE = "Name"
 
-    request_rename_children_from_parent = QtCore.Signal(int)
+    request_rename_children_from_parent = QtCore.Signal()
     request_fix = QtCore.Signal(dict)
     request_auto_fix = QtCore.Signal()
     request_select_item = QtCore.Signal(int)
@@ -31,35 +31,46 @@ class UtilsPage(QtWidgets.QWidget):
         """Create the GUI."""
         main_layout = QtWidgets.QVBoxLayout()
         self.setLayout(main_layout)
-        main_layout.setContentsMargins(0, 8, 0, 8)
+        main_layout.setContentsMargins(12, 12, 12, 12)
+        main_layout.setSpacing(8)
 
-        name_row = QtWidgets.QHBoxLayout()
-        name_row.addWidget(QtWidgets.QLabel("Children :"))
-        main_layout.addLayout(name_row)
+        scroll = QtWidgets.QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QtWidgets.QFrame.NoFrame)
 
-        name_options_row = QtWidgets.QHBoxLayout()
-        name_options_row.addWidget(QtWidgets.QLabel("Padding :"))
-        main_layout.addLayout(name_options_row)
+        container = QtWidgets.QWidget()
+        c_layout = QtWidgets.QVBoxLayout(container)
+        c_layout.setSpacing(8)
+        c_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.padding = QtWidgets.QSpinBox()
-        self.padding.setRange(1, 5)
-        self.padding.setValue(constants.DEFAULT_PADDING)
-        name_options_row.addWidget(self.padding)
+        children_group = QtWidgets.QGroupBox("Rename Children from Parent")
+        children_layout = QtWidgets.QVBoxLayout(children_group)
+        c_layout.addWidget(children_group)
 
-        rename_btn = QtWidgets.QPushButton("Rename Children from Parent")
-        rename_btn.clicked.connect(self._on_rename_children_from_parent)
-        main_layout.addWidget(rename_btn)
-        main_layout.addStretch()
+        children_label = QtWidgets.QLabel(
+            "Renames all child nodes using their parent's name as base, appending an index."
+        )
+        children_label.setStyleSheet("color: #888888; font_size: 11px;")
+        children_layout.addWidget(children_label)
+        children_button = QtWidgets.QPushButton("Rename Children")
+        children_button.setObjectName("primary")
+        children_button.clicked.connect(self._on_rename_children_from_parent)
+        children_layout.addWidget(children_button)
 
-        duplicates_row = QtWidgets.QGridLayout()
-        duplicates_row.addWidget(QtWidgets.QLabel("Fix Duplicates :"), 0, 0)
-        main_layout.addLayout(duplicates_row)
+        duplicate_group = QtWidgets.QGroupBox("Fix Duplicate Naming")
+        duplicate_layout = QtWidgets.QGridLayout(duplicate_group)
+        c_layout.addWidget(duplicate_group)
+
+        duplicate_label = QtWidgets.QLabel("Renames nodes that were duplicated.")
+        duplicate_label.setStyleSheet("color: #888888; font_size: 11px;")
+        duplicate_layout.addWidget(duplicate_label, 0, 0, 1, 2)
 
         refresh_button = QtWidgets.QPushButton("Refresh")
         refresh_button.clicked.connect(self._on_refresh)
-        duplicates_row.addWidget(refresh_button, 1, 0)
+        duplicate_layout.addWidget(refresh_button, 1, 0)
 
         self.duplicates_table = self._set_list()
+        self.duplicates_table.setMinimumHeight(200)
         self.duplicates_table.setColumnCount(2)
         self.duplicates_table.setHorizontalHeaderLabels(["Current Name", "New Name"])
         header = self.duplicates_table.horizontalHeader()
@@ -69,32 +80,54 @@ class UtilsPage(QtWidgets.QWidget):
             QtWidgets.QAbstractItemView.SelectRows
         )
         self.duplicates_table.clicked.connect(self._on_item_changed)
-        duplicates_row.addWidget(self.duplicates_table, 2, 0, 1, 2)
+        duplicate_layout.addWidget(self.duplicates_table, 2, 0, 1, 2)
 
-        auto_fix_button = QtWidgets.QPushButton("Auto Rename Duplicates")
+        auto_fix_button = QtWidgets.QPushButton("Auto Fix Duplicates")
+        auto_fix_button.setObjectName("primary")
         auto_fix_button.clicked.connect(self._on_auto_fix_button)
-        duplicates_row.addWidget(auto_fix_button, 3, 0)
+        duplicate_layout.addWidget(auto_fix_button, 3, 0)
 
-        fix_button = QtWidgets.QPushButton("Rename Selected")
+        fix_button = QtWidgets.QPushButton("Fix Duplicate")
         fix_button.clicked.connect(self._on_fix_button)
-        duplicates_row.addWidget(fix_button, 3, 1)
+        duplicate_layout.addWidget(fix_button, 3, 1)
 
-        quick_fixes_row = QtWidgets.QGridLayout()
-        quick_fixes_row.addWidget(QtWidgets.QLabel("Quick Fixes :"), 0, 0)
-        main_layout.addLayout(quick_fixes_row)
+        shape_group = QtWidgets.QGroupBox("Fix Shape Names")
+        shape_layout = QtWidgets.QVBoxLayout(shape_group)
+        c_layout.addWidget(shape_group)
 
-        fix_shape_name_button = QtWidgets.QPushButton("Fix Shape Names")
-        fix_shape_name_button.clicked.connect(self._on_fix_shape_name)
-        quick_fixes_row.addWidget(fix_shape_name_button, 1, 0)
+        shape_label = QtWidgets.QLabel(
+            "Renames shape nodes to match their transform parent (e.g. pCube1 -> pCube1Shape)."
+        )
+        shape_label.setStyleSheet("color: #888888; font_size: 11px;")
+        shape_layout.addWidget(shape_label)
+
+        shape_button = QtWidgets.QPushButton("Fix Shapes")
+        shape_button.setObjectName("primary")
+        shape_button.clicked.connect(self._on_fix_shape_name)
+        shape_layout.addWidget(shape_button)
+
+        swap_group = QtWidgets.QGroupBox("Swap Side Indicators")
+        swap_layout = QtWidgets.QVBoxLayout(swap_group)
+        c_layout.addWidget(swap_group)
+
+        swap_label = QtWidgets.QLabel(
+            "Swap left/right indicators (L<->R, Left<->Right,etc.)."
+        )
+        swap_label.setStyleSheet("color: #888888; font_size: 11px;")
+        swap_layout.addWidget(swap_label)
 
         swap_button = QtWidgets.QPushButton("Swap L <-> R")
+        swap_button.setObjectName("primary")
         swap_button.clicked.connect(self._on_swap)
-        quick_fixes_row.addWidget(swap_button, 1, 1)
+        swap_layout.addWidget(swap_button)
+
+        c_layout.addStretch()
+        scroll.setWidget(container)
+        main_layout.addWidget(scroll)
 
     def _on_rename_children_from_parent(self):
         """Rename the selected nodes."""
-        padding = self.padding.value()
-        self.request_rename_children_from_parent.emit(padding)
+        self.request_rename_children_from_parent.emit()
 
     def _on_refresh(self):
         self.request_refresh.emit()

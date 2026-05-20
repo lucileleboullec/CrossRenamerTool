@@ -51,6 +51,7 @@ class InsertRemovePage(QtWidgets.QWidget):
         insert_layout.addWidget(self.insert_from, 1, 2)
 
         insert_button = QtWidgets.QPushButton("Insert")
+        insert_button.setObjectName("primary")
         insert_button.clicked.connect(self._on_insert)
         insert_layout.addWidget(insert_button, 2, 0, 1, 3)
 
@@ -83,6 +84,7 @@ class InsertRemovePage(QtWidgets.QWidget):
         remove_layout.addWidget(self.remove_count, 1, 1)
 
         remove_button = QtWidgets.QPushButton("Remove")
+        remove_button.setObjectName("danger")
         remove_button.clicked.connect(self._on_remove)
         remove_layout.addWidget(remove_button, 2, 0, 1, 3)
 

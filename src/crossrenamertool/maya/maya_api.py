@@ -411,7 +411,7 @@ def text_to_snake(mode):
     return _process_nodes(mode, lambda node: renamer.text_to_snake(node))
 
 
-def rename_children_from_parent(mode, padding):
+def rename_children_from_parent(mode, padding=constants.DEFAULT_PADDING):
     """Rename children from selected parents.
 
     Args:
@@ -509,15 +509,14 @@ def auto_fix_duplicates():
         if uuid:
             node_uuids[node] = uuid[0]
 
-    for index, (node, uuid) in enumerate(node_uuids.items()):
+    for node, uuid in node_uuids.items():
         current_name = cmds.ls(uuid, long=True)
         if not current_name:
             log.error(f"Cannot find node with UUID {uuid}")
             continue
 
-        current_name = current_name[0]
+        current_name = node
         parent = cmds.listRelatives(current_name, parent=True, fullPath=True)
-
         if parent:
             base_name = (
                 current_name.replace("|", "_")
@@ -528,7 +527,7 @@ def auto_fix_duplicates():
         else:
             base_name = current_name.split("|")[-1]
 
-        new_name = renamer.renaming(base_name, index, constants.DEFAULT_PADDING)
+        new_name = renamer.renaming(base_name, 0, constants.DEFAULT_PADDING)
 
         if new_name and new_name != current_name:
             renamed[node] = _apply_rename(current_name, new_name, node)

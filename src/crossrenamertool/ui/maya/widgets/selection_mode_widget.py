@@ -28,6 +28,7 @@ class SelectionModeBar(QtWidgets.QWidget):
             button = QtWidgets.QPushButton(mode)
             button.setCheckable(True)
             button.setFixedHeight(26)
+            button.setStyleSheet(self._tab_style(active=index == 0))
             self.button_grp.addButton(button, index)
             main_layout.addWidget(button)
 
@@ -37,6 +38,20 @@ class SelectionModeBar(QtWidgets.QWidget):
     def _on_toggle(self, index, checked):
         for i in range(3):
             button = self.button_grp.button(i)
+            button.setStyleSheet(self._tab_style(button.isChecked()))
+
+    def _tab_style(self, active):
+        if active:
+            return (
+                "QPushButton { background: #e8a44a; color: #1a1a1a; border: none;"
+                " padding: 4px 14px; font-size: 11px; font-weight: 600; }"
+            )
+        return (
+            "QPushButton { background: #222222; color: #888888; border: 1px solid #3a3a3a;"
+            " border-radius: 0px; padding: 4px 14px; font-size: 11px; }"
+            "QPushButton:hover { background: #2e2e2e; color: #bbbbbb; }"
+            "QPushButton:checked { background: #e8a44a; color: #1a1a1a; font-weight: 600; }"
+        )
 
     @property
     def mode(self):

@@ -84,6 +84,7 @@ class RenamePage(QtWidgets.QWidget):
         main_layout.addStretch()
 
         rename_btn = QtWidgets.QPushButton("Rename")
+        rename_btn.setObjectName("primary")
         rename_btn.setFixedHeight(32)
         rename_btn.clicked.connect(self._on_rename)
         main_layout.addWidget(rename_btn)

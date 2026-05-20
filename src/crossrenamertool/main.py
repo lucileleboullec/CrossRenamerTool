@@ -232,9 +232,9 @@ class CrossRenamerToolController:
         """
         return maya_api.text_to_snake(mode)
 
-    def rename_children_from_parent(self, mode, padding=constants.DEFAULT_PADDING):
+    def rename_children_from_parent(self, mode):
 
-        return maya_api.rename_children_from_parent(mode, padding=padding)
+        return maya_api.rename_children_from_parent(mode)
 
     def get_duplicates(self):
         """Get duplicates nodes in the scene.
