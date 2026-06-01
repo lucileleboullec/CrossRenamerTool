@@ -1,11 +1,13 @@
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtCore, QtGui, QtWidgets
 
 
 class AboutDialog(QtWidgets.QDialog):
-    DOC_URL = "https://github.com/your-org/maya-renamer/wiki"
-    GIT_URL = "https://github.com/your-org/maya-renamer"
+    """About page with documentation and GitHub page."""
 
-    TITLE = "About Maya Renamer"
+    DOC_URL = "https://github.com/lucileleboullec/CrossRenamerTool/wiki"
+    GIT_URL = "https://github.com/lucileleboullec/CrossRenamerTool"
+
+    TITLE = "About Cross Renamer"
 
     def __init__(self, parent=None, stylesheet=""):
         super().__init__(parent)
@@ -23,17 +25,18 @@ class AboutDialog(QtWidgets.QDialog):
         self.setFixedSize(420, 300)
 
     def _create_gui(self):
+        """Create the GUI."""
         main_layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(main_layout)
         main_layout.setContentsMargins(20, 20, 20, 20)
         main_layout.setSpacing(12)
 
-        title = QtWidgets.QLabel("Maya Node Renamer")
+        title = QtWidgets.QLabel("Cross Renamer")
         title.setStyleSheet("font-size: 18px; font-weight: 700; color: #e8a44a;")
         title.setAlignment(QtCore.Qt.AlignCenter)
         main_layout.addWidget(title)
 
-        version = QtWidgets.QLabel("v1.0.0  ·  PySide6  ·  Maya 2024+")
+        version = QtWidgets.QLabel("v1.0.0  ·  PySide6  ·  Maya 2024+  ·  Blender")
         version.setStyleSheet("color: #666666; font-size: 11px;")
         version.setAlignment(QtCore.Qt.AlignCenter)
         main_layout.addWidget(version)
@@ -44,7 +47,7 @@ class AboutDialog(QtWidgets.QDialog):
         main_layout.addWidget(sep)
 
         desc = QtWidgets.QLabel(
-            "A comprehensive renaming utility for Autodesk Maya.\n"
+            "A comprehensive renaming utility for Autodesk Maya and Blender.\n"
             "Batch rename, prefix/suffix, search & replace,\n"
             "insert/remove, case conversion, and utilities."
         )
@@ -60,7 +63,9 @@ class AboutDialog(QtWidgets.QDialog):
         doc_btn = QtWidgets.QPushButton("  Documentation")
         doc_btn.setObjectName("primary")
         doc_btn.setFixedHeight(32)
-        # doc_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(self.DOC_URL)))
+        doc_btn.clicked.connect(
+            lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl(self.DOC_URL))
+        )
         btn_row.addWidget(doc_btn)
 
         git_btn = QtWidgets.QPushButton("  GitHub")
@@ -70,7 +75,9 @@ class AboutDialog(QtWidgets.QDialog):
             " border-radius: 4px; padding: 5px 12px; }"
             "QPushButton:hover { background: #2f363d; }"
         )
-        # git_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(self.GIT_URL)))
+        git_btn.clicked.connect(
+            lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl(self.GIT_URL))
+        )
         btn_row.addWidget(git_btn)
 
         close_btn = QtWidgets.QPushButton("Close")

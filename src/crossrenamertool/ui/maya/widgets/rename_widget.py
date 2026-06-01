@@ -101,6 +101,7 @@ class RenamePage(QtWidgets.QWidget):
         self.request_rename.emit(name, padding, start, step)
 
     def _update_preview(self):
+        """Update the preview."""
         name = self.name_field.text() or "node"
         padding = self.padding.value()
         start = self.start.value()
