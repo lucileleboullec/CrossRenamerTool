@@ -249,7 +249,7 @@ def remove_suffix(mode, suffix):
     return _process_nodes(mode, lambda node: renamer.remove_suffix(node, suffix))
 
 
-def search_replace(search_name, replace_name, case, regex) -> dict[str, str]:
+def search_replace(search_name, replace_name, case) -> dict[str, str]:
     """Search and replace name in node.
 
     Args:
@@ -257,7 +257,7 @@ def search_replace(search_name, replace_name, case, regex) -> dict[str, str]:
         search_name (str): name to find
         replace_name (str): new name to replace
         case (bool): case sensitive
-        regex (bool): find by regex or not
+
 
     Returns:
         dict[str, str]: renamed nodes
@@ -265,13 +265,11 @@ def search_replace(search_name, replace_name, case, regex) -> dict[str, str]:
     """
     return _process_nodes(
         "Scene",
-        lambda node: renamer.search_replace(
-            node, search_name, replace_name, case, regex
-        ),
+        lambda node: renamer.search_replace(node, search_name, replace_name, case),
     )
 
 
-def update_preview_search_preview(search, replace, case, regex):
+def update_preview_search_preview(search, replace, case):
     nodes = get_nodes("Scene")
     if not nodes:
         return "No nodes in selection."
@@ -279,7 +277,7 @@ def update_preview_search_preview(search, replace, case, regex):
     lines = []
     for node in nodes:
         short_name = node.split("|")[-1]
-        new_name = renamer.search_replace(node, search, replace, case, regex)
+        new_name = renamer.search_replace(node, search, replace, case)
         lines.append(f"{short_name} -> <b>{new_name}</b>")
     return "<br>".join(lines)
 

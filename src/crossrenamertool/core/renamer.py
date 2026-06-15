@@ -103,7 +103,7 @@ def remove_suffix(node, suffix):
     return node
 
 
-def search_replace(node, search_name, replace_name, case, regex):
+def search_replace(node, search_name, replace_name, case):
     """Search and replace name in node.
 
     Args:
@@ -111,7 +111,6 @@ def search_replace(node, search_name, replace_name, case, regex):
         search_name (str): name to find
         replace_name (str): new name to replace
         case (bool): case sensitive
-        regex (bool): search by regex or not
 
     Returns:
         str: new name renamed
@@ -119,12 +118,7 @@ def search_replace(node, search_name, replace_name, case, regex):
     """
     flags = 0 if case else re.IGNORECASE
 
-    if regex:
-        return re.sub(search_name, replace_name, node, flags=flags)
-    else:
-        if case:
-            return node.replace(search_name, replace_name)
-        return re.sub(re.escape(search_name), replace_name, node, flags=re.IGNORECASE)
+    return re.sub(search_name, replace_name, node, flags=flags)
 
 
 def add_characters(node, text, position, from_start):

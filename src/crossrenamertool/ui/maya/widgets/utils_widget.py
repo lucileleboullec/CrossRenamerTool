@@ -1,6 +1,4 @@
-from PySide6 import QtCore, QtGui, QtWidgets
-
-from crossrenamertool.core import constants
+from PySide6 import QtCore, QtWidgets
 
 
 class UtilsPage(QtWidgets.QWidget):
@@ -16,18 +14,18 @@ class UtilsPage(QtWidgets.QWidget):
     request_swap = QtCore.Signal()
     request_fix_shape_name = QtCore.Signal()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         """Initialize the widget."""
         super().__init__(parent=parent)
 
         self._configure()
         self._create_gui()
 
-    def _configure(self):
+    def _configure(self) -> None:
         """Configure the widget."""
         self.setWindowTitle(self.TITLE)
 
-    def _create_gui(self):
+    def _create_gui(self) -> None:
         """Create the GUI."""
         main_layout = QtWidgets.QVBoxLayout()
         self.setLayout(main_layout)
@@ -53,6 +51,9 @@ class UtilsPage(QtWidgets.QWidget):
         children_label.setStyleSheet("color: #888888; font_size: 11px;")
         children_layout.addWidget(children_label)
         children_button = QtWidgets.QPushButton("Rename Children")
+        children_button.setToolTip(
+            "<p>Rename direct children of the selected node using the parent name.</p><p style='color: #95a5a6;'>Exemple: GRP_arm_L ➞ GRP_arm_L_001, GRP_arm_L_002</p>"
+        )
         children_button.setObjectName("primary")
         children_button.clicked.connect(self._on_rename_children_from_parent)
         children_layout.addWidget(children_button)
@@ -66,10 +67,16 @@ class UtilsPage(QtWidgets.QWidget):
         duplicate_layout.addWidget(duplicate_label, 0, 0, 1, 2)
 
         refresh_button = QtWidgets.QPushButton("Refresh")
+        refresh_button.setToolTip(
+            "<p>Refresh the duplicates list from the current scene.</p>"
+        )
         refresh_button.clicked.connect(self._on_refresh)
         duplicate_layout.addWidget(refresh_button, 1, 0)
 
         self.duplicates_table = self._set_list()
+        self.duplicates_table.setToolTip(
+            "<p>List of nodes with duplicates names in the scenes.</p><p>Edit the 'New Name' column to set a custom name before applying.</p>"
+        )
         self.duplicates_table.setMinimumHeight(200)
         self.duplicates_table.setColumnCount(2)
         self.duplicates_table.setHorizontalHeaderLabels(["Current Name", "New Name"])
@@ -83,11 +90,17 @@ class UtilsPage(QtWidgets.QWidget):
         duplicate_layout.addWidget(self.duplicates_table, 2, 0, 1, 2)
 
         auto_fix_button = QtWidgets.QPushButton("Auto Fix Duplicates")
+        auto_fix_button.setToolTip(
+            "<p>Automatically rename all duplicates using their hierarchy path.</p><p style='color: #95a5a6;'>Exemple: arm ➞ GRP_arm_L_001.</p>"
+        )
         auto_fix_button.setObjectName("primary")
         auto_fix_button.clicked.connect(self._on_auto_fix_button)
         duplicate_layout.addWidget(auto_fix_button, 3, 0)
 
         fix_button = QtWidgets.QPushButton("Fix Duplicate")
+        fix_button.setToolTip(
+            "<p>Rename duplicates using the names entered in the 'New Name' column.</p>"
+        )
         fix_button.clicked.connect(self._on_fix_button)
         duplicate_layout.addWidget(fix_button, 3, 1)
 
@@ -102,6 +115,9 @@ class UtilsPage(QtWidgets.QWidget):
         shape_layout.addWidget(shape_label)
 
         shape_button = QtWidgets.QPushButton("Fix Shapes")
+        shape_button.setToolTip(
+            "<p>Rename all shapes nodes to match their transform name.</p><p style='color: #95a5a6;'>Exemple: pCubeShape1 under arm_geo ➞ arm_geoShape.</p>"
+        )
         shape_button.setObjectName("primary")
         shape_button.clicked.connect(self._on_fix_shape_name)
         shape_layout.addWidget(shape_button)
@@ -117,6 +133,9 @@ class UtilsPage(QtWidgets.QWidget):
         swap_layout.addWidget(swap_label)
 
         swap_button = QtWidgets.QPushButton("Swap L <-> R")
+        swap_button.setToolTip(
+            "<p>Swap left and right side indicators in node names.</p><p style='color: #95a5a6;'>Exemple: Supports; L/R, l/r, Left/Right, left/right, LEFT/RIGHT.</p>"
+        )
         swap_button.setObjectName("primary")
         swap_button.clicked.connect(self._on_swap)
         swap_layout.addWidget(swap_button)
@@ -125,17 +144,20 @@ class UtilsPage(QtWidgets.QWidget):
         scroll.setWidget(container)
         main_layout.addWidget(scroll)
 
-    def _on_rename_children_from_parent(self):
+    def _on_rename_children_from_parent(self) -> None:
         """Rename the selected nodes."""
         self.request_rename_children_from_parent.emit()
 
-    def _on_refresh(self):
+    def _on_refresh(self) -> None:
+        """Refresh the duplicates list from the current scene."""
         self.request_refresh.emit()
 
-    def _on_auto_fix_button(self):
+    def _on_auto_fix_button(self) -> None:
+        """Automatically rename all duplicates using the hierarchy path."""
         self.request_auto_fix.emit()
 
-    def _on_fix_button(self):
+    def _on_fix_button(self) -> None:
+        """Rename duplicates using the names entered."""
         items = {}
         for row in range(self.duplicates_table.rowCount()):
             old_name = self.duplicates_table.item(row, 0).text()
@@ -146,7 +168,7 @@ class UtilsPage(QtWidgets.QWidget):
 
         self.request_fix.emit(items)
 
-    def _set_list(self):
+    def _set_list(self) -> QtWidgets.QTableWidget:
         """Set the list.
 
         Returns:
@@ -180,15 +202,15 @@ class UtilsPage(QtWidgets.QWidget):
             )
             self.duplicates_table.setItem(row, 1, item_new)
 
-    def _on_item_changed(self, index):
+    def _on_item_changed(self, index) -> None:
         """Select node by the duplicates table."""
         if index.column() == 0:
             self.request_select_item.emit(index.row())
 
-    def _on_swap(self):
+    def _on_swap(self) -> None:
         """Swap side indicator on nodes."""
         self.request_swap.emit()
 
-    def _on_fix_shape_name(self):
+    def _on_fix_shape_name(self) -> None:
         """Rename shapes to match their transform name."""
         self.request_fix_shape_name.emit()

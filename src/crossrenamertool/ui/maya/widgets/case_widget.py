@@ -1,6 +1,4 @@
-from PySide6 import QtCore, QtGui, QtWidgets
-
-from crossrenamertool.core import constants
+from PySide6 import QtCore, QtWidgets
 
 
 class CasePage(QtWidgets.QWidget):
@@ -16,18 +14,18 @@ class CasePage(QtWidgets.QWidget):
     request_pascal = QtCore.Signal()
     request_snake = QtCore.Signal()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         """Initialize the widget."""
         super().__init__(parent=parent)
 
         self._configure()
         self._create_gui()
 
-    def _configure(self):
+    def _configure(self) -> None:
         """Configure the widget."""
         self.setWindowTitle(self.TITLE)
 
-    def _create_gui(self):
+    def _create_gui(self) -> None:
         """Create the GUI."""
         main_layout = QtWidgets.QVBoxLayout()
         self.setLayout(main_layout)
@@ -68,30 +66,30 @@ class CasePage(QtWidgets.QWidget):
 
         main_layout.addStretch()
 
-    def _on_lowercase(self):
+    def _on_lowercase(self) -> None:
         """Convert text to lowercase."""
         self.request_lowercase.emit()
 
-    def _on_uppercase(self):
+    def _on_uppercase(self) -> None:
         """Convert text to uppercase."""
         self.request_uppercase.emit()
 
-    def _on_capitalize(self):
+    def _on_capitalize(self) -> None:
         """Convert text to capitalize."""
         self.request_capitalize.emit()
 
-    def _on_title(self):
+    def _on_title(self) -> None:
         """Convert text to title."""
         self.request_title.emit()
 
-    def _on_camel(self):
+    def _on_camel(self) -> None:
         """Convert text to camel."""
         self.request_camel.emit()
 
-    def _on_pascal(self):
+    def _on_pascal(self) -> None:
         """Convert text to pascal."""
         self.request_pascal.emit()
 
-    def _on_snake(self):
+    def _on_snake(self) -> None:
         """Convert text to snake."""
         self.request_snake.emit()

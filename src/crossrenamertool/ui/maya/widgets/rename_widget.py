@@ -1,5 +1,6 @@
-from PySide6 import QtCore, QtGui, QtWidgets
 import logging
+
+from PySide6 import QtCore, QtWidgets
 
 from crossrenamertool.core import constants
 
@@ -36,6 +37,9 @@ class RenamePage(QtWidgets.QWidget):
         main_layout.addWidget(name_group)
 
         self.name_field = QtWidgets.QLineEdit()
+        self.name_field.setToolTip(
+            "<p>Base name for the renaming.</p><p style='color: #95a5a6;'>Example: 'arm' ➞ arm_001, arm_002...</p>"
+        )
         self.name_field.setPlaceholderText("Enter base name...")
         name_group_layout.addWidget(self.name_field)
 
@@ -48,21 +52,33 @@ class RenamePage(QtWidgets.QWidget):
         self.padding = QtWidgets.QSpinBox()
         self.padding.setRange(1, 6)
         self.padding.setValue(constants.DEFAULT_PADDING)
+        self.padding.setToolTip(
+            "<p>Number of digits for the numbering.</p><p style='color: #95a5a6;'>Example: 2 ➞ 01, 02  |  3 ➞ 001, 002  |  4 ➞ 0001, 0002</p>"
+        )
         numbering_options_group_layout.addWidget(self.padding, 0, 1)
 
         numbering_options_group_layout.addWidget(QtWidgets.QLabel("Start at:"), 1, 0)
         self.start = QtWidgets.QSpinBox()
         self.start.setRange(0, 9999)
         self.start.setValue(constants.DEFAULT_START)
+        self.start.setToolTip(
+            "<p>First number in the sequence.</p><p style='color: #95a5a6;'>Example: Start=5, Step=1 ➞ arm_005, arm_006, arm_007</p>"
+        )
         numbering_options_group_layout.addWidget(self.start, 1, 1)
 
         numbering_options_group_layout.addWidget(QtWidgets.QLabel("Step :"), 2, 0)
         self.step = QtWidgets.QSpinBox()
         self.step.setValue(constants.DEFAULT_STEP)
+        self.step.setToolTip(
+            "<p>Increment between each number.</p><p style='color: #95a5a6;'>Example: Start=1, Step=2 ➞ arm_001, arm_003, arm_005</p>"
+        )
         numbering_options_group_layout.addWidget(self.step, 2, 1)
 
         self.use_numbers = QtWidgets.QCheckBox("Append numbers")
         self.use_numbers.setChecked(True)
+        self.use_numbers.setToolTip(
+            "<p><b>Checked:</b> Adds a sequential numbering suffix to the node name.</p><p><b>Unchecked:</b> Renames the node without any numerical suffix.</p>"
+        )
         numbering_options_group_layout.addWidget(self.use_numbers, 3, 0, 1, 2)
 
         # Preview
@@ -87,9 +103,12 @@ class RenamePage(QtWidgets.QWidget):
         rename_btn.setObjectName("primary")
         rename_btn.setFixedHeight(32)
         rename_btn.clicked.connect(self._on_rename)
+        rename_btn.setToolTip(
+            "Rename the selected nodes with the base name and numbering settings."
+        )
         main_layout.addWidget(rename_btn)
 
-    def _on_rename(self):
+    def _on_rename(self) -> None:
         """Rename the selected nodes."""
         name = self.name_field.text()
         padding = self.padding.value()
@@ -100,7 +119,7 @@ class RenamePage(QtWidgets.QWidget):
             return
         self.request_rename.emit(name, padding, start, step)
 
-    def _update_preview(self):
+    def _update_preview(self) -> None:
         """Update the preview."""
         name = self.name_field.text() or "node"
         padding = self.padding.value()

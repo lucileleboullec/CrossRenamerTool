@@ -2,18 +2,18 @@ import logging
 from pathlib import Path
 
 from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtGui, QtWidgets
 
 from crossrenamertool.core import constants
 from crossrenamertool.ui.maya.widgets import (
+    about_dialog,
     case_widget,
     insert_remove_widget,
     prefix_suffix_widget,
     rename_widget,
     search_replace_widget,
-    utils_widget,
     selection_mode_widget,
-    about_dialog,
+    utils_widget,
 )
 
 log = logging.getLogger(__name__)
@@ -46,6 +46,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         "Utils",
     ]
     UTILS_PAGE_INDEX = 5
+    ICONS_PATH = Path(__file__).parents[1] / "resources" / "icons"
 
     def __init__(self, controller, parent=None):
         super().__init__(parent)
@@ -129,6 +130,15 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.tabs.addTab(self.insert_remove_page, "Insert / Remove")
         self.tabs.addTab(self.case_page, "Case")
         self.tabs.addTab(self.utils_page, "Utilities")
+
+        self.tabs.setTabToolTip(0, "Tab for rename nodes with padding.")
+        self.tabs.setTabToolTip(
+            1, "Tab for adding Prefix and/or Suffix or delete them."
+        )
+        self.tabs.setTabToolTip(2, "Tab to search characters and replace them.")
+        self.tabs.setTabToolTip(3, "Tab to insert or remove characters.")
+        self.tabs.setTabToolTip(4, "Tab for case converting.")
+        self.tabs.setTabToolTip(5, "Tab for fix or automatise renaming.")
 
         main_layout.addWidget(self.tabs)
 
@@ -227,22 +237,19 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         """
         self.controller.remove_suffix(self.mode_bar.mode, suffix)
 
-    def search_replace(self, search_text, replace_text, case, regex):
+    def search_replace(self, search_text, replace_text, case):
         """Search and replace name in node.
 
         Args:
             search_text (str): name to find
             replace_text (str): new name to replace
             case (bool): case sensitive
-            regex (bool): find by regex or not
 
         """
-        self.controller.search_replace(search_text, replace_text, case, regex)
+        self.controller.search_replace(search_text, replace_text, case)
 
-    def update_preview_search_preview(self, search, replace, case, regex):
-        texts = self.controller.update_preview_search_preview(
-            search, replace, case, regex
-        )
+    def update_preview_search_preview(self, search, replace, case):
+        texts = self.controller.update_preview_search_preview(search, replace, case)
         self.search_replace_page.preview_label.setText(texts)
 
     def insert_characters(self, text, position, from_start):
@@ -323,11 +330,11 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
     def load_qss(self):
         """Load the Qss file who contains the style of the application."""
         qss_path = Path(__file__).parent.parent / "styles" / "default_style.qss"
-        icons_path = (Path(__file__).parents[1] / "resources" / "icons").as_posix()
+
         with open(qss_path, "r", encoding="utf-8") as qss_file:
             style = qss_file.read()
 
-        style = style.replace("{ICONS_DIR}", icons_path)
+        style = style.replace("{ICONS_DIR}", self.ICONS_PATH.as_posix())
 
         return style
 

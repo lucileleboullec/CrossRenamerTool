@@ -60,7 +60,8 @@ class AboutDialog(QtWidgets.QDialog):
         btn_row = QtWidgets.QHBoxLayout()
         btn_row.setSpacing(8)
 
-        doc_btn = QtWidgets.QPushButton("  Documentation")
+        doc_btn = QtWidgets.QPushButton("Documentation")
+        doc_btn.setToolTip("Open the documentation page.")
         doc_btn.setObjectName("primary")
         doc_btn.setFixedHeight(32)
         doc_btn.clicked.connect(
@@ -68,7 +69,8 @@ class AboutDialog(QtWidgets.QDialog):
         )
         btn_row.addWidget(doc_btn)
 
-        git_btn = QtWidgets.QPushButton("  GitHub")
+        git_btn = QtWidgets.QPushButton("GitHub")
+        doc_btn.setToolTip("Open the GitHub page.")
         git_btn.setFixedHeight(32)
         git_btn.setStyleSheet(
             "QPushButton { background: #24292e; color: #d4d4d4; border: 1px solid #444;"
@@ -81,6 +83,7 @@ class AboutDialog(QtWidgets.QDialog):
         btn_row.addWidget(git_btn)
 
         close_btn = QtWidgets.QPushButton("Close")
+        doc_btn.setToolTip("Close this window.")
         close_btn.setFixedHeight(32)
         close_btn.setFixedWidth(70)
         close_btn.clicked.connect(self.close)

@@ -4,6 +4,12 @@ from PySide6 import QtCore, QtGui, QtWidgets
 class SelectionModeBar(QtWidgets.QWidget):
     """Widget for insert and remove page."""
 
+    MODE = {
+        "Selected": "Applies the operation to the currently selected nodes only.",
+        "Hierarchy": "Applies the operation to the selected nodes and all their descendants.\nShapes are excluded.",
+        "Scene": "Applies the operation to all nodes in the scene.\nDefault cameras (perps, top, front, side) are excluded.",
+    }
+
     def __init__(self, parent=None):
         """Initialize the widget."""
         super().__init__(parent=parent)
@@ -24,10 +30,11 @@ class SelectionModeBar(QtWidgets.QWidget):
         self.button_grp = QtWidgets.QButtonGroup()
         self.button_grp.setExclusive(True)
 
-        for index, mode in enumerate(["Selected", "Hierarchy", "Scene"]):
+        for index, (mode, tooltip) in enumerate(self.MODE.items()):
             button = QtWidgets.QPushButton(mode)
             button.setCheckable(True)
             button.setFixedHeight(26)
+            button.setToolTip(tooltip)
             button.setStyleSheet(self._tab_style(active=index == 0))
             self.button_grp.addButton(button, index)
             main_layout.addWidget(button)
