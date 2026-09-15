@@ -118,6 +118,9 @@ def search_replace(node, search_name, replace_name, case):
     """
     flags = 0 if case else re.IGNORECASE
 
+    if not search_name:
+        return node
+
     return re.sub(search_name, replace_name, node, flags=flags)
 
 
