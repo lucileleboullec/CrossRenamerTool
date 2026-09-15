@@ -256,6 +256,21 @@ QTableWidget::item {
     color: #d4d4d4;
 }
 
+QListWidget {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+    gridline-color: #3a3a3a;
+    selection-background-color: #e8a44a;
+    selection-color: #1a1a1a;
+}
+
+QListWidget::item {
+    padding: 2px;
+    color: #d4d4d4;
+}
+
 
 QHeaderView {
     background-color: #3c3c3c;

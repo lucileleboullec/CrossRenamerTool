@@ -14,6 +14,7 @@ from crossrenamertool.ui.maya.widgets import (
     search_replace_widget,
     selection_mode_widget,
     utils_widget,
+    preset_dialog,
 )
 
 log = logging.getLogger(__name__)
@@ -46,7 +47,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         "Utils",
     ]
     UTILS_PAGE_INDEX = 5
-    ICONS_PATH = Path(__file__).parents[1] / "resources" / "icons"
+    ICONS_PATH = Path(__file__).parents[2] / "resources" / "icons"
 
     def __init__(self, controller, parent=None):
         super().__init__(parent)
@@ -147,6 +148,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.prefix_suffix_page.request_suffix.connect(self.add_suffix)
         self.prefix_suffix_page.request_remove_prefix.connect(self.remove_prefix)
         self.prefix_suffix_page.request_remove_suffix.connect(self.remove_suffix)
+        self.prefix_suffix_page.request_manage.connect(self._on_open_manager)
 
         self.search_replace_page.request_search_replace.connect(self.search_replace)
         self.search_replace_page.request_preview_search_replace.connect(
@@ -236,6 +238,15 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
         """
         self.controller.remove_suffix(self.mode_bar.mode, suffix)
+
+    def _on_open_manager(self, prefix_reload, suffix_reload):
+        style = self.load_qss()
+        dialog = preset_dialog.PresetsDialog(parent=self, stylesheet=style)
+
+        dialog.prefixes_changed.connect(prefix_reload)
+        dialog.suffixes_changed.connect(suffix_reload)
+
+        dialog.exec()
 
     def search_replace(self, search_text, replace_text, case):
         """Search and replace name in node.

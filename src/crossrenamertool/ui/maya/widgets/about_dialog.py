@@ -36,10 +36,12 @@ class AboutDialog(QtWidgets.QDialog):
         title.setAlignment(QtCore.Qt.AlignCenter)
         main_layout.addWidget(title)
 
-        version = QtWidgets.QLabel("v1.0.0  ·  PySide6  ·  Maya 2024+  ·  Blender")
-        version.setStyleSheet("color: #666666; font-size: 11px;")
-        version.setAlignment(QtCore.Qt.AlignCenter)
-        main_layout.addWidget(version)
+        about_text = QtWidgets.QLabel(
+            "© 2026 Lucile Le Boullec. Tous droits réservés.\n\nv1.0.0  ·  Licence MIT  ·  Python 3.14  ·  PySide6  ·  Maya 2024+  ·  Blender"
+        )
+        about_text.setStyleSheet("color: #666666; font-size: 11px;")
+        about_text.setAlignment(QtCore.Qt.AlignCenter)
+        main_layout.addWidget(about_text)
 
         sep = QtWidgets.QFrame()
         sep.setFrameShape(QtWidgets.QFrame.HLine)
