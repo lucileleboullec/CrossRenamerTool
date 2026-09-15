@@ -1,0 +1,17 @@
+{
+    "presets": [
+        "ctrl",
+        "IK",
+        "FK",
+        "jnt",
+        "aim",
+        "grp",
+        "null",
+        "geo",
+        "hi",
+        "low",
+        "pxy",
+        "loc",
+        "crv"
+    ]
+}
