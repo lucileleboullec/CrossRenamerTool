@@ -1,0 +1,123 @@
+site_name: Cross Renamer Tool
+use_directory_urls: false
+theme:
+  name: material
+  features:
+    - search
+    - navigation.indexes
+    - navigation.sections
+    - navigation.path
+    - navigation.instant
+    - navigation.hidden
+    - navigation.tabs
+    - toc.follow
+    - content.code.copy
+    - content.tabs.link
+    - search.highlight
+    - search.share
+
+  font:
+    text: Roboto
+    code: Roboto Mono
+  
+
+  palette:
+    # Palette toggle for light mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mermaid2
+  - mkdocstrings:
+     default_handler: python
+     handlers:
+       python:
+         paths: [src]
+         options:
+           docstring_style: google
+           heading_level: 3
+           show_source: true
+           group_by_category: true
+           show_category_heading: true
+           show_root_toc_entry: false
+           merge_init_into_class: true
+markdown_extensions:
+  # Python Markdown
+  - toc:
+      permalink: true
+  - attr_list: {}
+  # Python Markdown Extensions
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+        custom_fences:
+          - name: mermaid
+            class: mermaid
+            format: !!python/name:mermaid2.fence_mermaid
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Home : index.md
+  - Installation: installation.md
+  - User Manual:
+    - Overview: user_manual/index.md
+    - Tutorials:
+      - Overview: user_manual/tutorials/index.md
+      - How to export your first playblast : user_manual/tutorials/first_export.md
+    - How to Guides:
+      - Overview: user_manual/how-to-guides/index.md
+      - Reload The Tool: user_manual/how-to-guides/guides/reload_tool.md
+      - Editing Project Configuration: user_manual/how-to-guides/guides/modify_naming_pattern.md
+      - Check status scene: user_manual/how-to-guides/guides/check_status_scene.md
+      - Correct scene: user_manual/how-to-guides/guides/correct_scene.md
+      - Playblast history: user_manual/how-to-guides/guides/playblast_history.md
+      - Create Shelf button: user_manual/how-to-guides/guides/create_shelf_button.md
+      - Revert to the default configuration: user_manual/how-to-guides/guides/revert.md
+    - References:
+      - Overview: user_manual/references/index.md
+      - History Filters: user_manual/references/history_filters.md
+      - Available Configuration: user_manual/references/available_configuration.md
+      - Validation System: user_manual/references/validation_system.md
+      - Presets: user_manual/references/presets.md
+      - Error Handling: user_manual/references/error_handling.md
+      - Naming: user_manual/references/naming.md
+      - Generated Files: user_manual/references/files.md
+      - Where are the playblast saved ?: user_manual/references/playblast_saved.md
+    - Explanations:
+      - Explanations: user_manual/explanations/index.md
+  - API Reference:
+    - Overview: API/index.md
+    - Controller : API/controller/index.md
+    - Model : API/model/index.md
+    - View : 
+      - MainView: API/view/main_window.md
+      - Export Playblast Widget: API/view/export_playblast_widget.md
+      - Project Settings Widget: API/view/project_settings_widget.md
+      - Playblast History Dock: API/view/history_dock.md
+    - Core : 
+      - Config : API/core/core_config.md
+      - Logger : API/core/logger.md
+      - Naming : API/core/naming.md
+      - Validation : API/core/validation.md
+    - Utils : API/utils/index.md
