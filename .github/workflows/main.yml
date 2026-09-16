@@ -1,0 +1,13 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - cicd/docs
+
+permissions:
+  contents: write
+
+jobs:
+  call-mkdocs:
+    uses: ./.github/workflows/mkdocs.yml
