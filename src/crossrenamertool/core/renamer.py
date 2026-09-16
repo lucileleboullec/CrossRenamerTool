@@ -1,6 +1,5 @@
 import logging
 import re
-from crossrenamertool.core import constants
 
 log = logging.getLogger(__name__)
 

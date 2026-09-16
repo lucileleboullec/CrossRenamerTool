@@ -1,4 +1,3 @@
-import importlib
 import logging
 
 from PySide6 import QtCore, QtWidgets
@@ -6,8 +5,6 @@ from PySide6 import QtCore, QtWidgets
 from crossrenamertool.core import constants
 from crossrenamertool.core import presets as presets_manager
 
-importlib.reload(presets_manager)
-importlib.reload(constants)
 log = logging.getLogger(__name__)
 
 
@@ -132,15 +129,11 @@ class PresetsDialog(QtWidgets.QDialog):
 
         layout.addLayout(col_layout)
 
-        list_widget.model().rowsMoved.connect(
-            lambda: self._on_order_changed(list_widget, label)
-        )
+        list_widget.model().rowsMoved.connect(lambda: self._on_order_changed(list_widget, label))
 
         list_widget.itemDoubleClicked.connect(lambda item: list_widget.editItem(item))
 
-        list_widget.itemChanged.connect(
-            lambda: self._on_item_renamed(list_widget, label)
-        )
+        list_widget.itemChanged.connect(lambda: self._on_item_renamed(list_widget, label))
 
         return list_widget
 

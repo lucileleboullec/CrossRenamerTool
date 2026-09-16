@@ -67,9 +67,7 @@ class UtilsPage(QtWidgets.QWidget):
         duplicate_layout.addWidget(duplicate_label, 0, 0, 1, 2)
 
         refresh_button = QtWidgets.QPushButton("Refresh")
-        refresh_button.setToolTip(
-            "<p>Refresh the duplicates list from the current scene.</p>"
-        )
+        refresh_button.setToolTip("<p>Refresh the duplicates list from the current scene.</p>")
         refresh_button.clicked.connect(self._on_refresh)
         duplicate_layout.addWidget(refresh_button, 1, 0)
 
@@ -83,9 +81,7 @@ class UtilsPage(QtWidgets.QWidget):
         header = self.duplicates_table.horizontalHeader()
         header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
-        self.duplicates_table.setSelectionBehavior(
-            QtWidgets.QAbstractItemView.SelectRows
-        )
+        self.duplicates_table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.duplicates_table.clicked.connect(self._on_item_changed)
         duplicate_layout.addWidget(self.duplicates_table, 2, 0, 1, 2)
 
@@ -98,9 +94,7 @@ class UtilsPage(QtWidgets.QWidget):
         duplicate_layout.addWidget(auto_fix_button, 3, 0)
 
         fix_button = QtWidgets.QPushButton("Fix Duplicate")
-        fix_button.setToolTip(
-            "<p>Rename duplicates using the names entered in the 'New Name' column.</p>"
-        )
+        fix_button.setToolTip("<p>Rename duplicates using the names entered in the 'New Name' column.</p>")
         fix_button.clicked.connect(self._on_fix_button)
         duplicate_layout.addWidget(fix_button, 3, 1)
 
@@ -126,9 +120,7 @@ class UtilsPage(QtWidgets.QWidget):
         swap_layout = QtWidgets.QVBoxLayout(swap_group)
         c_layout.addWidget(swap_group)
 
-        swap_label = QtWidgets.QLabel(
-            "Swap left/right indicators (L<->R, Left<->Right,etc.)."
-        )
+        swap_label = QtWidgets.QLabel("Swap left/right indicators (L<->R, Left<->Right,etc.).")
         swap_label.setStyleSheet("color: #888888; font_size: 11px;")
         swap_layout.addWidget(swap_label)
 
@@ -177,7 +169,7 @@ class UtilsPage(QtWidgets.QWidget):
         """
         return QtWidgets.QTableWidget()
 
-    def ingest_list(self, duplicates, filters: dict = None) -> None:
+    def ingest_list(self, duplicates, filters: dict | None = None) -> None:
         """Ingest playblast in the list.
 
         Args:
@@ -196,9 +188,7 @@ class UtilsPage(QtWidgets.QWidget):
 
             item_new = QtWidgets.QTableWidgetItem(short_name)
             item_new.setFlags(
-                QtCore.Qt.ItemIsSelectable
-                | QtCore.Qt.ItemIsEnabled
-                | QtCore.Qt.ItemIsEditable  # éditable
+                QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsEditable  # éditable
             )
             self.duplicates_table.setItem(row, 1, item_new)
 

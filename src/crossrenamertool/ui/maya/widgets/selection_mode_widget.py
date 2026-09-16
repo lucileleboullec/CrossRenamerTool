@@ -1,4 +1,4 @@
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtWidgets
 
 
 class SelectionModeBar(QtWidgets.QWidget):
@@ -19,7 +19,6 @@ class SelectionModeBar(QtWidgets.QWidget):
 
     def _configure(self):
         """Configure the widget."""
-        pass
 
     def _create_gui(self):
         """Create the GUI."""

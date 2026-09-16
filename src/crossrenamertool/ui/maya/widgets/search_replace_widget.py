@@ -33,9 +33,7 @@ class SearchReplacePage(QtWidgets.QWidget):
 
         search_replace_layout.addWidget(QtWidgets.QLabel("Search:"), 0, 0)
         self.search_field = QtWidgets.QLineEdit()
-        self.search_field.setToolTip(
-            "<p>Text to search for in the node names.</p><p>Supports partial matches.</p>"
-        )
+        self.search_field.setToolTip("<p>Text to search for in the node names.</p><p>Supports partial matches.</p>")
         self.search_field.setPlaceholderText("Text to find...")
         search_replace_layout.addWidget(self.search_field, 0, 1)
 
@@ -70,9 +68,7 @@ class SearchReplacePage(QtWidgets.QWidget):
         main_layout.addStretch()
 
         apply_btn = QtWidgets.QPushButton("Apply Replace")
-        apply_btn.setToolTip(
-            "<p>Apply the search and replace to all matching nodes.</p>"
-        )
+        apply_btn.setToolTip("<p>Apply the search and replace to all matching nodes.</p>")
         apply_btn.setObjectName("primary")
         apply_btn.setFixedHeight(32)
         apply_btn.clicked.connect(self._on_search_replace)

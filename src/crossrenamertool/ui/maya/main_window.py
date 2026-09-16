@@ -2,35 +2,21 @@ import logging
 from pathlib import Path
 
 from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
-from PySide6 import QtGui, QtWidgets
+from PySide6 import QtWidgets
 
-from crossrenamertool.core import constants
 from crossrenamertool.ui.maya.widgets import (
     about_dialog,
     case_widget,
     insert_remove_widget,
     prefix_suffix_widget,
+    preset_dialog,
     rename_widget,
     search_replace_widget,
     selection_mode_widget,
     utils_widget,
-    preset_dialog,
 )
 
 log = logging.getLogger(__name__)
-
-# ! Delete before publish
-import importlib
-
-importlib.reload(constants)
-importlib.reload(rename_widget)
-importlib.reload(prefix_suffix_widget)
-importlib.reload(search_replace_widget)
-importlib.reload(insert_remove_widget)
-importlib.reload(case_widget)
-importlib.reload(utils_widget)
-importlib.reload(selection_mode_widget)
-importlib.reload(about_dialog)
 
 
 class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
@@ -89,9 +75,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         header_layout.setContentsMargins(12, 0, 8, 0)
 
         title = QtWidgets.QLabel(self.TITLE.upper())
-        title.setStyleSheet(
-            "color: #e8a44a; font-weight: 700; font-size: 13px; letter-spacing: 2px;"
-        )
+        title.setStyleSheet("color: #e8a44a; font-weight: 700; font-size: 13px; letter-spacing: 2px;")
         header_layout.addWidget(title)
         header_layout.addStretch()
 
@@ -133,9 +117,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.tabs.addTab(self.utils_page, "Utilities")
 
         self.tabs.setTabToolTip(0, "Tab for rename nodes with padding.")
-        self.tabs.setTabToolTip(
-            1, "Tab for adding Prefix and/or Suffix or delete them."
-        )
+        self.tabs.setTabToolTip(1, "Tab for adding Prefix and/or Suffix or delete them.")
         self.tabs.setTabToolTip(2, "Tab to search characters and replace them.")
         self.tabs.setTabToolTip(3, "Tab to insert or remove characters.")
         self.tabs.setTabToolTip(4, "Tab for case converting.")
@@ -151,9 +133,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.prefix_suffix_page.request_manage.connect(self._on_open_manager)
 
         self.search_replace_page.request_search_replace.connect(self.search_replace)
-        self.search_replace_page.request_preview_search_replace.connect(
-            self.update_preview_search_preview
-        )
+        self.search_replace_page.request_preview_search_replace.connect(self.update_preview_search_preview)
         self.insert_remove_page.request_insert.connect(self.insert_characters)
         self.insert_remove_page.request_remove.connect(self.remove_characters)
         self.case_page.request_lowercase.connect(self.text_to_lowercase)
@@ -163,9 +143,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.case_page.request_camel.connect(self.text_to_camel)
         self.case_page.request_pascal.connect(self.text_to_pascal)
         self.case_page.request_snake.connect(self.text_to_snake)
-        self.utils_page.request_rename_children_from_parent.connect(
-            self.rename_children_from_parent
-        )
+        self.utils_page.request_rename_children_from_parent.connect(self.rename_children_from_parent)
 
         self.utils_page.request_fix.connect(self.fix_duplicates)
         self.utils_page.request_auto_fix.connect(self.auto_fix_duplicates)
@@ -272,9 +250,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             from_start (bool): True from start of name otherwise False
 
         """
-        self.controller.add_characters(
-            mode=self.mode_bar.mode, text=text, position=position, from_start=from_start
-        )
+        self.controller.add_characters(mode=self.mode_bar.mode, text=text, position=position, from_start=from_start)
 
     def remove_characters(self, count, position, from_start):
         """Remove characters to a text at a specific position by the start.
@@ -342,7 +318,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         """Load the Qss file who contains the style of the application."""
         qss_path = Path(__file__).parent.parent / "styles" / "default_style.qss"
 
-        with open(qss_path, "r", encoding="utf-8") as qss_file:
+        with open(qss_path, encoding="utf-8") as qss_file:
             style = qss_file.read()
 
         style = style.replace("{ICONS_DIR}", self.ICONS_PATH.as_posix())

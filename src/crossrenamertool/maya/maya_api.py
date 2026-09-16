@@ -10,12 +10,6 @@ from crossrenamertool.core import constants, renamer
 
 log = logging.getLogger(__name__)
 
-# ! Delete before publish
-import importlib
-
-importlib.reload(renamer)
-importlib.reload(constants)
-
 
 def _apply_rename(node, new_name, old_name=""):
     """Apply rename.
@@ -31,17 +25,15 @@ def _apply_rename(node, new_name, old_name=""):
     """
     try:
         actual_name = cmds.rename(node, new_name)
-    except Exception as e:
-        cmds.warning(f"Could not rename '{node}' to '{new_name}': {e}")
+    except (ValueError, RuntimeError):
+        cmds.warning(f"Could not rename '{node}' to '{new_name}")
         return node
 
     if not old_name:
         old_name = node
 
     if actual_name != new_name:
-        log.warning(
-            f"{old_name} renamed to {actual_name} instead of {new_name} (name conflict)."
-        )
+        log.warning(f"{old_name} renamed to {actual_name} instead of {new_name} (name conflict).")
     else:
         log.info(f"{old_name} -> {actual_name}")
 
@@ -63,7 +55,6 @@ def _process_nodes(mode, transform_function):
 
     renamed = {}
     for node in nodes:
-
         if not cmds.objExists(node):
             log.error(f"The node {node} doesn't exist.")
             continue
@@ -99,16 +90,8 @@ def get_hierarchy():
 
     """
     selected = get_selection()
-    transforms = (
-        cmds.listRelatives(
-            selected, allDescendents=True, fullPath=True, type="transform"
-        )
-        or []
-    )
-    joints = (
-        cmds.listRelatives(selected, allDescendents=True, fullPath=True, type="joint")
-        or []
-    )
+    transforms = cmds.listRelatives(selected, allDescendents=True, fullPath=True, type="transform") or []
+    joints = cmds.listRelatives(selected, allDescendents=True, fullPath=True, type="joint") or []
     children = list(dict.fromkeys(transforms + joints))
 
     return selected + children
@@ -179,7 +162,7 @@ def rename_nodes(mode, base_name, padding, start, step):
         temp_name = cmds.rename(node, temp)
         temp_names.append(temp_name)
 
-    for node, index, old_node in zip(temp_names, numbers, nodes):
+    for node, index, old_node in zip(temp_names, numbers, nodes, strict=False):
         if not cmds.objExists(node):
             log.error(f"The node {node} doesn't exist.")
             continue
@@ -295,9 +278,7 @@ def add_characters(mode, text, position, from_start):
         dict[str, str]: dictionary of nodes
 
     """
-    return _process_nodes(
-        mode, lambda node: renamer.add_characters(node, text, position, from_start)
-    )
+    return _process_nodes(mode, lambda node: renamer.add_characters(node, text, position, from_start))
 
 
 def remove_characters(mode, position, count, from_start):
@@ -313,9 +294,7 @@ def remove_characters(mode, position, count, from_start):
         dict[str, str]: dictionary of nodes
 
     """
-    return _process_nodes(
-        mode, lambda node: renamer.remove_characters(node, position, count, from_start)
-    )
+    return _process_nodes(mode, lambda node: renamer.remove_characters(node, position, count, from_start))
 
 
 def text_to_lowercase(mode):
@@ -431,9 +410,7 @@ def rename_children_from_parent(mode, padding=constants.DEFAULT_PADDING):
         if not cmds.objExists(parent):
             log.error(f"The node {parent} doesn't exist.")
             continue
-        children = (
-            cmds.listRelatives(parent, children=True, fullPath=True, type="transform")
-        ) or []
+        children = (cmds.listRelatives(parent, children=True, fullPath=True, type="transform")) or []
         if not children:
             log.warning(f"{parent} has no children")
 
@@ -443,9 +420,7 @@ def rename_children_from_parent(mode, padding=constants.DEFAULT_PADDING):
             temp_name = cmds.rename(child, temp)
             temp_names.append(temp_name)
 
-        for temp_child, index, old_child in zip(
-            temp_names, range(1, len(children) + 1), children
-        ):
+        for temp_child, index, old_child in zip(temp_names, range(1, len(children) + 1), children, strict=False):
             short_parent = parent.split("|")[-1]
             new_name = renamer.renaming(short_parent, index, padding)
             renamed[old_child] = _apply_rename(temp_child, new_name, old_child)
@@ -550,7 +525,7 @@ def select_item(index, datas):
         log.info(f"Select {items[index]} node")
         return items[index]
 
-    log.warning(f"No selection")
+    log.warning("No selection")
     return None
 
 
@@ -580,10 +555,7 @@ def fix_shape_name():
     renamed = {}
 
     for node in nodes:
-        shapes = (
-            cmds.listRelatives(node, shapes=True, fullPath=True, noIntermediate=False)
-            or []
-        )
+        shapes = cmds.listRelatives(node, shapes=True, fullPath=True, noIntermediate=False) or []
         if not shapes:
             continue
 

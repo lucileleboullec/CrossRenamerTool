@@ -3,11 +3,18 @@ name: Main Workflow
 on:
   push:
     branches:
-      - cicd/docs
+      - main
+      - develop
+
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
 
 jobs:
-  call-mkdocs:
+  lint:
+    uses: ./.github/workflows/linter.yml
+  docs:
     uses: ./.github/workflows/mkdocs.yml

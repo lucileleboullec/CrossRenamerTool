@@ -37,7 +37,7 @@ class AboutDialog(QtWidgets.QDialog):
         main_layout.addWidget(title)
 
         about_text = QtWidgets.QLabel(
-            "© 2026 Lucile Le Boullec. Tous droits réservés.\n\nv1.0.0  ·  Licence MIT  ·  Python 3.14  ·  PySide6  ·  Maya 2024+  ·  Blender"
+            "© 2026 Lucile Le Boullec. Tous droits réservés.\n\nv1.0.0  ·  Licence MIT  ·  Python 3.11.9+  ·  PySide6 6.5.3+ ·  Qt 6.5.3+  ·  Maya 2024+  ·  Blender"
         )
         about_text.setStyleSheet("color: #666666; font-size: 11px;")
         about_text.setAlignment(QtCore.Qt.AlignCenter)
@@ -66,9 +66,7 @@ class AboutDialog(QtWidgets.QDialog):
         doc_btn.setToolTip("Open the documentation page.")
         doc_btn.setObjectName("primary")
         doc_btn.setFixedHeight(32)
-        doc_btn.clicked.connect(
-            lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl(self.DOC_URL))
-        )
+        doc_btn.clicked.connect(lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl(self.DOC_URL)))
         btn_row.addWidget(doc_btn)
 
         git_btn = QtWidgets.QPushButton("GitHub")
@@ -79,9 +77,7 @@ class AboutDialog(QtWidgets.QDialog):
             " border-radius: 4px; padding: 5px 12px; }"
             "QPushButton:hover { background: #2f363d; }"
         )
-        git_btn.clicked.connect(
-            lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl(self.GIT_URL))
-        )
+        git_btn.clicked.connect(lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl(self.GIT_URL)))
         btn_row.addWidget(git_btn)
 
         close_btn = QtWidgets.QPushButton("Close")

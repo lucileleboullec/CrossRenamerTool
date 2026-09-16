@@ -31,9 +31,7 @@ def _get_path(preset_type: str) -> Path:
     """
     path = _PATHS.get(preset_type)
     if path is None:
-        raise ValueError(
-            f"Unknown preset type: '{preset_type}'. Expected: {list(_PATHS)}"
-        )
+        raise ValueError(f"Unknown preset type: '{preset_type}'. Expected: {list(_PATHS)}")
     return path
 
 

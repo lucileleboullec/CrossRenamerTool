@@ -85,9 +85,7 @@ class RenamePage(QtWidgets.QWidget):
         preview_group = QtWidgets.QGroupBox("Preview")
         preview_layout = QtWidgets.QVBoxLayout(preview_group)
         self.preview_label = QtWidgets.QLabel("pCube_01, pCube_02, ...")
-        self.preview_label.setStyleSheet(
-            "color: #888888; font-style: italic; font-size: 11px;"
-        )
+        self.preview_label.setStyleSheet("color: #888888; font-style: italic; font-size: 11px;")
         preview_layout.addWidget(self.preview_label)
         main_layout.addWidget(preview_group)
 
@@ -103,9 +101,7 @@ class RenamePage(QtWidgets.QWidget):
         rename_btn.setObjectName("primary")
         rename_btn.setFixedHeight(32)
         rename_btn.clicked.connect(self._on_rename)
-        rename_btn.setToolTip(
-            "Rename the selected nodes with the base name and numbering settings."
-        )
+        rename_btn.setToolTip("Rename the selected nodes with the base name and numbering settings.")
         main_layout.addWidget(rename_btn)
 
     def _on_rename(self) -> None:
@@ -126,9 +122,7 @@ class RenamePage(QtWidgets.QWidget):
         start = self.start.value()
         step = self.step.value()
         if self.use_numbers.isChecked():
-            exemples = [
-                f"{name}_{str(start + i * step).zfill(padding)}" for i in range(3)
-            ]
+            exemples = [f"{name}_{str(start + i * step).zfill(padding)}" for i in range(3)]
             self.preview_label.setText(", ".join(exemples) + ", ...")
         else:
             self.preview_label.setText(name)

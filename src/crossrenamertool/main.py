@@ -1,5 +1,4 @@
 import logging
-import re
 
 from crossrenamertool.core import constants
 from crossrenamertool.maya import maya_api
@@ -8,13 +7,6 @@ from crossrenamertool.ui.maya import main_window as app_view
 log = logging.getLogger(__name__)
 
 _WINDOW = None
-
-# ! Delete before publish
-import importlib
-
-importlib.reload(maya_api)
-importlib.reload(app_view)
-importlib.reload(constants)
 
 
 class CrossRenamerToolController:
@@ -44,9 +36,7 @@ class CrossRenamerToolController:
             dict[str, str]: renamed nodes
 
         """
-        return maya_api.rename_nodes(
-            mode, base_name=base_name, padding=padding, start=start, step=step
-        )
+        return maya_api.rename_nodes(mode, base_name=base_name, padding=padding, start=start, step=step)
 
     def add_prefix(self, mode, prefix=""):
         """Add prefix to nodes.

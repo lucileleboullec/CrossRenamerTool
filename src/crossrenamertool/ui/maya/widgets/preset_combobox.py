@@ -1,13 +1,8 @@
 import logging
-import importlib
 
 from PySide6 import QtCore, QtWidgets
 
-from crossrenamertool.core import presets as presets_manager
-
 log = logging.getLogger(__name__)
-
-importlib.reload(presets_manager)
 
 
 class PresetComboBox(QtWidgets.QComboBox):
@@ -46,9 +41,7 @@ class PresetComboBox(QtWidgets.QComboBox):
         menu.addSeparator()
 
         manage_action = menu.addAction("Manage presets...")
-        manage_action.setToolTip(
-            "Open the preset manager to add, remove or reorder presets."
-        )
+        manage_action.setToolTip("Open the preset manager to add, remove or reorder presets.")
 
         action = menu.exec(event.globalPos())
 

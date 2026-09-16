@@ -1,15 +1,9 @@
-import importlib
 import logging
 
 from PySide6 import QtCore, QtWidgets
 
-from crossrenamertool.core import constants, presets
-from crossrenamertool.ui.maya.widgets import preset_combobox, preset_dialog
-
-importlib.reload(constants)
-importlib.reload(presets)
-importlib.reload(preset_combobox)
-importlib.reload(preset_dialog)
+from crossrenamertool.core import presets
+from crossrenamertool.ui.maya.widgets import preset_combobox
 
 log = logging.getLogger(__name__)
 
@@ -63,12 +57,8 @@ class PrefixSuffixPage(QtWidgets.QWidget):
         self.prefix.setCurrentIndex(-1)
         self.prefix.lineEdit().setPlaceholderText("e.g. geo")
         self.prefix.setFixedHeight(30)
-        self.prefix.request_save.connect(
-            lambda value: self._on_save_preset("prefixes", value, self.prefix)
-        )
-        self.prefix.request_remove.connect(
-            lambda value: self._on_remove_preset("prefixes", value, self.prefix)
-        )
+        self.prefix.request_save.connect(lambda value: self._on_save_preset("prefixes", value, self.prefix))
+        self.prefix.request_remove.connect(lambda value: self._on_remove_preset("prefixes", value, self.prefix))
         self.prefix.request_manage.connect(self._on_open_manager)
         prefix_row.addWidget(self.prefix)
 
@@ -98,12 +88,8 @@ class PrefixSuffixPage(QtWidgets.QWidget):
         self.suffix.setCurrentIndex(-1)
         self.suffix.lineEdit().setPlaceholderText("e.g. GEO")
         self.suffix.setFixedHeight(30)
-        self.suffix.request_save.connect(
-            lambda value: self._on_save_preset("suffixes", value, self.suffix)
-        )
-        self.suffix.request_remove.connect(
-            lambda value: self._on_remove_preset("suffixes", value, self.suffix)
-        )
+        self.suffix.request_save.connect(lambda value: self._on_save_preset("suffixes", value, self.suffix))
+        self.suffix.request_remove.connect(lambda value: self._on_remove_preset("suffixes", value, self.suffix))
         self.suffix.request_manage.connect(self._on_open_manager)
         suffix_row.addWidget(self.suffix)
 
@@ -190,9 +176,7 @@ class PrefixSuffixPage(QtWidgets.QWidget):
         """
         existing = presets.load_presets(preset_type)
         if value in existing:
-            QtWidgets.QMessageBox.information(
-                self, "Already exists", f"'{value}' is already in the {preset_type}."
-            )
+            QtWidgets.QMessageBox.information(self, "Already exists", f"'{value}' is already in the {preset_type}.")
             return
 
         presets.add_prefixes(value)
@@ -209,9 +193,7 @@ class PrefixSuffixPage(QtWidgets.QWidget):
         """
         existing = presets.load_presets(preset_type)
         if value in existing:
-            QtWidgets.QMessageBox.warning(
-                self, "Not found", f"'{value}' is not in the {preset_type} presets."
-            )
+            QtWidgets.QMessageBox.warning(self, "Not found", f"'{value}' is not in the {preset_type} presets.")
             return
 
         presets.remove_preset(preset_type, value)

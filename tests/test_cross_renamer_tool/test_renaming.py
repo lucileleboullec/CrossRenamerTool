@@ -46,19 +46,13 @@ class TestAddSuffix(unittest.TestCase):
 
 class TestSearchReplace(unittest.TestCase):
     def test_basic(self):
-        self.assertEqual(
-            renamer.search_replace("pCube_arm_L", "pCube", "CTRL", True), "CTRL_arm_L"
-        )
+        self.assertEqual(renamer.search_replace("pCube_arm_L", "pCube", "CTRL", True), "CTRL_arm_L")
 
     def test_case_sensitive_no_match(self):
-        self.assertEqual(
-            renamer.search_replace("pCube_arm_L", "pcube", "CTRL", True), "pCube_arm_L"
-        )
+        self.assertEqual(renamer.search_replace("pCube_arm_L", "pcube", "CTRL", True), "pCube_arm_L")
 
     def test_case_insensitive(self):
-        self.assertEqual(
-            renamer.search_replace("pCube_arm_L", "pcube", "CTRL", False), "CTRL_arm_L"
-        )
+        self.assertEqual(renamer.search_replace("pCube_arm_L", "pcube", "CTRL", False), "CTRL_arm_L")
 
     def test_no_match(self):
         self.assertEqual(renamer.search_replace("arm_L", "leg", "arm", True), "arm_L")
@@ -68,21 +62,15 @@ class TestSearchReplace(unittest.TestCase):
         self.assertEqual(result, "arm_L")
 
     def test_replace_with_empty(self):
-        self.assertEqual(
-            renamer.search_replace("pCube_arm_L", "pCube_", "", True), "arm_L"
-        )
+        self.assertEqual(renamer.search_replace("pCube_arm_L", "pCube_", "", True), "arm_L")
 
     def test_special_characters(self):
-        self.assertEqual(
-            renamer.search_replace("arm.L", "arm.L", "leg_L", True), "leg_L"
-        )
+        self.assertEqual(renamer.search_replace("arm.L", "arm.L", "leg_L", True), "leg_L")
 
 
 class TestAddCharacters(unittest.TestCase):
     def test_from_start_position_0(self):
-        self.assertEqual(
-            renamer.add_characters("arm_L", "CTRL_", 0, True), "CTRL_arm_L"
-        )
+        self.assertEqual(renamer.add_characters("arm_L", "CTRL_", 0, True), "CTRL_arm_L")
 
     def test_from_start_middle(self):
         self.assertEqual(renamer.add_characters("arm_L", "X", 3, True), "armX_L")
@@ -160,14 +148,10 @@ class TestSwapSide(unittest.TestCase):
         self.assertEqual(renamer.swap_side("LEFT_arm", self.SWAP_SIDES), "RIGHT_arm")
 
     def test_no_side(self):
-        self.assertEqual(
-            renamer.swap_side("CTRL_spine_C", self.SWAP_SIDES), "CTRL_spine_C"
-        )
+        self.assertEqual(renamer.swap_side("CTRL_spine_C", self.SWAP_SIDES), "CTRL_spine_C")
 
     def test_L_inside_word(self):
-        self.assertEqual(
-            renamer.swap_side("LEFTOVER_ctrl", self.SWAP_SIDES), "LEFTOVER_ctrl"
-        )
+        self.assertEqual(renamer.swap_side("LEFTOVER_ctrl", self.SWAP_SIDES), "LEFTOVER_ctrl")
 
     def test_empty_swap_sides(self):
         self.assertIsNone(renamer.swap_side("CTRL_arm_L", {}))
@@ -186,7 +170,6 @@ class TestFixShapeName(unittest.TestCase):
 
 
 class TestRenameFromParent(unittest.TestCase):
-
     def test_basic(self):
         self.assertEqual(renamer.renaming("CTRL_arm_L", 1, 3), "CTRL_arm_L_001")
 

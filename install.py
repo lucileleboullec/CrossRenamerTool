@@ -8,18 +8,18 @@ import sys
 path = r"path/to/module"
 if path not in sys.path:
     sys.path.append(path)
-    
+
 from crossrenamertool.launcher import run
 run()
 """
 
 # Icône (optionnel — sinon Maya met une icône par défaut)
-icon = "menuIconModify.png"  # icône native Maya
+icon = "menuIconModify.png"
 
 cmds.shelfButton(
-    parent="Custom",  # nom de ta shelf
+    parent="Custom",
     label="Renamer",
-    annotation="Ouvre le Maya Renamer",
+    annotation="Open Cross Renamer Tool",
     sourceType="python",
     command=button_code,
     image1=icon,
