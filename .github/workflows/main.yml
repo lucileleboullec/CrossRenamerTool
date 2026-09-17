@@ -17,10 +17,17 @@ permissions:
 jobs:
   lint:
     uses: ./.github/workflows/linter.yml
+    
   tests:
     needs: lint
     uses: ./.github/workflows/tests.yml
+
   docs:
     needs: tests
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/mkdocs.yml
+
+  docs-dev:
+    needs: tests
+    if: github.ref == 'refs/heads/develop'
+    uses: ./.github/workflows/mkdocs-dev.yml
