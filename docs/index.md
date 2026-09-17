@@ -1,17 +1,20 @@
-# Welcome to MkDocs
+# Cross Renamer Tool
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+## Description
+The **Cross Renamer Tool** is a production-ready renaming utility for Autodesk Maya and Blender. It covers the full range of renaming operations an artist needs on a daily basis.
 
-## Commands
+!!! warning
+    For now, the tool only works in Autodesk Maya
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
 
-## Project layout
+<div align="center">
+  <img src="images/cross_renamer_tool.png" alt="Cross Renamer Tool" width="400"/>
+  <p><em>Cross Renamer Tool</em></p>
+</div>
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+</br>
+
+<a class="md-button" href="installation.html">Installation</a>
+<a class="md-button" href="user_manual/index.html">User Manual</a>
+<a class="md-button" href="developer_docs/index.html">Developer Docs</a>
+<a class="md-button" href="API/index.html">API</a>
