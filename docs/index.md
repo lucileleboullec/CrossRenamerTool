@@ -14,7 +14,7 @@ The **Cross Renamer Tool** is a production-ready renaming utility for Autodesk M
 
 </br>
 
-<a class="md-button" href="installation.html">Installation</a>
-<a class="md-button" href="user_manual/index.html">User Manual</a>
-<a class="md-button" href="developer_docs/index.html">Developer Docs</a>
-<a class="md-button" href="API/index.html">API</a>
+<a class="md-button" href="installation/">Installation</a>
+<a class="md-button" href="user_manual/">User Manual</a>
+<a class="md-button" href="developer_docs/">Developer Docs</a>
+<a class="md-button" href="API/">API</a>

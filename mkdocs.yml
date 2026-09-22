@@ -1,5 +1,5 @@
 site_name: Cross Renamer Tool
-use_directory_urls: false
+# use_directory_urls: false
 site_url: https://lucileleboullec.github.io/CrossRenamerTool/
 
 docs_dir: docs
@@ -87,3 +87,53 @@ nav:
   - Installation: installation.md
   - User Manual:
     - Overview: user_manual/index.md
+    - Tutorials:
+      - Overview: user_manual/tutorials/index.md
+    - How to Guides:
+      - Overview: user_manual/how-to-guides/index.md
+      - Create Shelf Button : user_manual/how-to-guides/guides/create_shelf_button.md
+    - References:
+      - Overview: user_manual/references/index.md
+    - Explanations:
+      - Explanations: user_manual/explanations/index.md
+  - Developer Docs:
+    - Overview: developer_docs/index.md
+    - Tutorials:
+      - Overview: user_manual/tutorials/index.md
+    - How to Guides:
+      - Overview: user_manual/how-to-guides/index.md
+    - References:
+      - Overview: user_manual/references/index.md
+    - Explanations:
+      - Explanations: user_manual/explanations/index.md
+
+  - API:
+    - Overview: API/index.md
+    - Controller : API/controller/index.md
+    - Model : 
+      - Overview: API/model/index.md
+      - Blender API: API/model/blender_api.md
+      - Maya API: API/model/maya_api.md
+    - View : 
+      - Overview: API/view/index.md
+      - Blender: API/view/blender/index.md
+      - Maya:
+        - Overview: API/view/maya/index.md
+        - Main Window: API/view/maya/main_window.md
+        - Widgets: 
+          - Overview: API/view/maya/widgets/index.md
+          - About Dialog: API/view/maya/widgets/about_dialog.md
+          - Case Widget: API/view/maya/widgets/case_widget.md
+          - Insert Remove Widget: API/view/maya/widgets/insert_remove_widget.md
+          - Prefix Suffix Widget: API/view/maya/widgets/prefix_suffix_widget.md
+          - Preset Combobox: API/view/maya/widgets/preset_combobox.md
+          - Preset Dialog: API/view/maya/widgets/preset_dialog.md
+          - Rename Widget: API/view/maya/widgets/rename_widget.md
+          - Search Replace Widget: API/view/maya/widgets/search_replace_widget.md
+          - Selection Mode Widget: API/view/maya/widgets/selection_mode_widget.md
+          - Utils Widget: API/view/maya/widgets/utils_widget.md
+    - Core : 
+      - Overview: API/core/index.md
+      - Constants : API/core/constants.md
+      - Presets : API/core/presets.md
+      - Renamer : API/core/renamer.md
