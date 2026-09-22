@@ -1,31 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://lucileleboullec.github.io/CrossRenamerTool/index.html</loc>
-         <lastmod>2026-09-17</lastmod>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/</loc>
+         <lastmod>2026-09-22</lastmod>
     </url>
     <url>
-         <loc>https://lucileleboullec.github.io/CrossRenamerTool/installation.html</loc>
-         <lastmod>2026-09-17</lastmod>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/installation/</loc>
+         <lastmod>2026-09-22</lastmod>
     </url>
     <url>
-         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/index.html</loc>
-         <lastmod>2026-09-17</lastmod>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/</loc>
+         <lastmod>2026-09-22</lastmod>
     </url>
     <url>
-         <loc>https://lucileleboullec.github.io/CrossRenamerTool/developer_docs/index.html</loc>
-         <lastmod>2026-09-17</lastmod>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/controller/</loc>
+         <lastmod>2026-09-22</lastmod>
     </url>
     <url>
-         <loc>https://lucileleboullec.github.io/CrossRenamerTool/user_manual/index.html</loc>
-         <lastmod>2026-09-17</lastmod>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/core/</loc>
+         <lastmod>2026-09-22</lastmod>
     </url>
     <url>
-         <loc>https://lucileleboullec.github.io/CrossRenamerTool/user_manual/how-to-guides/index.html</loc>
-         <lastmod>2026-09-17</lastmod>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/core/constants/</loc>
+         <lastmod>2026-09-22</lastmod>
     </url>
     <url>
-         <loc>https://lucileleboullec.github.io/CrossRenamerTool/user_manual/how-to-guides/guides/create_shelf_button.html</loc>
-         <lastmod>2026-09-17</lastmod>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/core/presets/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/core/renamer/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/model/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/model/blender_api/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/model/maya_api/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/blender/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/main_window/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/about_dialog/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/case_widget/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/insert_remove_widget/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/prefix_suffix_widget/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/preset_combobox/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/preset_dialog/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/rename_widget/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/search_replace_widget/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/selection_mode_widget/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/API/view/maya/widgets/utils_widget/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/developer_docs/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/user_manual/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/user_manual/how-to-guides/</loc>
+         <lastmod>2026-09-22</lastmod>
+    </url>
+    <url>
+         <loc>https://lucileleboullec.github.io/CrossRenamerTool/user_manual/how-to-guides/guides/create_shelf_button/</loc>
+         <lastmod>2026-09-22</lastmod>
     </url>
 </urlset>
