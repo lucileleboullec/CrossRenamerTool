@@ -1,0 +1,1386 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://lucileleboullec.github.io/CrossRenamerTool/developer_docs/references/architecture/" rel="canonical"/>
+<link href="../" rel="prev"/>
+<link href="../../explanations/" rel="next"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>Architecture - Cross Renamer Tool</title>
+<link href="../../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../assets/_mkdocstrings.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="blue" data-md-color-primary="blue" data-md-color-scheme="slate" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#architecture">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Cross Renamer Tool" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Cross Renamer Tool">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Cross Renamer Tool
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Architecture
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="slate" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</label>
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="blue" data-md-color-scheme="default" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<a aria-label="Share" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="Share">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../..">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../installation/">
+        
+  
+  
+    
+  
+  Installation
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../user_manual/">
+          
+  
+  
+    
+  
+  User Manual
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../../">
+          
+  
+  
+    
+  
+  Developer Docs
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../API/">
+          
+  
+  
+    
+  
+  API
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Cross Renamer Tool" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Cross Renamer Tool">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Cross Renamer Tool
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../installation/">
+<span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../user_manual/">
+<span class="md-ellipsis">
+    
+  
+    User Manual
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    User Manual
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../user_manual/tutorials/index.md">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../user_manual/how-to-guides/">
+<span class="md-ellipsis">
+    
+  
+    How to Guides
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    How to Guides
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../user_manual/how-to-guides/guides/create_shelf_button/">
+<span class="md-ellipsis">
+    
+  
+    Create Shelf Button
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    References
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    References
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../user_manual/references/index.md">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Explanations
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Explanations
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../user_manual/explanations/index.md">
+<span class="md-ellipsis">
+    
+  
+    Explanations
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../">
+<span class="md-ellipsis">
+    
+  
+    Developer Docs
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer Docs
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../tutorials/">
+<span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+</a>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../how-to-guides/">
+<span class="md-ellipsis">
+    
+  
+    How to Guides
+  
+
+    
+  </span>
+</a>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    How to Guides
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    References
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_4_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    References
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#overview">
+<span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#layer-breakdown">
+<span class="md-ellipsis">
+      
+        Layer Breakdown
+      
+    </span>
+</a>
+<nav aria-label="Layer Breakdown" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#layer-1-pure-logic-corerenamerpy">
+<span class="md-ellipsis">
+      
+        Layer 1 - Pure Logic (core/renamer.py)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#layer-2-maya-adapter-modelmaya_apipy">
+<span class="md-ellipsis">
+      
+        Layer 2 - Maya Adapter (model/maya_api.py)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#layer-3-controller-mainpy">
+<span class="md-ellipsis">
+      
+        Layer 3 - Controller (main.py)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#layer-4-ui-uimaya">
+<span class="md-ellipsis">
+      
+        Layer 4 - UI (UI/maya/)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#file-structure">
+<span class="md-ellipsis">
+      
+        File Structure
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#selection-modes">
+<span class="md-ellipsis">
+      
+        Selection Modes
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#double-pass-renaming">
+<span class="md-ellipsis">
+      
+        Double-Pass Renaming
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#preset-system">
+<span class="md-ellipsis">
+      
+        Preset System
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../explanations/">
+<span class="md-ellipsis">
+    
+  
+    Explanations
+  
+
+    
+  </span>
+</a>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Explanations
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../API/">
+<span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    API
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/controller/">
+<span class="md-ellipsis">
+    
+  
+    Controller
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../API/model/">
+<span class="md-ellipsis">
+    
+  
+    Model
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Model
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/model/blender_api/">
+<span class="md-ellipsis">
+    
+  
+    Blender API
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/model/maya_api/">
+<span class="md-ellipsis">
+    
+  
+    Maya API
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../API/view/">
+<span class="md-ellipsis">
+    
+  
+    View
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    View
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/blender/">
+<span class="md-ellipsis">
+    
+  
+    Blender
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_4_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../API/view/maya/">
+<span class="md-ellipsis">
+    
+  
+    Maya
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5_4_3" id="__nav_5_4_3_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_4_3_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_5_4_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Maya
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/main_window/">
+<span class="md-ellipsis">
+    
+  
+    Main Window
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_4_3_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/">
+<span class="md-ellipsis">
+    
+  
+    Widgets
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5_4_3_3" id="__nav_5_4_3_3_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_4_3_3_label" class="md-nav" data-md-level="4">
+<label class="md-nav__title" for="__nav_5_4_3_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Widgets
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/about_dialog/">
+<span class="md-ellipsis">
+    
+  
+    About Dialog
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/case_widget/">
+<span class="md-ellipsis">
+    
+  
+    Case Widget
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/insert_remove_widget/">
+<span class="md-ellipsis">
+    
+  
+    Insert Remove Widget
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/prefix_suffix_widget/">
+<span class="md-ellipsis">
+    
+  
+    Prefix Suffix Widget
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/preset_combobox/">
+<span class="md-ellipsis">
+    
+  
+    Preset Combobox
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/preset_dialog/">
+<span class="md-ellipsis">
+    
+  
+    Preset Dialog
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/rename_widget/">
+<span class="md-ellipsis">
+    
+  
+    Rename Widget
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/search_replace_widget/">
+<span class="md-ellipsis">
+    
+  
+    Search Replace Widget
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/selection_mode_widget/">
+<span class="md-ellipsis">
+    
+  
+    Selection Mode Widget
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/view/maya/widgets/utils_widget/">
+<span class="md-ellipsis">
+    
+  
+    Utils Widget
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../API/core/">
+<span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/core/constants/">
+<span class="md-ellipsis">
+    
+  
+    Constants
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/core/presets/">
+<span class="md-ellipsis">
+    
+  
+    Presets
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../API/core/renamer/">
+<span class="md-ellipsis">
+    
+  
+    Renamer
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#overview">
+<span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#layer-breakdown">
+<span class="md-ellipsis">
+      
+        Layer Breakdown
+      
+    </span>
+</a>
+<nav aria-label="Layer Breakdown" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#layer-1-pure-logic-corerenamerpy">
+<span class="md-ellipsis">
+      
+        Layer 1 - Pure Logic (core/renamer.py)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#layer-2-maya-adapter-modelmaya_apipy">
+<span class="md-ellipsis">
+      
+        Layer 2 - Maya Adapter (model/maya_api.py)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#layer-3-controller-mainpy">
+<span class="md-ellipsis">
+      
+        Layer 3 - Controller (main.py)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#layer-4-ui-uimaya">
+<span class="md-ellipsis">
+      
+        Layer 4 - UI (UI/maya/)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#file-structure">
+<span class="md-ellipsis">
+      
+        File Structure
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#selection-modes">
+<span class="md-ellipsis">
+      
+        Selection Modes
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#double-pass-renaming">
+<span class="md-ellipsis">
+      
+        Double-Pass Renaming
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#preset-system">
+<span class="md-ellipsis">
+      
+        Preset System
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../../..">
+<span class="md-ellipsis">
+    Home
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../../">
+<span class="md-ellipsis">
+    Developer Docs
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    References
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset">
+<h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
+<p>Cross Renamer Tool follows a <strong>Model-View-Controller</strong> (MVC) pattern, with a strict separation between the renaming logic, the Maya scene operations, and the UI.</p>
+<p><div class="mermaid">graph TD
+    UI["UI Widget (Pyside6)"]
+    MW["MainWindowBase UI"]
+    CT["main.py Controller"]
+    API["maya_api.py Maya Adapter"]
+    RN["renamer.py Pure Logic"]
+    MS["Maya Scene (cmds)"]
+
+    UI --&gt;|"Qt Signals"| MW
+    MW --&gt;|"Controller connection"| CT
+    CT --&gt;|"method calls"| API
+    API --&gt;|"pure functions"| RN
+    API --&gt;|"cmds calls"| MS
+</div>
+Each layer has a single responsability and communicates only with its immediate neighbour - a UI widget never calls <code>cmds</code> directly, and <code>renamer.py</code> never imports Maya.</p>
+<h2 id="layer-breakdown">Layer Breakdown<a class="headerlink" href="#layer-breakdown" title="Permanent link">¶</a></h2>
+<h3 id="layer-1-pure-logic-corerenamerpy">Layer 1 - Pure Logic (<code>core/renamer.py</code>)<a class="headerlink" href="#layer-1-pure-logic-corerenamerpy" title="Permanent link">¶</a></h3>
+<p>Contains all renaming functions <strong>pure Python functions</strong>. No Maya dependency, no side effects - a function takes a string and returns aa string.</p>
+<p><div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># renamer.py - pure function, No DCC</span>
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_prefix</span><span class="p">(</span><span class="n">base_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">base_name</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
+This layer is <strong>fully unit-testable</strong> without launching Maya. Every renaming operation - padding, search/replace, swap side, fix shape name - lives here.</p>
+<h3 id="layer-2-maya-adapter-modelmaya_apipy">Layer 2 - Maya Adapter (<code>model/maya_api.py</code>)<a class="headerlink" href="#layer-2-maya-adapter-modelmaya_apipy" title="Permanent link">¶</a></h3>
+<p>Bridges the pure logic and the Maya scene. It:
+- retrieves nodes from the scene via <code>cmds.ms</code>, <code>cmds.listRelatives</code>
+- calls <code>renamer.py</code> for the actual name transformations
+- applies the result with <code>cmds.rename</code>
+- logs warning and errors</p>
+<p><div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># maya_api.py - calls renamer.py then cmds</span>
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_prefix</span><span class="p">(</span><span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>    <span class="k">return</span> <span class="n">_process_nodes</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="n">renamer</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">prefix</span><span class="p">))</span>
+</code></pre></div>
+The <code>_process_nodes</code> helper centralises the node retrieval + rename + log pattern - all operations use it instead of duplicating the loop.</p>
+<h3 id="layer-3-controller-mainpy">Layer 3 - Controller (<code>main.py</code>)<a class="headerlink" href="#layer-3-controller-mainpy" title="Permanent link">¶</a></h3>
+<p><code>CrossRenamerToolController</code> is the single entry point between the UI and the DCC Adapter. It :
+- receives calls from <code>MainWindow</code>
+- delegates to <code>maya_api.py</code>
+- never contains business logic</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1"># main.py - delegates only, no logic</span>
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>    <span class="k">return</span> <span class="n">maya_api</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="layer-4-ui-uimaya">Layer 4 - UI (<code>UI/maya/</code>)<a class="headerlink" href="#layer-4-ui-uimaya" title="Permanent link">¶</a></h3>
+<p>Each features is a standalone <code>QWidget</code> that communicates via <strong>QtSignals only</strong> - no direct calls to the controller or DCC.</p>
+<p><div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1"># prefix_suffix_widget.py - emits a signal, nothing else</span>
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">_on_add_prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>    <span class="n">prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="o">.</span><span class="n">currentText</span><span class="p">()</span>
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>    <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">request_prefix</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+</code></pre></div>
+<code>MainWindow</code> connects all signals to the controller methods and handles the mode selector.</p>
+<h2 id="file-structure">File Structure<a class="headerlink" href="#file-structure" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>📂Project_Root
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a> ├─📄 .env
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a> ├─🚫 .gitignore
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a> ├─📄 CHANGELOG.md
+<a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a> ├─📄 install.py
+<a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a> ├─📄 LICENSE
+<a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a> ├─📄 mkdocs.yml
+<a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a> ├─📄 pyproject.toml
+<a href="#__codelineno-4-9" id="__codelineno-4-9" name="__codelineno-4-9"></a> ├─📄 README.md
+<a href="#__codelineno-4-10" id="__codelineno-4-10" name="__codelineno-4-10"></a> ├─📄 requirements.txt
+<a href="#__codelineno-4-11" id="__codelineno-4-11" name="__codelineno-4-11"></a> ├─📄 .env
+<a href="#__codelineno-4-12" id="__codelineno-4-12" name="__codelineno-4-12"></a> └📂src
+<a href="#__codelineno-4-13" id="__codelineno-4-13" name="__codelineno-4-13"></a>  ├─📂crossrenamertool
+<a href="#__codelineno-4-14" id="__codelineno-4-14" name="__codelineno-4-14"></a>  │  ├─📂core
+<a href="#__codelineno-4-15" id="__codelineno-4-15" name="__codelineno-4-15"></a>  │  │  ├─📄__init__.py
+<a href="#__codelineno-4-16" id="__codelineno-4-16" name="__codelineno-4-16"></a>  │  │  ├─📄constants.py
+<a href="#__codelineno-4-17" id="__codelineno-4-17" name="__codelineno-4-17"></a>  │  │  ├─📄presets.py
+<a href="#__codelineno-4-18" id="__codelineno-4-18" name="__codelineno-4-18"></a>  │  │  └─📄renamer.py
+<a href="#__codelineno-4-19" id="__codelineno-4-19" name="__codelineno-4-19"></a>  │  ├─📂model
+<a href="#__codelineno-4-20" id="__codelineno-4-20" name="__codelineno-4-20"></a>  │  │  ├─📄__init__.py
+<a href="#__codelineno-4-21" id="__codelineno-4-21" name="__codelineno-4-21"></a>  │  │  └─📄maya_api.py
+<a href="#__codelineno-4-22" id="__codelineno-4-22" name="__codelineno-4-22"></a>  │  ├─📂resources
+<a href="#__codelineno-4-23" id="__codelineno-4-23" name="__codelineno-4-23"></a>  │  │  ├─📂icons
+<a href="#__codelineno-4-24" id="__codelineno-4-24" name="__codelineno-4-24"></a>  │  │  │  ├─🖼️down_arrow.svg
+<a href="#__codelineno-4-25" id="__codelineno-4-25" name="__codelineno-4-25"></a>  │  │  │  └─🖼️up_arrow.svg
+<a href="#__codelineno-4-26" id="__codelineno-4-26" name="__codelineno-4-26"></a>  │  │  ├─📂presets
+<a href="#__codelineno-4-27" id="__codelineno-4-27" name="__codelineno-4-27"></a>  │  │  │  ├─📄prefixes.json
+<a href="#__codelineno-4-28" id="__codelineno-4-28" name="__codelineno-4-28"></a>  │  │  │  └─📄suffixes.json
+<a href="#__codelineno-4-29" id="__codelineno-4-29" name="__codelineno-4-29"></a>  │  │  └─📄README.md
+<a href="#__codelineno-4-30" id="__codelineno-4-30" name="__codelineno-4-30"></a>  │  ├─📂ui
+<a href="#__codelineno-4-31" id="__codelineno-4-31" name="__codelineno-4-31"></a>  │  │  ├─📂blender
+<a href="#__codelineno-4-32" id="__codelineno-4-32" name="__codelineno-4-32"></a>  │  │  │  └─📄__init__.py
+<a href="#__codelineno-4-33" id="__codelineno-4-33" name="__codelineno-4-33"></a>  │  │  ├─📂maya
+<a href="#__codelineno-4-34" id="__codelineno-4-34" name="__codelineno-4-34"></a>  │  │  │  ├─📂widget
+<a href="#__codelineno-4-35" id="__codelineno-4-35" name="__codelineno-4-35"></a>  │  │  │  │  ├─📄__init__.py
+<a href="#__codelineno-4-36" id="__codelineno-4-36" name="__codelineno-4-36"></a>  │  │  │  │  ├─📄about_dialog.py
+<a href="#__codelineno-4-37" id="__codelineno-4-37" name="__codelineno-4-37"></a>  │  │  │  │  ├─📄case_widget.py
+<a href="#__codelineno-4-38" id="__codelineno-4-38" name="__codelineno-4-38"></a>  │  │  │  │  ├─📄insert_remove_widget.py
+<a href="#__codelineno-4-39" id="__codelineno-4-39" name="__codelineno-4-39"></a>  │  │  │  │  ├─📄prefix_suffix_widget.py
+<a href="#__codelineno-4-40" id="__codelineno-4-40" name="__codelineno-4-40"></a>  │  │  │  │  ├─📄preset_combobox.py
+<a href="#__codelineno-4-41" id="__codelineno-4-41" name="__codelineno-4-41"></a>  │  │  │  │  ├─📄preset_dialog.py
+<a href="#__codelineno-4-42" id="__codelineno-4-42" name="__codelineno-4-42"></a>  │  │  │  │  ├─📄rename_widget.py
+<a href="#__codelineno-4-43" id="__codelineno-4-43" name="__codelineno-4-43"></a>  │  │  │  │  ├─📄search_replace_widget.py
+<a href="#__codelineno-4-44" id="__codelineno-4-44" name="__codelineno-4-44"></a>  │  │  │  │  ├─📄selection_mode_widget.py
+<a href="#__codelineno-4-45" id="__codelineno-4-45" name="__codelineno-4-45"></a>  │  │  │  │  └─📄utils_widget.py
+<a href="#__codelineno-4-46" id="__codelineno-4-46" name="__codelineno-4-46"></a>  │  │  │  ├─📄__init__.py
+<a href="#__codelineno-4-47" id="__codelineno-4-47" name="__codelineno-4-47"></a>  │  │  │  └─📄main_window.py 
+<a href="#__codelineno-4-48" id="__codelineno-4-48" name="__codelineno-4-48"></a>  │  │  ├─📂styles
+<a href="#__codelineno-4-49" id="__codelineno-4-49" name="__codelineno-4-49"></a>  │  │  │  ├─🎨default_style.qss
+<a href="#__codelineno-4-50" id="__codelineno-4-50" name="__codelineno-4-50"></a>  │  │  │  └─📄__init__.py
+<a href="#__codelineno-4-51" id="__codelineno-4-51" name="__codelineno-4-51"></a>  │  │  ├─📄__init__.py
+<a href="#__codelineno-4-52" id="__codelineno-4-52" name="__codelineno-4-52"></a>  │  │  ├─📄launcher.py
+<a href="#__codelineno-4-53" id="__codelineno-4-53" name="__codelineno-4-53"></a>  │  │  └─📄main.py
+<a href="#__codelineno-4-54" id="__codelineno-4-54" name="__codelineno-4-54"></a>  │  └─📄__init__.py
+<a href="#__codelineno-4-55" id="__codelineno-4-55" name="__codelineno-4-55"></a>  ├─📂tests
+<a href="#__codelineno-4-56" id="__codelineno-4-56" name="__codelineno-4-56"></a>  │  ├─📂test_cross_renamer_tool
+<a href="#__codelineno-4-57" id="__codelineno-4-57" name="__codelineno-4-57"></a>  │  │  ├─📄__init__.py
+<a href="#__codelineno-4-58" id="__codelineno-4-58" name="__codelineno-4-58"></a>  │  │  └─📄test_renaming.py
+<a href="#__codelineno-4-59" id="__codelineno-4-59" name="__codelineno-4-59"></a>  │  ├─📄__init__.py
+<a href="#__codelineno-4-60" id="__codelineno-4-60" name="__codelineno-4-60"></a>  │  └─📄README.md
+<a href="#__codelineno-4-61" id="__codelineno-4-61" name="__codelineno-4-61"></a>  ├─📂bin
+<a href="#__codelineno-4-62" id="__codelineno-4-62" name="__codelineno-4-62"></a>  │  └─📄README.md
+<a href="#__codelineno-4-63" id="__codelineno-4-63" name="__codelineno-4-63"></a>  ├─📂data
+<a href="#__codelineno-4-64" id="__codelineno-4-64" name="__codelineno-4-64"></a>  │  └─📄README.md
+<a href="#__codelineno-4-65" id="__codelineno-4-65" name="__codelineno-4-65"></a>  └─📂docs
+<a href="#__codelineno-4-66" id="__codelineno-4-66" name="__codelineno-4-66"></a>     └─📂etc../
+</code></pre></div>
+<h2 id="selection-modes">Selection Modes<a class="headerlink" href="#selection-modes" title="Permanent link">¶</a></h2>
+<p>Node retrieval is centralised in <code>get_nodes(mode)</code> in  <code>maya_api.py</code>. three modes are supported:  </p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Implementation</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Selected</code></td>
+<td><code>cmds.ls(sl=True)</code></td>
+<td>Current Maya selection</td>
+</tr>
+<tr>
+<td><code>Hierarchy</code></td>
+<td><code>cmds.listRelatives(allDescendents=True, type="transform")</code> + joints</td>
+<td>Shapes excluded</td>
+</tr>
+<tr>
+<td><code>Scene</code></td>
+<td><code>cmds.ls(transforms=True)</code></td>
+<td>Default cameras excluded via <code>constants.DEFAULT_CAMS</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="double-pass-renaming">Double-Pass Renaming<a class="headerlink" href="#double-pass-renaming" title="Permanent link">¶</a></h2>
+<p>To avoid name conflicts when renaming multiples nodes (e.g. ith step or reordering), all batch rename operations ise a two-pass  strategy:
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>Pass 1 - rename every node to a unique temporary name
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>         using uuid4 -&gt; __tmp_a3f9c21b__
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>Pass 2 - rename every temporary name its final name
+</code></pre></div>
+This prevents Maya from auto-incrementing names when a target name already exists in the scene.</p>
+<p>See <a href="developer_docs/explanations/why_two_pass_renaming.md">Explanations: Why to-Pass Renaming</a></p>
+<h2 id="preset-system">Preset System<a class="headerlink" href="#preset-system" title="Permanent link">¶</a></h2>
+<p>Presets are stored as JSON files in <code>resources/presets/</code> and managed by <code>core/presets.py</code>.</p>
+<p><div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>load_presets(type)  -&gt;  reads JSON
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>save_presets(type)  -&gt;  writes JSON
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>add_preset(type)    -&gt;  load -&gt; append -&gt; save
+<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>remove_preset(type) -&gt;  load -&gt; remove -&gt; save
+</code></pre></div>
+The UI exposes presets via <code>PresetComboBox</code> - a custom <code>QComboBox</code> with a right-click context menu - and <code>PresetDialog</code> for full management (add, remove, reorder, rename, inline, reset to defaults).</p>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["search", "navigation.indexes", "navigation.sections", "navigation.path", "navigation.instant", "navigation.hidden", "navigation.tabs", "toc.follow", "content.code.copy", "content.tabs.link", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>
