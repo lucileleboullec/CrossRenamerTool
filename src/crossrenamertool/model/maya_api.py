@@ -4,7 +4,7 @@ import logging
 import re
 import uuid
 
-from maya import cmds
+from model import cmds
 
 from crossrenamertool.core import constants, renamer
 

@@ -1,7 +1,7 @@
 import logging
 
 from crossrenamertool.core import constants
-from crossrenamertool.maya import maya_api
+from crossrenamertool.model import maya_api
 from crossrenamertool.ui.maya import main_window as app_view
 
 log = logging.getLogger(__name__)

@@ -5,7 +5,7 @@ from maya import cmds
 button_code = """
 import sys
 
-path = r"path/to/module"
+path = r"path/to/module/src"
 if path not in sys.path:
     sys.path.append(path)
 

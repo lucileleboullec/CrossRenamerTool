@@ -1,5 +1,5 @@
 site_name: Cross Renamer Tool
-# use_directory_urls: false
+use_directory_urls: true
 site_url: https://lucileleboullec.github.io/CrossRenamerTool/
 
 docs_dir: docs
@@ -99,13 +99,14 @@ nav:
   - Developer Docs:
     - Overview: developer_docs/index.md
     - Tutorials:
-      - Overview: user_manual/tutorials/index.md
+      - Overview: developer_docs/tutorials/index.md
     - How to Guides:
-      - Overview: user_manual/how-to-guides/index.md
+      - Overview: developer_docs/how-to-guides/index.md
     - References:
-      - Overview: user_manual/references/index.md
+      - Overview: developer_docs/references/index.md
+      - Architecture: developer_docs/references/architecture.md
     - Explanations:
-      - Explanations: user_manual/explanations/index.md
+      - Explanations: developer_docs/explanations/index.md
 
   - API:
     - Overview: API/index.md
