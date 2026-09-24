@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="https://lucileleboullec.github.io/CrossRenamerTool/developer_docs/references/architecture/" rel="canonical"/>
 <link href="../" rel="prev"/>
-<link href="../../explanations/" rel="next"/>
+<link href="../design_choices/" rel="next"/>
 <link href="../../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
 <title>Architecture - Cross Renamer Tool</title>
@@ -228,7 +228,8 @@
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_3_2" type="checkbox"/>
-<label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../user_manual/tutorials/">
 <span class="md-ellipsis">
     
   
@@ -237,8 +238,8 @@
 
     
   </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
+</a>
+</div>
 <nav aria-expanded="false" aria-labelledby="__nav_3_2_label" class="md-nav" data-md-level="2">
 <label class="md-nav__title" for="__nav_3_2">
 <span class="md-nav__icon md-icon"></span>
@@ -249,18 +250,6 @@
 
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../../user_manual/tutorials/index.md">
-<span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-</a>
-</li>
 </ul>
 </nav>
 </li>
@@ -308,7 +297,8 @@
 </li>
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_3_4" type="checkbox"/>
-<label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../user_manual/references/">
 <span class="md-ellipsis">
     
   
@@ -317,8 +307,8 @@
 
     
   </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
+</a>
+</div>
 <nav aria-expanded="false" aria-labelledby="__nav_3_4_label" class="md-nav" data-md-level="2">
 <label class="md-nav__title" for="__nav_3_4">
 <span class="md-nav__icon md-icon"></span>
@@ -329,24 +319,13 @@
 
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../../user_manual/references/index.md">
-<span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-</a>
-</li>
 </ul>
 </nav>
 </li>
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_3_5" type="checkbox"/>
-<label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../../user_manual/explanations/">
 <span class="md-ellipsis">
     
   
@@ -355,8 +334,8 @@
 
     
   </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
+</a>
+</div>
 <nav aria-expanded="false" aria-labelledby="__nav_3_5_label" class="md-nav" data-md-level="2">
 <label class="md-nav__title" for="__nav_3_5">
 <span class="md-nav__icon md-icon"></span>
@@ -367,18 +346,6 @@
 
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../../user_manual/explanations/index.md">
-<span class="md-ellipsis">
-    
-  
-    Explanations
-  
-
-    
-  </span>
-</a>
-</li>
 </ul>
 </nav>
 </li>
@@ -618,6 +585,66 @@
 </li>
 </ul>
 </nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../design_choices/">
+<span class="md-ellipsis">
+    
+  
+    Design Choices
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../technical_choices/">
+<span class="md-ellipsis">
+    
+  
+    Technical Choices
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../code_style_guide/">
+<span class="md-ellipsis">
+    
+  
+    Code Style Guide
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../commit_conventions/">
+<span class="md-ellipsis">
+    
+  
+    Commit Conventions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../naming_conventions/">
+<span class="md-ellipsis">
+    
+  
+    Naming Conventions
+  
+
+    
+  </span>
+</a>
 </li>
 </ul>
 </nav>
@@ -1346,7 +1373,7 @@ The <code>_process_nodes</code> helper centralises the node retrieval + rename +
 <a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>Pass 2 - rename every temporary name its final name
 </code></pre></div>
 This prevents Maya from auto-incrementing names when a target name already exists in the scene.</p>
-<p>See <a href="developer_docs/explanations/why_two_pass_renaming.md">Explanations: Why to-Pass Renaming</a></p>
+<p>See <a href="../../explanations/why_two_pass_renaming/">Explanations: Why to-Pass Renaming</a></p>
 <h2 id="preset-system">Preset System<a class="headerlink" href="#preset-system" title="Permanent link">¶</a></h2>
 <p>Presets are stored as JSON files in <code>resources/presets/</code> and managed by <code>core/presets.py</code>.</p>
 <p><div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>load_presets(type)  -&gt;  reads JSON
