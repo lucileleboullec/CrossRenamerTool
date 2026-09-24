@@ -135,7 +135,7 @@ def get_nodes(mode) -> list[str] | None:
     return nodes
 
 
-def rename_nodes(mode, base_name, padding, start, step)-> dict[str, str]:
+def rename_nodes(mode, base_name, padding, start, step) -> dict[str, str]:
     """Rename nodes with padding, step and start.
 
     Args:
@@ -280,7 +280,7 @@ def add_characters(mode, text, position, from_start) -> dict[str, str]:
     return _process_nodes(mode, lambda node: renamer.add_characters(node, text, position, from_start))
 
 
-def remove_characters(mode, position, count, from_start) -> dict[str, str] :
+def remove_characters(mode, position, count, from_start) -> dict[str, str]:
     """Delete characters at given position in the node name.
 
     Args:
