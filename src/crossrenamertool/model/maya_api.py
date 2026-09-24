@@ -11,7 +11,7 @@ from crossrenamertool.core import constants, renamer
 log = logging.getLogger(__name__)
 
 
-def _apply_rename(node, new_name, old_name=""):
+def _apply_rename(node, new_name, old_name="") -> str:
     """Apply rename.
 
     Args:
@@ -40,7 +40,7 @@ def _apply_rename(node, new_name, old_name=""):
     return actual_name
 
 
-def _process_nodes(mode, transform_function):
+def _process_nodes(mode, transform_function) -> dict[str, str]:
     """Rename nodes depending on the function.
 
     Args:
@@ -68,7 +68,7 @@ def _process_nodes(mode, transform_function):
     return renamed
 
 
-def get_selection():
+def get_selection() -> list[str]:
     """Get the current selection.
 
     Returns:
@@ -82,7 +82,7 @@ def get_selection():
     return selected
 
 
-def get_hierarchy():
+def get_hierarchy() -> list[str] | None:
     """Get selection hierarchy.
 
     Returns:
@@ -97,7 +97,7 @@ def get_hierarchy():
     return selected + children
 
 
-def get_scene_objects():
+def get_scene_objects() -> list[str]:
     """Get all objects in the scene.
 
     Returns:
@@ -109,7 +109,7 @@ def get_scene_objects():
     return [node for node in nodes if node not in constants.DEFAULT_CAMS]
 
 
-def get_nodes(mode):
+def get_nodes(mode) -> list[str] | None:
     """Get the list of nodes by the selected mode.
 
     Args:
@@ -135,7 +135,7 @@ def get_nodes(mode):
     return nodes
 
 
-def rename_nodes(mode, base_name, padding, start, step):
+def rename_nodes(mode, base_name, padding, start, step)-> dict[str, str]:
     """Rename nodes with padding, step and start.
 
     Args:
@@ -176,7 +176,7 @@ def rename_nodes(mode, base_name, padding, start, step):
     return renamed
 
 
-def add_prefix(mode, prefix):
+def add_prefix(mode, prefix) -> dict[str, str]:
     """Add prefix to nodes.
 
     Args:
@@ -190,7 +190,7 @@ def add_prefix(mode, prefix):
     return _process_nodes(mode, lambda node: renamer.add_prefix(node, prefix))
 
 
-def add_suffix(mode, suffix):
+def add_suffix(mode, suffix) -> dict[str, str]:
     """Add suffix to nodes.
 
     Args:
@@ -204,7 +204,7 @@ def add_suffix(mode, suffix):
     return _process_nodes(mode, lambda node: renamer.add_suffix(node, suffix))
 
 
-def remove_prefix(mode, prefix):
+def remove_prefix(mode, prefix) -> dict[str, str]:
     """Add prefix to nodes.
 
     Args:
@@ -218,7 +218,7 @@ def remove_prefix(mode, prefix):
     return _process_nodes(mode, lambda node: renamer.remove_prefix(node, prefix))
 
 
-def remove_suffix(mode, suffix):
+def remove_suffix(mode, suffix) -> dict[str, str]:
     """Add suffix to nodes.
 
     Args:
@@ -236,7 +236,6 @@ def search_replace(search_name, replace_name, case) -> dict[str, str]:
     """Search and replace name in node.
 
     Args:
-        mode (str): mode of selection
         search_name (str): name to find
         replace_name (str): new name to replace
         case (bool): case sensitive
@@ -252,7 +251,7 @@ def search_replace(search_name, replace_name, case) -> dict[str, str]:
     )
 
 
-def update_preview_search_preview(search, replace, case):
+def update_preview_search_preview(search, replace, case) -> str:
     nodes = get_nodes("Scene")
     if not nodes:
         return "No nodes in selection."
@@ -265,7 +264,7 @@ def update_preview_search_preview(search, replace, case):
     return "<br>".join(lines)
 
 
-def add_characters(mode, text, position, from_start):
+def add_characters(mode, text, position, from_start) -> dict[str, str]:
     """Add characters to a text at a specific position.
 
     Args:
@@ -281,7 +280,7 @@ def add_characters(mode, text, position, from_start):
     return _process_nodes(mode, lambda node: renamer.add_characters(node, text, position, from_start))
 
 
-def remove_characters(mode, position, count, from_start):
+def remove_characters(mode, position, count, from_start) -> dict[str, str] :
     """Delete characters at given position in the node name.
 
     Args:
@@ -297,7 +296,7 @@ def remove_characters(mode, position, count, from_start):
     return _process_nodes(mode, lambda node: renamer.remove_characters(node, position, count, from_start))
 
 
-def text_to_lowercase(mode):
+def text_to_lowercase(mode) -> dict[str, str]:
     """Convert text to lowercase.
 
     Args:
@@ -310,7 +309,7 @@ def text_to_lowercase(mode):
     return _process_nodes(mode, lambda node: renamer.text_to_lowercase(node))
 
 
-def text_to_uppercase(mode):
+def text_to_uppercase(mode) -> dict[str, str]:
     """Convert text to uppercase.
 
     Args:
@@ -323,7 +322,7 @@ def text_to_uppercase(mode):
     return _process_nodes(mode, lambda node: renamer.text_to_uppercase(node))
 
 
-def text_to_capitalize(mode):
+def text_to_capitalize(mode) -> dict[str, str]:
     """Convert text to capitalize.
 
     Args:
@@ -336,7 +335,7 @@ def text_to_capitalize(mode):
     return _process_nodes(mode, lambda node: renamer.text_to_capitalize(node))
 
 
-def text_to_title(mode):
+def text_to_title(mode) -> dict[str, str]:
     """Convert text to title.
 
     Args:
@@ -349,7 +348,7 @@ def text_to_title(mode):
     return _process_nodes(mode, lambda node: renamer.text_to_title(node))
 
 
-def text_to_camel(mode):
+def text_to_camel(mode) -> dict[str, str]:
     """Convert text to camel.
 
     Args:
@@ -362,7 +361,7 @@ def text_to_camel(mode):
     return _process_nodes(mode, lambda node: renamer.text_to_camel(node))
 
 
-def text_to_pascal(mode):
+def text_to_pascal(mode) -> dict[str, str]:
     """Convert text to pascal.
 
     Args:
@@ -375,7 +374,7 @@ def text_to_pascal(mode):
     return _process_nodes(mode, lambda node: renamer.text_to_pascal(node))
 
 
-def text_to_snake(mode):
+def text_to_snake(mode) -> dict[str, str]:
     """Convert text to snake.
 
     Args:
@@ -388,7 +387,7 @@ def text_to_snake(mode):
     return _process_nodes(mode, lambda node: renamer.text_to_snake(node))
 
 
-def rename_children_from_parent(mode, padding=constants.DEFAULT_PADDING):
+def rename_children_from_parent(mode, padding=constants.DEFAULT_PADDING) -> dict[str, str]:
     """Rename children from selected parents.
 
     Args:
@@ -428,7 +427,7 @@ def rename_children_from_parent(mode, padding=constants.DEFAULT_PADDING):
     return renamed
 
 
-def get_duplicates():
+def get_duplicates() -> list[str]:
     """Get duplicates nodes in the scene.
 
     Returns:
@@ -464,7 +463,7 @@ def fix_duplicates(items):
             log.warning(f"{old_name} no longer exists in the scene.")
 
 
-def auto_fix_duplicates():
+def auto_fix_duplicates() -> dict[str, str]:
     """Auto rename duplicates nodes.
 
     Returns:
@@ -510,7 +509,7 @@ def auto_fix_duplicates():
     return renamed
 
 
-def select_item(index, datas):
+def select_item(index, datas) -> list[str] | None:
     """Select item from the duplicates list.
 
     Args:
@@ -529,7 +528,7 @@ def select_item(index, datas):
     return None
 
 
-def swap_side(mode, swap_sides=constants.SWAP_SIDES):
+def swap_side(mode, swap_sides=constants.SWAP_SIDES) -> dict[str, str]:
     """Swap side indicator in the node.
 
     Args:
@@ -543,7 +542,7 @@ def swap_side(mode, swap_sides=constants.SWAP_SIDES):
     return _process_nodes(mode, lambda node: renamer.swap_side(node, swap_sides))
 
 
-def fix_shape_name():
+def fix_shape_name() -> dict[str, str]:
     """Rename shapes to match their transform name.
 
     Returns:

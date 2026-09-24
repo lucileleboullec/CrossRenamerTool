@@ -46,7 +46,7 @@ def add_prefix(base_name, prefix) -> str:
     return f"{prefix}_{base_name}"
 
 
-def add_suffix(base_name, suffix):
+def add_suffix(base_name, suffix) -> str | None:
     """Add suffix to the node.
 
     Args:
@@ -68,7 +68,7 @@ def add_suffix(base_name, suffix):
     return f"{base_name}_{suffix}"
 
 
-def remove_prefix(node, prefix):
+def remove_prefix(node, prefix) -> str:
     """Remove prefix in the name.
 
     Args:
@@ -85,7 +85,7 @@ def remove_prefix(node, prefix):
     return node
 
 
-def remove_suffix(node, suffix):
+def remove_suffix(node, suffix) -> str:
     """Remove suffix in the name.
 
     Args:
@@ -102,7 +102,7 @@ def remove_suffix(node, suffix):
     return node
 
 
-def search_replace(node, search_name, replace_name, case):
+def search_replace(node, search_name, replace_name, case) -> str:
     """Search and replace name in node.
 
     Args:
@@ -123,7 +123,7 @@ def search_replace(node, search_name, replace_name, case):
     return re.sub(search_name, replace_name, node, flags=flags)
 
 
-def add_characters(node, text, position, from_start):
+def add_characters(node, text, position, from_start) -> str:
     """Insert text at a given position in the node name.
 
     Args:
@@ -140,7 +140,7 @@ def add_characters(node, text, position, from_start):
     return node[:index] + text + node[index:]
 
 
-def remove_characters(node, position, count, from_start):
+def remove_characters(node, position, count, from_start) -> str:
     """Delete characters at given position in the node name.
 
     Args:
@@ -163,7 +163,7 @@ def remove_characters(node, position, count, from_start):
     return node[:index] + node[index + count :]
 
 
-def text_to_lowercase(node):
+def text_to_lowercase(node) -> str:
     """Change node name to lowercase.
 
     Args:
@@ -176,7 +176,7 @@ def text_to_lowercase(node):
     return node.lower()
 
 
-def text_to_uppercase(node):
+def text_to_uppercase(node) -> str:
     """Change node name to uppercase.
 
     Args:
@@ -189,7 +189,7 @@ def text_to_uppercase(node):
     return node.upper()
 
 
-def text_to_capitalize(node):
+def text_to_capitalize(node) -> str:
     """Change node name to capitalize.
 
     Args:
@@ -202,7 +202,7 @@ def text_to_capitalize(node):
     return node.capitalize()
 
 
-def text_to_title(node):
+def text_to_title(node) -> str:
     """Change node name to title.
 
     Args:
@@ -215,7 +215,7 @@ def text_to_title(node):
     return node.title()
 
 
-def text_to_camel(node):
+def text_to_camel(node) -> str:
     """Change node name to camel.
 
     Args:
@@ -230,7 +230,7 @@ def text_to_camel(node):
     return parts[0].lower() + "".join(part.capitalize() for part in parts[1:])
 
 
-def text_to_pascal(node):
+def text_to_pascal(node) -> str:
     """Change node name to pascal.
 
     Args:
@@ -245,7 +245,7 @@ def text_to_pascal(node):
     return "".join(part.capitalize() for part in parts)
 
 
-def text_to_snake(node):
+def text_to_snake(node) -> str:
     """Change node name to snake.
 
     Args:
@@ -261,7 +261,7 @@ def text_to_snake(node):
     return node.lower()
 
 
-def swap_side(node, swap_sides):
+def swap_side(node, swap_sides) -> str | None:
     """Swap side indicator in the node.
 
     Args:
@@ -293,7 +293,7 @@ def swap_side(node, swap_sides):
     return re.sub(pattern, opposite, node, count=1)
 
 
-def fix_shape_name(transform_name, shape_index):
+def fix_shape_name(transform_name: str, shape_index: int) -> str:
     """Generate the correct shape name from its transform name.
 
     Args:

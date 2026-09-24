@@ -71,7 +71,7 @@ def _save(path: Path, presets: list):
     log.info(f"Presets save to {path}")
 
 
-def load_presets(preset_type: str):
+def load_presets(preset_type: str) -> list[str]:
     """Load presets.
 
     Args:
@@ -88,8 +88,8 @@ def save_presets(preset_type: str, presets: list) -> None:
     """Save presets for a given type.
 
     Args:
-        preset_type (str)      : "prefixes" or "suffixes"
-        presets     (list[str]): list of presets to save
+        preset_type (str) : "prefixes" or "suffixes"
+        presets (list[str]): list of presets to save
 
     """
     _save(_get_path(preset_type), presets)
@@ -100,7 +100,7 @@ def add_preset(preset_type: str, value: str) -> list:
 
     Args:
         preset_type (str): "prefixes" or "suffixes"
-        value       (str): value to add
+        value (str): value to add
 
     Returns:
         list[str]: updated list of presets
@@ -122,7 +122,7 @@ def remove_preset(preset_type: str, value: str) -> list:
 
     Args:
         preset_type (str): "prefixes" or "suffixes"
-        value       (str): value to remove
+        value (str): value to remove
 
     Returns:
         list[str]: updated list of presets

@@ -157,7 +157,7 @@ Pass 2 - rename every temporary name its final name
 ```
 This prevents Maya from auto-incrementing names when a target name already exists in the scene.
 
-See [Explanations: Why to-Pass Renaming](developer_docs/explanations/why_two_pass_renaming.md)
+See [Explanations: Why to-Pass Renaming](../explanations/why_two_pass_renaming.md)
 
 ## Preset System
 Presets are stored as JSON files in `resources/presets/` and managed by `core/presets.py`.

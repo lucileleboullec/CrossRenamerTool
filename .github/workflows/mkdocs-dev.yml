@@ -29,4 +29,4 @@ jobs:
       - name: Deploy docs dev
         run: mkdocs gh-deploy --force --remote-branch gh-pages-dev
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

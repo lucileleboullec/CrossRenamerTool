@@ -22,7 +22,7 @@ class CrossRenamerToolController:
         padding=constants.DEFAULT_PADDING,
         start=constants.DEFAULT_START,
         step=constants.DEFAULT_STEP,
-    ):
+    ) -> dict[str, str]:
         """Rename selected nodes.
 
         Args:
@@ -38,7 +38,7 @@ class CrossRenamerToolController:
         """
         return maya_api.rename_nodes(mode, base_name=base_name, padding=padding, start=start, step=step)
 
-    def add_prefix(self, mode, prefix=""):
+    def add_prefix(self, mode, prefix="") -> dict[str, str]:
         """Add prefix to nodes.
 
         Args:
@@ -51,7 +51,7 @@ class CrossRenamerToolController:
         """
         return maya_api.add_prefix(mode=mode, prefix=prefix)
 
-    def add_suffix(self, mode, suffix=""):
+    def add_suffix(self, mode, suffix="") -> dict[str, str]:
         """Add suffix to nodes.
 
         Args:
@@ -64,7 +64,7 @@ class CrossRenamerToolController:
         """
         return maya_api.add_suffix(mode, suffix)
 
-    def remove_prefix(self, mode, prefix=""):
+    def remove_prefix(self, mode, prefix="") -> dict[str, str]:
         """Remove prefix to nodes.
 
         Args:
@@ -77,7 +77,7 @@ class CrossRenamerToolController:
         """
         return maya_api.remove_prefix(mode=mode, prefix=prefix)
 
-    def remove_suffix(self, mode, suffix=""):
+    def remove_suffix(self, mode, suffix="") -> dict[str, str]:
         """Remove suffix to nodes.
 
         Args:
@@ -90,7 +90,7 @@ class CrossRenamerToolController:
         """
         return maya_api.remove_suffix(mode=mode, suffix=suffix)
 
-    def search_replace(self, search_name, replace_name, case):
+    def search_replace(self, search_name, replace_name, case) -> dict[str, str]:
         """Search and replace name in node.
 
         Args:
@@ -107,7 +107,7 @@ class CrossRenamerToolController:
     def update_preview_search_preview(self, search, replace, case):
         return maya_api.update_preview_search_preview(search, replace, case)
 
-    def add_characters(self, mode, text, position, from_start):
+    def add_characters(self, mode, text, position, from_start) -> dict[str, str]:
         """Add characters to a text at a specific position.
 
         Args:
@@ -122,7 +122,7 @@ class CrossRenamerToolController:
         """
         return maya_api.add_characters(mode, text, position, from_start)
 
-    def remove_characters(self, mode, position, count, from_start):
+    def remove_characters(self, mode, position, count, from_start) -> dict[str, str]:
         """Delete characters at given position in the node name.
 
         Args:
@@ -137,7 +137,7 @@ class CrossRenamerToolController:
         """
         return maya_api.remove_characters(mode, position, count, from_start)
 
-    def text_to_lowercase(self, mode):
+    def text_to_lowercase(self, mode) -> dict[str, str]:
         """Convert text to lowercase.
 
         Args:
@@ -149,7 +149,7 @@ class CrossRenamerToolController:
         """
         return maya_api.text_to_lowercase(mode)
 
-    def text_to_uppercase(self, mode):
+    def text_to_uppercase(self, mode) -> dict[str, str]:
         """Convert text to uppercase.
 
         Args:
@@ -161,7 +161,7 @@ class CrossRenamerToolController:
         """
         return maya_api.text_to_uppercase(mode)
 
-    def text_to_capitalize(self, mode):
+    def text_to_capitalize(self, mode) -> dict[str, str]:
         """Convert text to capitalize.
 
         Args:
@@ -173,7 +173,7 @@ class CrossRenamerToolController:
         """
         return maya_api.text_to_capitalize(mode)
 
-    def text_to_title(self, mode):
+    def text_to_title(self, mode) -> dict[str, str]:
         """Convert text to title.
 
         Args:
@@ -185,7 +185,7 @@ class CrossRenamerToolController:
         """
         return maya_api.text_to_title(mode)
 
-    def text_to_camel(self, mode):
+    def text_to_camel(self, mode) -> dict[str, str]:
         """Convert text to camel.
 
         Args:
@@ -197,7 +197,7 @@ class CrossRenamerToolController:
         """
         return maya_api.text_to_camel(mode)
 
-    def text_to_pascal(self, mode):
+    def text_to_pascal(self, mode) -> dict[str, str]:
         """Convert text to pascal.
 
         Args:
@@ -209,7 +209,7 @@ class CrossRenamerToolController:
         """
         return maya_api.text_to_pascal(mode)
 
-    def text_to_snake(self, mode):
+    def text_to_snake(self, mode) -> dict[str, str]:
         """Convert text to snake.
 
         Args:
@@ -221,7 +221,7 @@ class CrossRenamerToolController:
         """
         return maya_api.text_to_snake(mode)
 
-    def rename_children_from_parent(self, mode):
+    def rename_children_from_parent(self, mode) -> dict[str, str]:
 
         return maya_api.rename_children_from_parent(mode)
 
@@ -234,10 +234,10 @@ class CrossRenamerToolController:
         """
         return maya_api.get_duplicates()
 
-    def fix_duplicates(self, items):
+    def fix_duplicates(self, items) -> None:
         return maya_api.fix_duplicates(items=items)
 
-    def auto_fix_duplicates(self):
+    def auto_fix_duplicates(self) -> dict[str, str]:
         """Auto rename duplicates nodes.
 
         Returns:
@@ -246,7 +246,7 @@ class CrossRenamerToolController:
         """
         return maya_api.auto_fix_duplicates()
 
-    def select_item(self, index, datas):
+    def select_item(self, index, datas) -> str | None:
         """Select the node by the duplicates table.
 
         Args:
@@ -254,24 +254,24 @@ class CrossRenamerToolController:
             datas (dict[str, str]): duplicates node dictionary
 
         Returns:
-            str: name of the selected node
+            str | None: name of the selected node
 
         """
         return maya_api.select_item(index, datas)
 
-    def swap_side(self, mode):
+    def swap_side(self, mode) -> dict[str, str]:
         """Swap side indicator in the node.
 
         Args:
             mode (str): selected mode
 
         Returns:
-            str: new name swap
+            dict[str, str]: new name swap
 
         """
         return maya_api.swap_side(mode=mode)
 
-    def fix_shape_name(self):
+    def fix_shape_name(self) -> dict[str, str]:
         """Rename shapes to match their transform name.
 
         Returns:
@@ -280,7 +280,7 @@ class CrossRenamerToolController:
         """
         return maya_api.fix_shape_name()
 
-    def set_view(self, view):
+    def set_view(self, view) -> None:
         """Attach a view instance to the controller.
 
         Args:

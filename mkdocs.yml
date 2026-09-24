@@ -96,6 +96,7 @@ nav:
       - Overview: user_manual/references/index.md
     - Explanations:
       - Explanations: user_manual/explanations/index.md
+
   - Developer Docs:
     - Overview: developer_docs/index.md
     - Tutorials:
@@ -105,6 +106,11 @@ nav:
     - References:
       - Overview: developer_docs/references/index.md
       - Architecture: developer_docs/references/architecture.md
+      - Design Choices: developer_docs/references/design_choices.md
+      - Technical Choices: developer_docs/references/technical_choices.md
+      - Code Style Guide: developer_docs/references/code_style_guide.md
+      - Commit Conventions: developer_docs/references/commit_conventions.md
+      - Naming Conventions: developer_docs/references/naming_conventions.md
     - Explanations:
       - Explanations: developer_docs/explanations/index.md
 
