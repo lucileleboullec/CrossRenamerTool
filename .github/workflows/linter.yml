@@ -34,7 +34,7 @@ jobs:
       - name: Auto Commit Messages
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "♻️ reformatting by ruff"
+          commit_message: "♻️ Reformatting by ruff"
 
       - name: Ruff Check
         run: ruff check --fix --output-format=github
