@@ -1,7 +1,9 @@
 # References
 
-The *References* section precisely describes the commands, parameters, or possible interactions within this tool.
- 
+References are **information-oriented** — they describe the system as it is. Use them to look something up, not to learn or to accomplish a task.
+
+## Available references
+
 [Architecture](architecture/)  
 [Design Choices](design_choices/)  
 [Technical Choices](technical_choices/)  
