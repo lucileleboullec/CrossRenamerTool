@@ -2,6 +2,7 @@ PREFIXES = [
     "L",
     "R",
     "C",
+    "M",
 ]
 
 SUFFIXES = [
@@ -9,8 +10,13 @@ SUFFIXES = [
     "IK",
     "FK",
     "jnt",
+    "bnd",
+    "twt",
     "aim",
     "grp",
+    "off",
+    "sdk",
+    "spc",
     "null",
     "geo",
     "hi",
@@ -18,6 +24,10 @@ SUFFIXES = [
     "pxy",
     "loc",
     "crv",
+    "fol",
+    "cls",
+    "ikh",
+    "bs",
 ]
 
 DEFAULT_CAMS = ["front", "persp", "side", "top"]
