@@ -101,6 +101,8 @@ nav:
     - Overview: developer_docs/index.md
     - Tutorials:
       - Overview: developer_docs/tutorials/index.md
+      - Set up the development environment: developer_docs/tutorials/setup_dev_environment.md
+      - Add a feature end to end: developer_docs/tutorials/add_a_feature.md
     - How to Guides:
       - Overview: developer_docs/how-to-guides/index.md
     - References:
