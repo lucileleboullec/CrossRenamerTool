@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#developer-docs" class="md-skip">
+        <a href="#developer-documentation" class="md-skip">
           Skip to content
         </a>
       
@@ -2383,6 +2383,36 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tech-stack-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tech stack at a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2446,11 +2476,57 @@
 
 
 
-<h1 id="developer-docs">Developer Docs<a class="headerlink" href="#developer-docs" title="Permanent link">&para;</a></h1>
+<h1 id="developer-documentation">Developer Documentation<a class="headerlink" href="#developer-documentation" title="Permanent link">&para;</a></h1>
+<p>Welcome to the Cross Renamer Tool developer documentation. This section is for TDs who want to contribute to the tool, understand its internals, or extend it for their studio's needs.</p>
 <p><a class="md-button" href="tutorials/">Tutorials</a>
 <a class="md-button" href="how-to-guides/">How-to Guides</a>
 <a class="md-button" href="references/">References</a>
 <a class="md-button" href="explanations/">Explanations</a></p>
+<h2 id="quick-links">Quick links<a class="headerlink" href="#quick-links" title="Permanent link">&para;</a></h2>
+<p><strong>New contributor?</strong> Start with the <a href="">Tutorials: Set up the development</a>, then follow <a href="">Tutorials: Add feature end to end</a>.<br />
+<strong>Adding a feature?</strong> Go straight to <a href="">Tutorials: Add feature end to end</a>.<br />
+<strong>Understanding the codebase?</strong> Read <a href="references/architecture/">References: Architecture</a> first, then <a href="references/design_choices/">References: Design Choices</a>.<br />
+<strong>Before pushing?</strong> Check the <a href="references/code_style_guide/">References: Code Style Guide</a> and run the <a href="">How-to Guides: CI/CD locally</a>.</p>
+<h2 id="tech-stack-at-a-glance">Tech stack at a glance<a class="headerlink" href="#tech-stack-at-a-glance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python 3.11</td>
+<td>Language</td>
+</tr>
+<tr>
+<td>PySide6</td>
+<td>UI framework</td>
+</tr>
+<tr>
+<td>Maya 2024+</td>
+<td>Target DCC</td>
+</tr>
+<tr>
+<td>Ruff</td>
+<td>Linter + formatter</td>
+</tr>
+<tr>
+<td>unittest</td>
+<td>Test framework</td>
+</tr>
+<tr>
+<td>MkDocs + Material</td>
+<td>Documentation</td>
+</tr>
+<tr>
+<td>GitHub Actions</td>
+<td>CI/CD</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="references/technical_choices/">References: Technical Choices</a> for the full rationale behind each choice.</p>
 
 
 
