@@ -105,6 +105,11 @@ nav:
       - Add a feature end to end: developer_docs/tutorials/add_a_feature.md
     - How to Guides:
       - Overview: developer_docs/how-to-guides/index.md
+      - Add a rename operation: developer_docs/how-to-guides/add_rename_operation.md
+      - Add a UI page: developer_docs/how-to-guides/add_ui_page.md
+      - Add a preset type: developer_docs/how-to-guides/add_preset_type.md
+      - Write tests: developer_docs/how-to-guides/write_tests.md
+      - Run the CI/CD locally: developer_docs/how-to-guides/run_cicd_locally.md
     - References:
       - Overview: developer_docs/references/index.md
       - Architecture: developer_docs/references/architecture.md

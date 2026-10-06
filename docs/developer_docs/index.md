@@ -11,7 +11,7 @@ Welcome to the Cross Renamer Tool developer documentation. This section is for T
 **New contributor?** Start with the [Tutorials: Set up the development](tutorials/setup_dev_environment/), then follow [Tutorials: Add feature end to end](tutorials/add_a_feature/).  
 **Adding a feature?** Go straight to [Tutorials: Add feature end to end](tutorials/add_a_feature/).  
 **Understanding the codebase?** Read [References: Architecture](references/architecture/) first, then [References: Design Choices](references/design_choices/).  
-**Before pushing?** Check the [References: Code Style Guide](references/code_style_guide/) and run the [How-to Guides: CI/CD locally]().
+**Before pushing?** Check the [References: Code Style Guide](references/code_style_guide/) and run the [How-to Guides: CI/CD locally](how-to-guides/run_cicd_locally/).
 
 ## Tech stack at a glance
  
