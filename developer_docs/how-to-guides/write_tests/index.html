@@ -8,31 +8,31 @@
       
       
       
-        <link rel="canonical" href="https://lucileleboullec.github.io/CrossRenamerTool/developer_docs/how-to-guides/">
+        <link rel="canonical" href="https://lucileleboullec.github.io/CrossRenamerTool/developer_docs/how-to-guides/write_tests/">
       
       
-        <link rel="prev" href="../tutorials/add_a_feature/">
+        <link rel="prev" href="../add_preset_type/">
       
       
-        <link rel="next" href="add_rename_operation/">
+        <link rel="next" href="../run_cicd_locally/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Overview - Cross Renamer Tool</title>
+        <title>Write tests - Cross Renamer Tool</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,9 +51,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-guides" class="md-skip">
+        <a href="#write-tests" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Cross Renamer Tool" class="md-header__button md-logo" aria-label="Cross Renamer Tool" data-md-component="logo">
+    <a href="../../.." title="Cross Renamer Tool" class="md-header__button md-logo" aria-label="Cross Renamer Tool" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Write tests
             
           </span>
         </div>
@@ -216,7 +216,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -235,7 +235,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../installation/" class="md-tabs__link">
+      <a href="../../../installation/" class="md-tabs__link">
         
   
   
@@ -256,7 +256,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../user_manual/" class="md-tabs__link">
+        <a href="../../../user_manual/" class="md-tabs__link">
           
   
   
@@ -280,7 +280,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+        <a href="../../" class="md-tabs__link">
           
   
   
@@ -302,7 +302,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../API/" class="md-tabs__link">
+        <a href="../../../API/" class="md-tabs__link">
           
   
   
@@ -338,7 +338,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Cross Renamer Tool" class="md-nav__button md-logo" aria-label="Cross Renamer Tool" data-md-component="logo">
+    <a href="../../.." title="Cross Renamer Tool" class="md-nav__button md-logo" aria-label="Cross Renamer Tool" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -356,7 +356,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -383,7 +383,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
+      <a href="../../../installation/" class="md-nav__link">
         
   
   
@@ -441,7 +441,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../user_manual/" class="md-nav__link ">
+            <a href="../../../user_manual/" class="md-nav__link ">
               
   
   
@@ -508,7 +508,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../user_manual/tutorials/" class="md-nav__link ">
+            <a href="../../../user_manual/tutorials/" class="md-nav__link ">
               
   
   
@@ -580,7 +580,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../user_manual/how-to-guides/" class="md-nav__link ">
+            <a href="../../../user_manual/how-to-guides/" class="md-nav__link ">
               
   
   
@@ -624,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../user_manual/how-to-guides/guides/create_shelf_button/" class="md-nav__link">
+      <a href="../../../user_manual/how-to-guides/guides/create_shelf_button/" class="md-nav__link">
         
   
   
@@ -683,7 +683,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../user_manual/references/" class="md-nav__link ">
+            <a href="../../../user_manual/references/" class="md-nav__link ">
               
   
   
@@ -753,7 +753,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../user_manual/explanations/" class="md-nav__link ">
+            <a href="../../../user_manual/explanations/" class="md-nav__link ">
               
   
   
@@ -843,7 +843,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -917,7 +917,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../tutorials/" class="md-nav__link ">
+            <a href="../../tutorials/" class="md-nav__link ">
               
   
   
@@ -961,7 +961,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/setup_dev_environment/" class="md-nav__link">
+      <a href="../../tutorials/setup_dev_environment/" class="md-nav__link">
         
   
   
@@ -989,7 +989,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/add_a_feature/" class="md-nav__link">
+      <a href="../../tutorials/add_a_feature/" class="md-nav__link">
         
   
   
@@ -1063,7 +1063,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1081,7 +1081,7 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -1107,7 +1107,7 @@
   
   
     <li class="md-nav__item">
-      <a href="add_rename_operation/" class="md-nav__link">
+      <a href="../add_rename_operation/" class="md-nav__link">
         
   
   
@@ -1135,7 +1135,7 @@
   
   
     <li class="md-nav__item">
-      <a href="add_ui_page/" class="md-nav__link">
+      <a href="../add_ui_page/" class="md-nav__link">
         
   
   
@@ -1163,7 +1163,7 @@
   
   
     <li class="md-nav__item">
-      <a href="add_preset_type/" class="md-nav__link">
+      <a href="../add_preset_type/" class="md-nav__link">
         
   
   
@@ -1188,10 +1188,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="write_tests/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Write tests
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1207,6 +1234,103 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#file-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-test-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic test structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to test
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-presets-with-a-temporary-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing presets with a temporary file
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the tests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-assertions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common assertions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-not-to-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What NOT to test
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1219,7 +1343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="run_cicd_locally/" class="md-nav__link">
+      <a href="../run_cicd_locally/" class="md-nav__link">
         
   
   
@@ -1293,7 +1417,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../references/" class="md-nav__link ">
+            <a href="../../references/" class="md-nav__link ">
               
   
   
@@ -1337,7 +1461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../references/architecture/" class="md-nav__link">
+      <a href="../../references/architecture/" class="md-nav__link">
         
   
   
@@ -1365,7 +1489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../references/design_choices/" class="md-nav__link">
+      <a href="../../references/design_choices/" class="md-nav__link">
         
   
   
@@ -1393,7 +1517,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../references/technical_choices/" class="md-nav__link">
+      <a href="../../references/technical_choices/" class="md-nav__link">
         
   
   
@@ -1421,7 +1545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../references/code_style_guide/" class="md-nav__link">
+      <a href="../../references/code_style_guide/" class="md-nav__link">
         
   
   
@@ -1449,7 +1573,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../references/commit_conventions/" class="md-nav__link">
+      <a href="../../references/commit_conventions/" class="md-nav__link">
         
   
   
@@ -1477,7 +1601,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../references/naming_conventions/" class="md-nav__link">
+      <a href="../../references/naming_conventions/" class="md-nav__link">
         
   
   
@@ -1539,7 +1663,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../explanations/" class="md-nav__link ">
+            <a href="../../explanations/" class="md-nav__link ">
               
   
   
@@ -1624,7 +1748,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../API/" class="md-nav__link ">
+            <a href="../../../API/" class="md-nav__link ">
               
   
   
@@ -1668,7 +1792,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/controller/" class="md-nav__link">
+      <a href="../../../API/controller/" class="md-nav__link">
         
   
   
@@ -1723,7 +1847,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../API/model/" class="md-nav__link ">
+            <a href="../../../API/model/" class="md-nav__link ">
               
   
   
@@ -1767,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/model/blender_api/" class="md-nav__link">
+      <a href="../../../API/model/blender_api/" class="md-nav__link">
         
   
   
@@ -1795,7 +1919,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/model/maya_api/" class="md-nav__link">
+      <a href="../../../API/model/maya_api/" class="md-nav__link">
         
   
   
@@ -1858,7 +1982,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../API/view/" class="md-nav__link ">
+            <a href="../../../API/view/" class="md-nav__link ">
               
   
   
@@ -1902,7 +2026,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/blender/" class="md-nav__link">
+      <a href="../../../API/view/blender/" class="md-nav__link">
         
   
   
@@ -1957,7 +2081,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../API/view/maya/" class="md-nav__link ">
+            <a href="../../../API/view/maya/" class="md-nav__link ">
               
   
   
@@ -2001,7 +2125,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/main_window/" class="md-nav__link">
+      <a href="../../../API/view/maya/main_window/" class="md-nav__link">
         
   
   
@@ -2072,7 +2196,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../API/view/maya/widgets/" class="md-nav__link ">
+            <a href="../../../API/view/maya/widgets/" class="md-nav__link ">
               
   
   
@@ -2116,7 +2240,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/widgets/about_dialog/" class="md-nav__link">
+      <a href="../../../API/view/maya/widgets/about_dialog/" class="md-nav__link">
         
   
   
@@ -2144,7 +2268,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/widgets/case_widget/" class="md-nav__link">
+      <a href="../../../API/view/maya/widgets/case_widget/" class="md-nav__link">
         
   
   
@@ -2172,7 +2296,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/widgets/insert_remove_widget/" class="md-nav__link">
+      <a href="../../../API/view/maya/widgets/insert_remove_widget/" class="md-nav__link">
         
   
   
@@ -2200,7 +2324,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/widgets/prefix_suffix_widget/" class="md-nav__link">
+      <a href="../../../API/view/maya/widgets/prefix_suffix_widget/" class="md-nav__link">
         
   
   
@@ -2228,7 +2352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/widgets/preset_combobox/" class="md-nav__link">
+      <a href="../../../API/view/maya/widgets/preset_combobox/" class="md-nav__link">
         
   
   
@@ -2256,7 +2380,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/widgets/preset_dialog/" class="md-nav__link">
+      <a href="../../../API/view/maya/widgets/preset_dialog/" class="md-nav__link">
         
   
   
@@ -2284,7 +2408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/widgets/rename_widget/" class="md-nav__link">
+      <a href="../../../API/view/maya/widgets/rename_widget/" class="md-nav__link">
         
   
   
@@ -2312,7 +2436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/widgets/search_replace_widget/" class="md-nav__link">
+      <a href="../../../API/view/maya/widgets/search_replace_widget/" class="md-nav__link">
         
   
   
@@ -2340,7 +2464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/widgets/selection_mode_widget/" class="md-nav__link">
+      <a href="../../../API/view/maya/widgets/selection_mode_widget/" class="md-nav__link">
         
   
   
@@ -2368,7 +2492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/view/maya/widgets/utils_widget/" class="md-nav__link">
+      <a href="../../../API/view/maya/widgets/utils_widget/" class="md-nav__link">
         
   
   
@@ -2449,7 +2573,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../API/core/" class="md-nav__link ">
+            <a href="../../../API/core/" class="md-nav__link ">
               
   
   
@@ -2493,7 +2617,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/core/constants/" class="md-nav__link">
+      <a href="../../../API/core/constants/" class="md-nav__link">
         
   
   
@@ -2521,7 +2645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/core/presets/" class="md-nav__link">
+      <a href="../../../API/core/presets/" class="md-nav__link">
         
   
   
@@ -2549,7 +2673,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../API/core/renamer/" class="md-nav__link">
+      <a href="../../../API/core/renamer/" class="md-nav__link">
         
   
   
@@ -2612,10 +2736,76 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#available-guides" class="md-nav__link">
+  <a href="#file-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Available guides
+        File structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-test-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic test structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to test
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-presets-with-a-temporary-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing presets with a temporary file
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the tests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-assertions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common assertions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-not-to-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What NOT to test
       
     </span>
   </a>
@@ -2647,7 +2837,7 @@
   
   
     <li class="md-path__item">
-      <a href="../.." class="md-path__link">
+      <a href="../../.." class="md-path__link">
         
   <span class="md-ellipsis">
     Home
@@ -2665,7 +2855,7 @@
     
     
       <li class="md-path__item">
-        <a href="../" class="md-path__link">
+        <a href="../../" class="md-path__link">
           
   <span class="md-ellipsis">
     Developer Docs
@@ -2683,7 +2873,7 @@
     
     
       <li class="md-path__item">
-        <a href="./" class="md-path__link">
+        <a href="../" class="md-path__link">
           
   <span class="md-ellipsis">
     How to Guides
@@ -2705,14 +2895,159 @@
 
 
 
-<h1 id="how-to-guides">How-to Guides<a class="headerlink" href="#how-to-guides" title="Permanent link">&para;</a></h1>
-<p>How-to guides are <strong>task-oriented</strong> - they answer a specific question. Unlike tutorials, they assume you already know the basics and want to accomplish a specific goal quickly.</p>
-<h2 id="available-guides">Available guides<a class="headerlink" href="#available-guides" title="Permanent link">&para;</a></h2>
-<p><a href="add_rename_operation/">Add a rename operation</a><br />
-<a href="add_ui_page/">Add a UI page</a><br />
-<a href="add_preset_type/">Add a preset type</a><br />
-<a href="write_tests/">Write tests</a><br />
-<a href="run_cicd_locally/">Run the CI/CD locally</a>  </p>
+<h1 id="write-tests">Write tests<a class="headerlink" href="#write-tests" title="Permanent link">&para;</a></h1>
+<p>Cross Renamer Tool uses <code>unittest</code> for all unit tests. Tests run without a DCC session - only <code>renamer.py</code> and <code>presets.py</code> are tested directly.</p>
+<h2 id="file-structure">File structure<a class="headerlink" href="#file-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tests/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    test_renamer.py  ← tests for core/renamer.py
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    test_presets.py  ← tests for core/presets.py
+</code></pre></div>
+<h2 id="basic-test-structure">Basic test structure<a class="headerlink" href="#basic-test-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">crossrenamertool.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">renamer</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestAddPrefix</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_basic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">renamer</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">"arm_L"</span><span class="p">,</span> <span class="s2">"CTRL"</span><span class="p">),</span> <span class="s2">"CTRL_arm_L"</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_empty_prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNone</span><span class="p">(</span><span class="n">renamer</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">"arm_L"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_empty_base_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNone</span><span class="p">(</span><span class="n">renamer</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="s2">"CTRL"</span><span class="p">))</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_already_has_prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">renamer</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">"CTRL_arm_L"</span><span class="p">,</span> <span class="s2">"CTRL"</span><span class="p">)</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s2">"CTRL_CTRL_arm_L"</span><span class="p">)</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="what-to-test">What to test<a class="headerlink" href="#what-to-test" title="Permanent link">&para;</a></h2>
+<p>For every function in <code>renamer.py</code>, test:</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normal use</td>
+<td><code>add_prefix("arm_L", "CTRL")</code> → <code>"CTRL_arm_L"</code></td>
+</tr>
+<tr>
+<td>Empty input</td>
+<td><code>add_prefix("", "CTRL")</code> → <code>None</code></td>
+</tr>
+<tr>
+<td>Edge case</td>
+<td><code>remove_characters("arm", 0, 999, True)</code> → no crash</td>
+</tr>
+<tr>
+<td>No match</td>
+<td><code>search_replace("arm_L", "leg", "arm", True)</code> → unchanged</td>
+</tr>
+<tr>
+<td>Both directions</td>
+<td><code>swap_side("arm_L", ...)</code> and <code>swap_side("arm_R", ...)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="testing-presets-with-a-temporary-file">Testing presets with a temporary file<a class="headerlink" href="#testing-presets-with-a-temporary-file" title="Permanent link">&para;</a></h2>
+<p>Presets read and write to JSON files. Use <code>tmp_path</code> via <code>unittest.mock</code> to avoid touching the real presets:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">patch</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">crossrenamertool.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">presets</span> <span class="k">as</span> <span class="n">presets_manager</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestPresets</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">tmp_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_dir</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"prefixes.json"</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">tmp_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">"presets"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"CTRL"</span><span class="p">,</span> <span class="s2">"JNT"</span><span class="p">]}))</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">patcher</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">presets_manager</span><span class="o">.</span><span class="n">_PATHS</span><span class="p">,</span> <span class="p">{</span><span class="s2">"prefixes"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmp_path</span><span class="p">})</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">patcher</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">patcher</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_load_presets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">presets_manager</span><span class="o">.</span><span class="n">load_presets</span><span class="p">(</span><span class="s2">"prefixes"</span><span class="p">)</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="p">[</span><span class="s2">"CTRL"</span><span class="p">,</span> <span class="s2">"JNT"</span><span class="p">])</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_add_preset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>        <span class="n">presets_manager</span><span class="o">.</span><span class="n">add_preset</span><span class="p">(</span><span class="s2">"prefixes"</span><span class="p">,</span> <span class="s2">"FK"</span><span class="p">)</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">presets_manager</span><span class="o">.</span><span class="n">load_presets</span><span class="p">(</span><span class="s2">"prefixes"</span><span class="p">)</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">"FK"</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_no_duplicate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>        <span class="n">presets_manager</span><span class="o">.</span><span class="n">add_preset</span><span class="p">(</span><span class="s2">"prefixes"</span><span class="p">,</span> <span class="s2">"CTRL"</span><span class="p">)</span>   <span class="c1"># already exists</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">presets_manager</span><span class="o">.</span><span class="n">load_presets</span><span class="p">(</span><span class="s2">"prefixes"</span><span class="p">)</span>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">"CTRL"</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="running-the-tests">Running the tests<a class="headerlink" href="#running-the-tests" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Set up the environment</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nv">$env</span>:PYTHONPATH<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"src"</span><span class="w"> </span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Run all tests</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>-s<span class="w"> </span>tests<span class="w"> </span>-v
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Run a specific file</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>-s<span class="w"> </span>tests<span class="w"> </span>-p<span class="w"> </span><span class="s2">"test_renaming.py"</span><span class="w"> </span>-v
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Run a specific class</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>tests.test_cross_renamer_tool.test_renaming.TestSwapSide<span class="w"> </span>-v
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Run a specific test</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>tests.test_cross_renamer_tool.test_renaming.TestSwapSide.test_suffix_L<span class="w"> </span>-v
+</code></pre></div>
+<h2 id="common-assertions">Common assertions<a class="headerlink" href="#common-assertions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Assertion</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assertEqual(a, b)</code></td>
+<td>Two values are equal</td>
+</tr>
+<tr>
+<td><code>assertIsNone(x)</code></td>
+<td>Value is None</td>
+</tr>
+<tr>
+<td><code>assertIsNotNone(x)</code></td>
+<td>Value is not None</td>
+</tr>
+<tr>
+<td><code>assertIn(item, container)</code></td>
+<td>Item is in a list or string</td>
+</tr>
+<tr>
+<td><code>assertNotIn(item, container)</code></td>
+<td>Item is not in a list</td>
+</tr>
+<tr>
+<td><code>assertRaises(Error, func, *args)</code></td>
+<td>Function raises an exception</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-not-to-test">What NOT to test<a class="headerlink" href="#what-not-to-test" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Maya <code>cmds</code> calls - these require a running Maya session and belong to integration tests</li>
+<li>Qt widget rendering - test the logic, not the UI</li>
+<li>Private functions (<code>_apply_rename</code>, <code>_process_nodes</code>) - test them indirectly through the public API</li>
+</ul>
 
 
 
@@ -2764,10 +3099,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search", "navigation.indexes", "navigation.sections", "navigation.path", "navigation.instant", "navigation.hidden", "navigation.tabs", "toc.follow", "content.code.copy", "content.tabs.link", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["search", "navigation.indexes", "navigation.sections", "navigation.path", "navigation.instant", "navigation.hidden", "navigation.tabs", "toc.follow", "content.code.copy", "content.tabs.link", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
