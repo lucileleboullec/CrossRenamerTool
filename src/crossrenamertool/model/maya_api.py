@@ -41,29 +41,28 @@ def _apply_rename(node, new_name, old_name="") -> str:
 
 
 def _process_nodes(mode, transform_function) -> dict[str, str]:
-    """Rename nodes depending on the function.
-
-    Args:
-        mode (str): selected mode
-        transform_function (callable): function(node)
-
-    Returns:
-        dict[str, str]: renamed nodes
-
-    """
+    """Rename nodes depending on the function."""
     nodes = get_nodes(mode)
 
     renamed = {}
+
     for node in nodes:
         if not cmds.objExists(node):
-            log.error(f"The node {node} doesn't exist.")
-            continue
-        short_name = node.split("|")[-1]
+            short_name = node.rsplit("|", 1)[-1]
+            matches = cmds.ls(short_name, long=True) or []
+
+            if len(matches) != 1:
+                log.error(f"Could not resolve node: {node}")
+                continue
+
+            node = matches[0]
+
+        short_name = node.rsplit("|", 1)[-1]
         new_name = transform_function(short_name)
-        if new_name and new_name != short_name:
-            renamed[short_name] = _apply_rename(node, new_name, short_name)
-        else:
-            renamed[short_name] = short_name
+
+        actual_name = _apply_rename(node, new_name, short_name) if new_name and new_name != short_name else short_name
+
+        renamed[node] = actual_name
 
     return renamed
 
@@ -72,29 +71,54 @@ def get_selection() -> list[str]:
     """Get the current selection.
 
     Returns:
-        list: list of selected node names
+        list[str]: List of selected node full paths.
 
     """
     selected = cmds.ls(sl=True, long=True) or []
+
     if not selected:
         log.error("Select at least 1 node.")
         raise ValueError("No nodes selected.")
+
     return selected
 
 
-def get_hierarchy() -> list[str] | None:
-    """Get selection hierarchy.
+def get_hierarchy() -> list[str]:
+    """Get selected hierarchy in child-to-parent order.
 
     Returns:
-        list[str]: list of selected node names with hierarchy
+        list[str]: Selected nodes and descendants, deepest first.
 
     """
     selected = get_selection()
-    transforms = cmds.listRelatives(selected, allDescendents=True, fullPath=True, type="transform") or []
-    joints = cmds.listRelatives(selected, allDescendents=True, fullPath=True, type="joint") or []
-    children = list(dict.fromkeys(transforms + joints))
+    result = []
+    visited = set()
 
-    return selected + children
+    def walk(node: str) -> None:
+        if node in visited:
+            return
+
+        visited.add(node)
+
+        children = (
+            cmds.listRelatives(
+                node,
+                children=True,
+                fullPath=True,
+            )
+            or []
+        )
+
+        for child in children:
+            if cmds.nodeType(child) in {"transform", "joint"}:
+                walk(child)
+
+        result.append(node)
+
+    for node in selected:
+        walk(node)
+
+    return result
 
 
 def get_scene_objects() -> list[str]:
@@ -159,13 +183,15 @@ def rename_nodes(mode, base_name, padding, start, step) -> dict[str, str]:
     temp_names = []
     for node in nodes:
         temp = f"__tmp_{uuid.uuid4().hex[:8]}__"
-        temp_name = cmds.rename(node, temp)
+        short_node = node.split("|")[-1]
+        temp_name = cmds.rename(short_node, temp)
         temp_names.append(temp_name)
 
     for node, index, old_node in zip(temp_names, numbers, nodes, strict=False):
         if not cmds.objExists(node):
             log.error(f"The node {node} doesn't exist.")
             continue
+
         new_name = renamer.renaming(base_name, index, padding)
 
         if new_name and new_name != node:
@@ -232,10 +258,11 @@ def remove_suffix(mode, suffix) -> dict[str, str]:
     return _process_nodes(mode, lambda node: renamer.remove_suffix(node, suffix))
 
 
-def search_replace(search_name, replace_name, case) -> dict[str, str]:
+def search_replace(mode, search_name, replace_name, case) -> dict[str, str]:
     """Search and replace name in node.
 
     Args:
+        mode (str):  mode of selection
         search_name (str): name to find
         replace_name (str): new name to replace
         case (bool): case sensitive
@@ -246,7 +273,7 @@ def search_replace(search_name, replace_name, case) -> dict[str, str]:
 
     """
     return _process_nodes(
-        "Scene",
+        mode,
         lambda node: renamer.search_replace(node, search_name, replace_name, case),
     )
 

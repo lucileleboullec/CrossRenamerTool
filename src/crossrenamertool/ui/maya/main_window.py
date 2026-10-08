@@ -235,7 +235,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             case (bool): case sensitive
 
         """
-        self.controller.search_replace(search_text, replace_text, case)
+        self.controller.search_replace(self.mode_bar.mode, search_text, replace_text, case)
 
     def update_preview_search_preview(self, search, replace, case):
         texts = self.controller.update_preview_search_preview(search, replace, case)

@@ -6,8 +6,8 @@ class SearchReplacePage(QtWidgets.QWidget):
 
     TITLE = "Search/Replace"
 
-    request_search_replace = QtCore.Signal(str, str, bool, bool)
-    request_preview_search_replace = QtCore.Signal(str, str, bool, bool)
+    request_search_replace = QtCore.Signal(str, str, bool)
+    request_preview_search_replace = QtCore.Signal(str, str, bool)
 
     def __init__(self, parent=None) -> None:
         """Initialize the widget."""

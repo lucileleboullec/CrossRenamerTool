@@ -4,7 +4,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 class AboutDialog(QtWidgets.QDialog):
     """About page with documentation and GitHub page."""
 
-    DOC_URL = "https://github.com/lucileleboullec/CrossRenamerTool/wiki"
+    DOC_URL = "https://lucileleboullec.github.io/CrossRenamerTool/"
     GIT_URL = "https://github.com/lucileleboullec/CrossRenamerTool"
 
     TITLE = "About Cross Renamer"

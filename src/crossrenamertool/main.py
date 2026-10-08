@@ -90,7 +90,7 @@ class CrossRenamerToolController:
         """
         return maya_api.remove_suffix(mode=mode, suffix=suffix)
 
-    def search_replace(self, search_name, replace_name, case) -> dict[str, str]:
+    def search_replace(self, mode, search_name, replace_name, case) -> dict[str, str]:
         """Search and replace name in node.
 
         Args:
@@ -102,7 +102,7 @@ class CrossRenamerToolController:
             dict[str, str]: renamed nodes
 
         """
-        return maya_api.search_replace(search_name, replace_name, case)
+        return maya_api.search_replace(mode, search_name, replace_name, case)
 
     def update_preview_search_preview(self, search, replace, case):
         return maya_api.update_preview_search_preview(search, replace, case)
