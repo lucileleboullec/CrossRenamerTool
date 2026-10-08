@@ -4688,7 +4688,7 @@
 
 
 <h6 id="crossrenamertool.main.CrossRenamerToolController.search_replace" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">search_replace</span><span class="p">(</span><span class="n">search_name</span><span class="p">,</span> <span class="n">replace_name</span><span class="p">,</span> <span class="n">case</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">search_replace</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">search_name</span><span class="p">,</span> <span class="n">replace_name</span><span class="p">,</span> <span class="n">case</span><span class="p">)</span></code>
 
 <a href="#crossrenamertool.main.CrossRenamerToolController.search_replace" class="headerlink" title="Permanent link">&para;</a></h6>
 
@@ -4798,7 +4798,7 @@
 <span class="normal"><a href="#__codelineno-0-102">102</a></span>
 <span class="normal"><a href="#__codelineno-0-103">103</a></span>
 <span class="normal"><a href="#__codelineno-0-104">104</a></span>
-<span class="normal"><a href="#__codelineno-0-105">105</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="k">def</span><span class="w"> </span><span class="nf">search_replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_name</span><span class="p">,</span> <span class="n">replace_name</span><span class="p">,</span> <span class="n">case</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="normal"><a href="#__codelineno-0-105">105</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="k">def</span><span class="w"> </span><span class="nf">search_replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">search_name</span><span class="p">,</span> <span class="n">replace_name</span><span class="p">,</span> <span class="n">case</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="w">    </span><span class="sd">"""Search and replace name in node.</span>
 <a id="__codelineno-0-95" name="__codelineno-0-95"></a>
 <a id="__codelineno-0-96" name="__codelineno-0-96"></a><span class="sd">    Args:</span>
@@ -4810,7 +4810,7 @@
 <a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="sd">        dict[str, str]: renamed nodes</span>
 <a id="__codelineno-0-103" name="__codelineno-0-103"></a>
 <a id="__codelineno-0-104" name="__codelineno-0-104"></a><span class="sd">    """</span>
-<a id="__codelineno-0-105" name="__codelineno-0-105"></a>    <span class="k">return</span> <span class="n">maya_api</span><span class="o">.</span><span class="n">search_replace</span><span class="p">(</span><span class="n">search_name</span><span class="p">,</span> <span class="n">replace_name</span><span class="p">,</span> <span class="n">case</span><span class="p">)</span>
+<a id="__codelineno-0-105" name="__codelineno-0-105"></a>    <span class="k">return</span> <span class="n">maya_api</span><span class="o">.</span><span class="n">search_replace</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">search_name</span><span class="p">,</span> <span class="n">replace_name</span><span class="p">,</span> <span class="n">case</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
